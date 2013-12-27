@@ -1,4 +1,4 @@
-package com.fmi.docmag.controller;
+package bg.unisofia.fmi.docmag.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
