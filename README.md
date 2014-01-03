@@ -4,6 +4,28 @@ docmag
 Welcome to docmag - a project that will revolutionize the way students and
 professors manage documents.
 
+Database
+--------
+
+We use [MongoDB](http://www.mongodb.org/downloads) as our database. Install it
+and add the `bin` directory to your `PATH`. Then create a configuration file
+somewhere in your system e.g. `/path/to/mongodb.conf` and add the location where
+you want Mongo to store your collections, like this:
+`dbpath=/path/to/some/folder`. Add any other
+[configuration options](http://docs.mongodb.org/manual/reference/configuration-options/)
+you like e.g. `journal=true`. Then start MongoDB with one of the following
+commands:
+
+    mongod --config /path/to/mongodb.conf
+    mongod -f /path/to/mongodb.conf
+
+Or supply all options through the command line:
+
+    mongod --dbpath=/path/to/some/folder
+
+Verify the database is up by typing `mongo` in a new console. This starts up a
+console client where you can run queries.
+
 Dependency Management
 ---------------------
 

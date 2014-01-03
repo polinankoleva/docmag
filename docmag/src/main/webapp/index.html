@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js">
+  </script>
+</head>
+<body>
+  <h1>Hello World!</h1>
+  Test user:
+  <input id="user" type="text"/>
+  <input id="go" type="submit" value="Go"/>
+  <script type="text/javascript">
+    $("#go").click(function() {
+        $.get("rest/test/" + $("#user").val(), function(data) {
+            alert(data);
+        });
+    });
+  </script>
+</body>
+</html>
