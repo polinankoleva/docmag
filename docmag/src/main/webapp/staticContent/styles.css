@@ -1,0 +1,122 @@
+body
+{  
+	background-color: #e8ecee;	
+}
+
+#loginScreen{
+	background: url(images/diploma2.png) no-repeat center center fixed;
+}
+
+.greeting-line,footer
+{
+    background:black;
+    height:1.5em;
+	text-align: center;
+}
+
+.greeting-line p,footer p
+{
+    color:#fff;
+}
+
+.navbar-link{
+	color: #35C0CD;
+}
+
+#navigation-menu 
+{
+    margin-top:3em;	
+}
+
+.nav-tile
+{  
+    border:1px solid #9ea3a6;
+    border-radius:5px;
+    height:11em;
+    text-align:center;
+    margin-bottom:3em;
+    background:#cbd0d2;
+	color: #028e9b;
+}
+
+.well {
+	min-height: 50px;
+	padding: 10px;
+	padding-left: 30px;
+	margin-bottom: 0px;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.header{
+	background-color: #35C0CD;
+	height: 125px;
+	position: relative;
+}
+
+.header div{
+	margin-top: -110px;
+	margin-left: 120px;
+	text-align: center;
+	width: 550px;
+}
+
+.header h1{
+	color: black;
+	font-family: Helvetica Narrow; 
+	font-size: 1.7em;
+}
+
+.header small{
+	color: #666C60;
+}
+
+#loginForm{
+	width: 400px;
+	height: 300px;
+	margin-left:10%;
+	margin-top: 5%;
+	padding-bottom: 376px;
+}
+
+#formContainer{
+	padding: 75px; 
+	font-size: 14px;
+	/*border: 2px solid #35C0CD;*/
+	border-radius: 10px;
+}
+
+#formContainer input{
+	width: 250px;
+}
+
+#label{
+position: absolute;	
+width: 325px;
+margin-top: -368px;
+margin-left: 390px;
+background-color: #e8ecee;
+font-size: 26px;
+text-align:center;
+color: #028E9B;
+}
+
+#studentInfo{
+	
+	width: 650px;
+	height: 350px;
+	margin-left:27%;
+	margin-top:5%;
+	padding: 55px;
+	font-size: 1.4em;
+	color: black;
+	border: 2px solid #028E9B;
+	border-radius: 15px;
+	color: #028E9B;
+	
+}
+.infoCont{color: black;}
+
+
