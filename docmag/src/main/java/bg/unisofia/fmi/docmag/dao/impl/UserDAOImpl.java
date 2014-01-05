@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 		 if (!mongoTemplate.collectionExists(User.class)) {
 	            mongoTemplate.createCollection(User.class);
 	        }       
-	        user.setId(UUID.randomUUID().toString());
+	        //user.setId(UUID.randomUUID().toString());
 	        mongoTemplate.insert(user, COLLECTION_NAME);
 	}
 

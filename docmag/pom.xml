@@ -21,6 +21,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>4.0.0.RELEASE</spring.version>
+    <xdocreport.version>1.0.3</xdocreport.version>
   </properties>
 
   <dependencies>
@@ -56,6 +57,29 @@
       <artifactId>core-renderer</artifactId>
       <version>R8</version>
     </dependency>
+
+    <!-- docx4j -->
+    
+   <dependency>
+  <groupId>fr.opensagres.xdocreport</groupId>
+  <artifactId>fr.opensagres.xdocreport.document.odt</artifactId>
+  <version>${xdocreport.version}</version>
+</dependency>
+
+<dependency>
+  <groupId>fr.opensagres.xdocreport</groupId>
+  <artifactId>fr.opensagres.xdocreport.template.velocity</artifactId>
+  <version>${xdocreport.version}</version>
+</dependency>
+<dependency>
+  <groupId>fr.opensagres.xdocreport</groupId>
+  <artifactId>fr.opensagres.xdocreport.converter.odt.odfdom</artifactId>
+  <version>${xdocreport.version}</version>
+</dependency>
+
+
+            
+
   </dependencies>
 
   <build>

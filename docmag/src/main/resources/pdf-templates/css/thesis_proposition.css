@@ -1,14 +1,24 @@
 @CHARSET "UTF-8";
 
 body {
-    font-family: Sansation;
-    font-size: 10pt;
-}
-
-h1, h3 {
-    text-align: center;
+    font-family: Liberation Serif;
+    font-size: 12pt;
 }
 
 strong {
     font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+img.logo {
+    float: left;
+    vertical-align: top;
+    width: 100pt;
+}
+
+.header h1, .header h3 {
+    text-align: center;
 }
