@@ -1,11 +1,9 @@
-package bg.unisofia.fmi.docmag.domain;
-
-import org.springframework.data.annotation.Id;
+package bg.unisofia.fmi.docmag.domain.impl;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 
-public class Profile {
+public class StudentProfile extends Profile {
 	
 	public enum EducationForm {
 	    Regular, 
@@ -18,41 +16,25 @@ public class Profile {
 	    PHD
 	}
 	
-	@Id
-	private String id;
-	
-	private String firstName; 
-	private String lastName;
-	private String email; 
-	private String department;
 	private String studentIdentifier;
 	private EducationForm educationForm;
 	private EducationDegree educationDegree;
 	private String educationSubject;
 	private int educationYear;
-	public String getFirstName() {
-		return firstName;
+	
+	public StudentProfile(String studentIdentifier,
+			EducationForm educationForm, EducationDegree educationDegree,
+			String educationSubject, int educationYear) {
+		super();
+		this.studentIdentifier = studentIdentifier;
+		this.educationForm = educationForm;
+		this.educationDegree = educationDegree;
+		this.educationSubject = educationSubject;
+		this.educationYear = educationYear;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getDepartment() {
-		return department;
-	}
-	public void setDepartment(String department) {
-		this.department = department;
+	public StudentProfile() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	public String getStudentIdentifier() {
 		return studentIdentifier;
@@ -84,14 +66,9 @@ public class Profile {
 	public void setEducationYear(int educationYear) {
 		this.educationYear = educationYear;
 	}
-	public String getId() {
-		return id;
-	}
 	@Override
 	public String toString() {
-		return "Profile [firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", department=" + department
-				+ ", studentIdentifier=" + studentIdentifier
+		return "StudentProfile [super.toString() + studentIdentifier=" + studentIdentifier
 				+ ", educationForm=" + educationForm + ", educationDegree="
 				+ educationDegree + ", educationSubject=" + educationSubject
 				+ ", educationYear=" + educationYear + "]";

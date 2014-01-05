@@ -1,4 +1,4 @@
-package bg.unisofia.fmi.docmag.domain;
+package bg.unisofia.fmi.docmag.domain.impl;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,6 +19,12 @@ public class User {
 	private UserType type;
 	private Profile profile;
 	
+	public User(String id, String userName) {
+		super();
+		this.id = id;
+		this.userName = userName;
+	}
+
 	public Profile getProfile() {
 		return profile;
 	}

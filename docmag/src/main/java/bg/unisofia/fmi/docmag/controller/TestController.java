@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bg.unisofia.fmi.docmag.domain.User;
-import bg.unisofia.fmi.docmag.domain.User.UserType;
+import bg.unisofia.fmi.docmag.domain.impl.User;
+import bg.unisofia.fmi.docmag.domain.impl.User.UserType;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
