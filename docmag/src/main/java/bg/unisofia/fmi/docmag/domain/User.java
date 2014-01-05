@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 	
 	public enum UserType {
-	    Stunent, 
+	    Student, 
 	    PHD, 
 	    Teacher
 	}
