@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import bg.unisofia.fmi.docmag.domain.Doc;
+import bg.unisofia.fmi.docmag.domain.impl.Doc;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;

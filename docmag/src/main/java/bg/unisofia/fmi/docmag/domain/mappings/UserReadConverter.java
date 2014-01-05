@@ -15,7 +15,7 @@ import bg.unisofia.fmi.docmag.domain.impl.StudentProfile.EducationDegree;
 import bg.unisofia.fmi.docmag.domain.impl.StudentProfile.EducationForm;
 import bg.unisofia.fmi.docmag.domain.impl.User.UserType;
 
-public abstract class UserReadConverter implements Converter<DBObject, User> {
+public class UserReadConverter implements Converter<DBObject, User> {
 
 	public User convert(DBObject source) {
 		User user = new User(
