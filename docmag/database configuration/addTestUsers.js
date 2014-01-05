@@ -16,7 +16,7 @@ function addTestUsers(database) {
     degree: "doc. d-r"
   }
   var teacherId = ObjectId();
-  userCollection.insert({_id: teacherId, userName: "pkoleva", password: "pissme", type : "UserTypeTeacher", profile: teacherProfile});
+  userCollection.insert({_id: teacherId, userName: "pkoleva", password: "pissme", type : "Teacher", profile: teacherProfile});
 
   var phdProfile = {
     firstName: "Teodora", 
@@ -24,15 +24,15 @@ function addTestUsers(database) {
     email: "ttoncheva@abv.bg", 
     department: "FMI",
     studentIdentifier: "61387",
-    educationForm: "EducationFormRegular",
-    educationDegree: "EducationDegreePHD",
+    educationForm: "Regular",
+    educationDegree: "PHD",
     educationSubject: "artificial intelligence",
     educationYear: 1,
     gpa: 6.00,
     recordIdentifier: "phd007",
     scientificLeaderIds: [teacherId]
   }
-  userCollection.insert({userName: "ttoncheva", password: "pissme", type : "UserTypePHDStudent", profile: phdProfile});
+  userCollection.insert({userName: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile});
 
   var masterProfile = {
     firstName: "Adriyana", 
@@ -40,21 +40,21 @@ function addTestUsers(database) {
     email: "adyankova@abv.bg", 
     department: "FMI",
     studentIdentifier: "61388",
-    educationForm: "EducationFormRegular",
-    educationDegree: "EducationDegreeMaster",
+    educationForm: "Regular",
+    educationDegree: "Master",
     educationSubject: "software technologies",
     educationYear: 1,
     gpa: 6.00,
   }
 
   var userId = ObjectId();
-  userCollection.insert({_id: userId, userName: "adyankova", password: "pissme", type : "UserTypeStudent", profile: masterProfile});
+  userCollection.insert({_id: userId, userName: "adyankova", password: "pissme", type : "Student", profile: masterProfile});
 
   
   var documentCollection = database.getCollection("documents");
 
   var thesisProposal = {
-    type: "DocumentTypeThesisProposal",
+    type: "ThesisProposal",
     user_id: userId,
     scientificLeaderIds: [],
     conultantIds: [],

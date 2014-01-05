@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User getUserByUsername(String username) {
-		Query searchUserQuery = new Query(Criteria.where("username").is(username));
+		Query searchUserQuery = new Query(Criteria.where("userName").is(username));
 		User user = mongoTemplate.findOne(searchUserQuery, User.class);
 		return user;
 	}

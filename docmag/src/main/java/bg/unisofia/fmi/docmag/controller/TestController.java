@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bg.unisofia.fmi.docmag.domain.User;
+import bg.unisofia.fmi.docmag.domain.User.UserType;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
@@ -23,7 +24,9 @@ public class TestController {
 		String response = new String();
 		User user = userService.getUserByUsername(username);
 		if(user != null){
-			response = "Username is " + user.getUsername();
+			response = "Username:" + user.getUserName() + 
+					"\nType: " + user.getType().toString() + 
+					"\nProfile: " + user.getProfile();
 		}else{
 			response = "There is no such user!";
 		}
