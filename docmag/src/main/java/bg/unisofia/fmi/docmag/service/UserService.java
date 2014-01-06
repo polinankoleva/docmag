@@ -2,9 +2,8 @@ package bg.unisofia.fmi.docmag.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import bg.unisofia.fmi.docmag.dao.UserDAO;
-import bg.unisofia.fmi.docmag.domain.User;
+import bg.unisofia.fmi.docmag.domain.impl.user.User;
 
 @Service
 public final class UserService {
@@ -16,7 +15,8 @@ public final class UserService {
 		userDao.createUser(user);
 	}
 	
-	public User getUserByUsername(String username){
+	public User getUserByUsername(String username) {
 		return userDao.getUserByUsername(username);
 	}
+
 }

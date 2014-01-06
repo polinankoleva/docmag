@@ -116,6 +116,9 @@ color: #028E9B;
 	color: #028E9B;
 	
 }
-.infoCont{color: black;}
+.infoCont{color: #000000;}
 
-
+.testingTheCommit .ninja{
+	color:black;
+	display:none;	
+}

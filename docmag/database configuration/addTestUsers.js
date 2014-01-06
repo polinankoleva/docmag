@@ -16,7 +16,7 @@ function addTestUsers(database) {
     degree: "doc. d-r"
   }
   var teacherId = ObjectId();
-  userCollection.insert({_id: teacherId, userName: "pkoleva", password: "pissme", type : "Teacher", profile: teacherProfile});
+  userCollection.insert({_id: teacherId, username: "pkoleva", password: "pissme", type : "Teacher", profile: teacherProfile});
 
   var phdProfile = {
     firstName: "Teodora", 
@@ -32,7 +32,7 @@ function addTestUsers(database) {
     recordIdentifier: "phd007",
     scientificLeaderIds: [teacherId]
   }
-  userCollection.insert({userName: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile});
+  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile});
 
   var masterProfile = {
     firstName: "Adriyana", 
@@ -48,14 +48,15 @@ function addTestUsers(database) {
   }
 
   var userId = ObjectId();
-  userCollection.insert({_id: userId, userName: "adyankova", password: "pissme", type : "Student", profile: masterProfile});
+  userCollection.insert({_id: userId, username: "adyankova", password: "pissme", type : "Student", profile: masterProfile});
 
   
   var documentCollection = database.getCollection("documents");
 
   var thesisProposal = {
     type: "ThesisProposal",
-    user_id: userId,
+    status: "Unapproved",
+    userId: userId,
     scientificLeaderIds: [],
     conultantIds: [],
     subject: "My thesis subject",
@@ -63,7 +64,8 @@ function addTestUsers(database) {
     purpose: "No purpose",
     tasks: "No tasks yet",
     restrictions: "oh dear..",
-    executionDeadline: new Date("October 15, 2015")
+    executionDeadline: new Date("October 15, 2015"),
+    lastModified: new Date()
   }
 
   documentCollection.insert(thesisProposal);

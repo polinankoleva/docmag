@@ -1,17 +1,17 @@
 package bg.unisofia.fmi.docmag.pdf;
 
-import bg.unisofia.fmi.docmag.domain.Doc;
+import bg.unisofia.fmi.docmag.domain.impl.document.Document;
 
 /**
  * Be careful to define only one template per class.
  */
 public enum Template {
-    THESIS_PROPOSITION(Doc.class, "thesis_proposition.html");
+    THESIS_PROPOSITION(Document.class, "thesis_proposition.html");
 
     private String file;
-    private Class<? extends Doc> type;
+    private Class<? extends Document> type;
 
-    Template(Class<? extends Doc> type, String file) {
+    Template(Class<? extends Document> type, String file) {
         String      path   = Constants.HTML_DIR + '/' + file;
         ClassLoader loader = getClass().getClassLoader();
         this.file          = loader.getResource(path).getFile();
@@ -19,5 +19,5 @@ public enum Template {
     }
 
     public String               file() { return file; }
-    public Class<? extends Doc> type() { return type; }
+    public Class<? extends Document> type() { return type; }
 }

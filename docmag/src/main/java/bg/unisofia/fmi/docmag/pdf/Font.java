@@ -7,11 +7,9 @@ import java.io.FilenameFilter;
  * We need Cyrillic support. Also, have to be open source.
  */
 public enum Font {
-    ANONYMOUS_PRO("anonymous_pro", "ttf"),
-    ARIMO(        "arimo",         "ttf"),
-    LIBERATION_SERIF(   "liberation_serif",    "ttf"),
-    SANSATION(    "sansation",     "ttf"),
-    UBUNTU(       "ubuntu",        "ttf");
+    LIBERATION_SERIF("liberation_serif", "ttf"), // Serif
+    SANSATION("sansation", "ttf"),               // Sans
+    UBUNTU("ubuntu", "ttf");                     // Sans + Mono
 
     private String dir, type;
 
