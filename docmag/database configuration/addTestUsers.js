@@ -55,6 +55,7 @@ function addTestUsers(database) {
 
   var thesisProposal = {
     type: "ThesisProposal",
+    status: "Unapproved",
     userId: userId,
     scientificLeaderIds: [],
     conultantIds: [],

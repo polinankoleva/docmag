@@ -5,6 +5,14 @@ import java.util.List;
 
 public class ThesisProposal extends Document {
 	
+	public enum Status {
+	    Unapproved, 
+	    ApprovedWithNotes,
+	    Approved 
+	}
+	
+	private Status status;
+	
     private String subject;
     private String anotation;
     private String purpose;
@@ -63,13 +71,20 @@ public class ThesisProposal extends Document {
 	public void setExecutionDeadline(Date executionDeadline) {
 		this.executionDeadline = executionDeadline;
 	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "ThesisProposal: [subject=" + subject + ", anotation="
-				+ anotation + ", purpose=" + purpose + ", tasks=" + tasks
-				+ ", restrictions=" + restrictions + ", executionDeadline="
-				+ executionDeadline + ", scientificLeaderIds="
-				+ scientificLeaderIds + ", conultantIds=" + conultantIds + "]";
+		return super.toString() + "\n" + "ThesisProposal(" + status + "): [subject=" 
+				+ subject + ", anotation="+ anotation + ", purpose=" + purpose
+				+ ", tasks=" + tasks + ", restrictions=" + restrictions 
+				+ ", executionDeadline=" + executionDeadline 
+				+ ", scientificLeaderIds=" + scientificLeaderIds 
+				+ ", conultantIds=" + conultantIds + "]";
 	}
     
     
