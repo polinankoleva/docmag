@@ -15,7 +15,7 @@ public class ThesisProposal extends Document {
 	private ThesisProposalStatus status;
 	
     private String subject;
-    private String anotation;
+    private String annotation;
     private String purpose;
     private String tasks;
     private String restrictions;
@@ -42,11 +42,11 @@ public class ThesisProposal extends Document {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public String getAnotation() {
-		return anotation;
+	public String getAnnotation() {
+		return annotation;
 	}
-	public void setAnotation(String anotation) {
-		this.anotation = anotation;
+	public void setAnnotation(String annotation) {
+		this.annotation = annotation;
 	}
 	public String getPurpose() {
 		return purpose;
@@ -81,7 +81,7 @@ public class ThesisProposal extends Document {
 	@Override
 	public String toString() {
 		return super.toString() + "\n" + "ThesisProposal(" + status + "): [subject=" 
-				+ subject + ", anotation="+ anotation + ", purpose=" + purpose
+				+ subject + ", anotation="+ annotation + ", purpose=" + purpose
 				+ ", tasks=" + tasks + ", restrictions=" + restrictions 
 				+ ", executionDeadline=" + executionDeadline 
 				+ ", scientificLeaderIds=" + scientificLeaderIds 
