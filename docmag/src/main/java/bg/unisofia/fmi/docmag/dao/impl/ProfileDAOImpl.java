@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import bg.unisofia.fmi.docmag.dao.ProfileDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
@@ -14,6 +15,7 @@ import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
 import bg.unisofia.fmi.docmag.domain.impl.user.User.UserType;
 
+@Repository
 public class ProfileDAOImpl implements ProfileDAO {
 	
 	@Autowired

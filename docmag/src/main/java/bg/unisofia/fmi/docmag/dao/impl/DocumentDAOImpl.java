@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
 
+@Repository
 public class DocumentDAOImpl implements DocumentDAO {
 
 	@Autowired
