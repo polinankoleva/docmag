@@ -1,6 +1,6 @@
 package bg.unisofia.fmi.docmag.pdf;
 
-import bg.unisofia.fmi.docmag.domain.Doc;
+import bg.unisofia.fmi.docmag.domain.impl.Doc;
 
 /**
  * Be careful to define only one template per class.
