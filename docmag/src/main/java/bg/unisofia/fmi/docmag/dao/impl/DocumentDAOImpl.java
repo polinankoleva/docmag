@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
 
 @Repository
@@ -43,6 +45,18 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 	
 	@Override
+	public ThesisProposalStatus getThesisProposalStatusForUser(User user) {
+		List<Document> thesisProposals = getAllDocumentForUserOfSpecificType(user, DocumentType.ThesisProposal);
+		if (thesisProposals != null && thesisProposals.size() > 0) {
+			ThesisProposal document = (ThesisProposal) thesisProposals.get(0);
+			return document.getStatus();
+		}
+		else {
+			return ThesisProposalStatus.NotSubmitted;
+		}
+	}
+	
+	@Override
 	public boolean saveDocument(Document document) {
 		// TODO Auto-generated method stub
 		return false;
@@ -59,5 +73,6 @@ public class DocumentDAOImpl implements DocumentDAO {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }
