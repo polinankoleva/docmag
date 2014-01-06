@@ -22,7 +22,7 @@ public class ThesisProposal extends Document {
     private Date executionDeadline;
     
     private List<String> scientificLeaderIds;
-	private List<String> conultantIds;
+	private List<String> consultantIds;
     
 	public List<String> getScientificLeaderIds() {
 		return scientificLeaderIds;
@@ -30,11 +30,11 @@ public class ThesisProposal extends Document {
 	public void setScientificLeaderIds(List<String> scientificLeaderIds) {
 		this.scientificLeaderIds = scientificLeaderIds;
 	}
-	public List<String> getConultantIds() {
-		return conultantIds;
+	public List<String> getConsultantIds() {
+		return consultantIds;
 	}
-	public void setConultantIds(List<String> conultantIds) {
-		this.conultantIds = conultantIds;
+	public void setConsultantIds(List<String> consultantIds) {
+		this.consultantIds = consultantIds;
 	}
 	public String getSubject() {
 		return subject;
@@ -85,7 +85,7 @@ public class ThesisProposal extends Document {
 				+ ", tasks=" + tasks + ", restrictions=" + restrictions 
 				+ ", executionDeadline=" + executionDeadline 
 				+ ", scientificLeaderIds=" + scientificLeaderIds 
-				+ ", conultantIds=" + conultantIds + "]";
+				+ ", conultantIds=" + consultantIds + "]";
 	}
     
     
