@@ -1,4 +1,7 @@
-package bg.unisofia.fmi.docmag.domain.impl;
+package bg.unisofia.fmi.docmag.domain.impl.user;
+
+import bg.unisofia.fmi.docmag.domain.impl.profile.PHDStudentProfile;
+
 
 public class PHDStudent extends User {
 	

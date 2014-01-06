@@ -1,4 +1,4 @@
-package bg.unisofia.fmi.docmag.domain.impl;
+package bg.unisofia.fmi.docmag.domain.impl.profile;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

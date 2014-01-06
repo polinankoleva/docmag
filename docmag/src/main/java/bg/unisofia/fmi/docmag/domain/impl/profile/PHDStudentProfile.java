@@ -1,4 +1,4 @@
-package bg.unisofia.fmi.docmag.domain.impl;
+package bg.unisofia.fmi.docmag.domain.impl.profile;
 
 import java.util.List;
 
