@@ -29,19 +29,19 @@
 	<mongo:db-factory dbname="${db.name}" mongo-ref="mongo" />
 
 	<!-- by default look for a Mongo object named 'mongo' - default name used 
-		for the converter is 'mappingConverter' -->
+		for the converter is 'mappingConverter' 
 	<mongo:mapping-converter base-package="bg.unisofia.fmi.docmag.domain">
 		<mongo:custom-converters>
 			<mongo:converter ref="readConverter" />
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 
-	<bean id="readConverter" class="bg.unisofia.fmi.docmag.domain.mappings.UserReadConverter" />
+	<bean id="readConverter" class="bg.unisofia.fmi.docmag.domain.mappings.UserReadConverter" /> -->
 
 	<!-- set the mapping converter to be used by the MongoTemplate -->
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
-		<constructor-arg name="mongoConverter" ref="mappingConverter" />
+		<!-- <constructor-arg name="mongoConverter" ref="mappingConverter" /> -->
 	</bean>
 
 

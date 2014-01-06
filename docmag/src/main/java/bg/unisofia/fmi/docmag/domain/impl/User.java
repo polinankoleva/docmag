@@ -17,20 +17,25 @@ public class User {
 	
 	private String userName;
 	private UserType type;
-	private Profile profile;
 	
+	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public User(String id, String userName) {
 		super();
 		this.id = id;
 		this.userName = userName;
 	}
-
-	public Profile getProfile() {
-		return profile;
+	
+	public User(UserType type) {
+		this.type = type;
 	}
 
-	public void setProfile(Profile profile) {
-		this.profile = profile;
+	public Profile getProfile() {
+		return null;
 	}
 
 	public String getId() {
@@ -39,10 +44,6 @@ public class User {
 
 	public UserType getType() {
 		return type;
-	}
-
-	public void setType(UserType type) {
-		this.type = type;
 	}
 
 	public String getUserName() {

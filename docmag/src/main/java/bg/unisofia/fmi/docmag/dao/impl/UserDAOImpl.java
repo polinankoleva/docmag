@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.User;
+import bg.unisofia.fmi.docmag.domain.impl.Student;
+import bg.unisofia.fmi.docmag.domain.impl.Teacher;
+import bg.unisofia.fmi.docmag.domain.impl.PHDStudent;
+import bg.unisofia.fmi.docmag.domain.impl.User.UserType;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -27,8 +31,18 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User getUserByUsername(String username) {
 		Query searchUserQuery = new Query(Criteria.where("userName").is(username));
-		User user = mongoTemplate.findOne(searchUserQuery, User.class);
-		return user;
+		UserType userType = mongoTemplate.findOne(searchUserQuery, User.class).getType();
+		
+		switch (userType) {
+		case Student:
+			return mongoTemplate.findOne(searchUserQuery, Student.class);
+		case PHD:
+			return mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
+		case Teacher:
+			return mongoTemplate.findOne(searchUserQuery, Teacher.class);
+		}
+		
+		return null;
 	}
 
 }
