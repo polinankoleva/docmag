@@ -5,13 +5,14 @@ import java.util.List;
 
 public class ThesisProposal extends Document {
 	
-	public enum Status {
+	public enum ThesisProposalStatus {
+		NotSubmitted,
 	    Unapproved, 
 	    ApprovedWithNotes,
 	    Approved 
 	}
 	
-	private Status status;
+	private ThesisProposalStatus status;
 	
     private String subject;
     private String anotation;
@@ -71,10 +72,10 @@ public class ThesisProposal extends Document {
 	public void setExecutionDeadline(Date executionDeadline) {
 		this.executionDeadline = executionDeadline;
 	}
-	public Status getStatus() {
+	public ThesisProposalStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(ThesisProposalStatus status) {
 		this.status = status;
 	}
 	@Override
