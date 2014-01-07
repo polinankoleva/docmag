@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js"></script>
+    	<script type="text/javascript">
+    	
+    	 $(document).on("click",".submit",function getIframeText() {
+            var iframe0 = document.getElementById("iframe0");
+            var iframe0document=iframe0.contentDocument||iframe0.contentWindow.document;
+            var inputIframe = iframe0document.getElementById("studentName");
+            alert(inputIframe.value);
+        });
+    
+    
+    </script>
+    
 
     <title>ФМИ - Информационна система</title>
 
@@ -26,15 +40,15 @@
 
   <body>
 
-    <header class="well span6 offset2 header">
-	    <img src="images/pop_su.png"></img>
-		<div>
+<header class="well span6 offset2 header">
+	    <img id="logo-image" src="images/pop_su.png" alt="sofia university logo"></img>
+		<div class="container">
 	    <h1>Софийски Университет "Св. Климент Охридски"</br>
 	       Факултет по Математика и Информатика</br>
 	         <small>Информационна система</small>
 	    </h1>
 		</div>
-	</header>
+</header>
 	
     <div class="greeting-line">
         <div class="container">
@@ -45,15 +59,22 @@
         </div>
     </div>
     
-    дипломна работа
+    <div id="documentContents">
+       <iframe id="iframe0" src="diplomnaRabota_template.html"></iframe>
+    </div>
     
-
+    <div class="clearfix"></div>
+    
+    <div id="addvalue"></div>
+    
+    <button class="btn btn-primary submit" style="margin-bottom: 30px;">Предай за Одобрение</button>
+      
       <footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
       </footer>
     
-	<script src="js/bootstrap.js"></script>	
+	<script type="text/javascript" src="js/bootstrap.js"></script>	
 	
-	</div> 
+
   </body>
 </html>
