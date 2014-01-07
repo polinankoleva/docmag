@@ -47,7 +47,7 @@ public class EmailSender {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			System.out.println("Sending email failed.Message:" + e.getMessage());
 		}
 	}
 }
