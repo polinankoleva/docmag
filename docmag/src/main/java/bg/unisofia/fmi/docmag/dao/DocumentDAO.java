@@ -10,11 +10,15 @@ import bg.unisofia.fmi.docmag.domain.impl.user.User;
 public interface DocumentDAO {
 
 	public List<Document> getAllDocumentsForUser(User user);
-	public List<Document> getAllDocumentForUserOfSpecificType(User user, DocumentType type);
+
+	public List<Document> getAllDocumentForUserOfSpecificType(User user,
+			DocumentType type);
+
 	public ThesisProposalStatus getThesisProposalStatusForUser(User user);
-	
+
 	public boolean saveDocument(Document document);
-	
+
 	public void deleteDocumentWithId(String documentId);
+
 	public void deleteAllDocumentsForUser(User user);
 }

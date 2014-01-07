@@ -16,21 +16,21 @@ public final class UserService {
 
 	@Autowired
 	UserDAO userDao;
-	
-	public void createUser(User user){
+
+	public void createUser(User user) {
 		userDao.createUser(user);
 	}
-	
+
 	public User getUserByUsername(String username) {
 		return userDao.getUserByUsername(username);
 	}
-	
-	public List<Teacher> getScientificLeadersPHDStudentWithUsername(String username) {
+
+	public List<Teacher> getScientificLeadersPHDStudentWithUsername(
+			String username) {
 		User user = getUserByUsername(username);
 		if (user.getType() == UserType.PHD) {
-			return userDao.getScientificLeadersForPHDStudent((PHDStudent)user);
-		}
-		else {
+			return userDao.getScientificLeadersForPHDStudent((PHDStudent) user);
+		} else {
 			return null;
 		}
 	}
