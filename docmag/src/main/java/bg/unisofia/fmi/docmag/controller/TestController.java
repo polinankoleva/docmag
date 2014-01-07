@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
+import bg.unisofia.fmi.docmag.email.EmailSender;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
@@ -19,12 +20,17 @@ public class TestController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	EmailSender sender;
 
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public @ResponseBody
 	String getUser(@PathVariable String username) {
 		// test mongo db connection
 		String response = new String();
+		//sending email
+		//sender.sendEmail("polina.n.koleva@gmail.com", "Test", "Test Message");
 		User user = userService.getUserByUsername(username);
 		if (user != null) {
 			response = "Username: " + user.getUsername() + "\nType: "
@@ -34,7 +40,7 @@ public class TestController {
 		}
 		return response;
 	}
-
+	
 	@RequestMapping(value = "/{username}/leaders", method = RequestMethod.GET)
 	public @ResponseBody
 	String getLeaders(@PathVariable String username) {
