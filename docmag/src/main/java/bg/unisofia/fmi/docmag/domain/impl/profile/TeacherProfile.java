@@ -1,8 +1,10 @@
-package bg.unisofia.fmi.docmag.domain.impl;
+package bg.unisofia.fmi.docmag.domain.impl.profile;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import bg.unisofia.fmi.docmag.domain.impl.user.User;
 
 @Document
 

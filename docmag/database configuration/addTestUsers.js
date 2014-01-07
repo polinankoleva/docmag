@@ -29,10 +29,9 @@ function addTestUsers(database) {
     educationSubject: "artificial intelligence",
     educationYear: 1,
     gpa: 6.00,
-    recordIdentifier: "phd007",
-    scientificLeaderIds: [teacherId]
+    recordIdentifier: "phd007"
   }
-  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile});
+  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile, scientificLeaderIds: [teacherId]});
 
   var masterProfile = {
     firstName: "Adriyana", 
@@ -55,11 +54,12 @@ function addTestUsers(database) {
 
   var thesisProposal = {
     type: "ThesisProposal",
+    status: "Unapproved",
     userId: userId,
     scientificLeaderIds: [],
-    conultantIds: [],
+    consultantIds: [],
     subject: "My thesis subject",
-    anotation: "WTF",
+    annotation: "WTF",
     purpose: "No purpose",
     tasks: "No tasks yet",
     restrictions: "oh dear..",

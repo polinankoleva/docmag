@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import bg.unisofia.fmi.docmag.domain.impl.Doc;
+import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
@@ -24,7 +24,7 @@ public class PdfRenderer {
 
     private String cssUri;
     private ITextRenderer renderer;
-    private Map<Class<? extends Doc>, Document> templates;
+    private Map<DocumentType, Document> templates;
 
     public PdfRenderer() {
         ClassLoader loader = getClass().getClassLoader();
@@ -64,7 +64,7 @@ public class PdfRenderer {
     /**
      * Call this to get a template, then fill in the blanks and render it.
      */
-    public Document getTemplate(Class<? extends Doc> type) {
+    public Document getTemplate(DocumentType type) {
         return templates.get(type);
     }
 
@@ -82,7 +82,7 @@ public class PdfRenderer {
             PdfRenderer renderer = new PdfRenderer();
             renderer.loadFonts();
             renderer.loadTemplates();
-            Document doc = renderer.getTemplate(Doc.class);
+            Document doc = renderer.getTemplate(DocumentType.ThesisProposal);
             Element department = doc.getElementById("department");
             department.appendChild(doc.createTextNode("Софтуерни технологии"));
             Element faculty = doc.getElementById("faculty");

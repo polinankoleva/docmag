@@ -1,7 +1,11 @@
-package bg.unisofia.fmi.docmag.domain.impl;
+package bg.unisofia.fmi.docmag.domain.impl.user;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import bg.unisofia.fmi.docmag.domain.impl.profile.Profile;
 
 @Document(collection = "users")
 public class User {
@@ -13,22 +17,12 @@ public class User {
 	}
 	
 	@Id
-	private String id;
+	private ObjectId id;
 	
-	private String userName;
+	@Indexed(unique = true)
+	private String username;
 	private UserType type;
 	
-	
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public User(String id, String userName) {
-		super();
-		this.id = id;
-		this.userName = userName;
-	}
 	
 	public User(UserType type) {
 		this.type = type;
@@ -38,7 +32,7 @@ public class User {
 		return null;
 	}
 
-	public String getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
@@ -46,15 +40,8 @@ public class User {
 		return type;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	
-	
 	
 }
