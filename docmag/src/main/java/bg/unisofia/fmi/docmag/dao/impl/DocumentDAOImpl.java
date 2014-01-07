@@ -21,17 +21,24 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
+
+	private final String COLLECTION_NAME_DOCUMENTS = "documents";
+
 	private List<Document> documentsForQuery(Query query) {
-		List<Document> documents = mongoTemplate.find(query, Document.class, "documents");
+		List<Document> documents = mongoTemplate.find(query, Document.class, COLLECTION_NAME_DOCUMENTS);
 		return documents;
 	}
-	
+
+	private List<ThesisProposal> thesisProposalDocumentsForQuery(Query query) {
+		List<ThesisProposal> thesisProposals = mongoTemplate.find(query, ThesisProposal.class, COLLECTION_NAME_DOCUMENTS);
+		return thesisProposals;
+	}
+
 	@Override
 	public List<Document> getAllDocumentsForUser(User user) {
 		ObjectId userId = user.getId();
 		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(userId));
-		
+
 		return documentsForQuery(searchDocumentsQuery);
 	}
 
@@ -40,10 +47,10 @@ public class DocumentDAOImpl implements DocumentDAO {
 		ObjectId userId = user.getId();
 		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(userId));
 		searchDocumentsQuery.addCriteria(Criteria.where("type").is(type.toString()));
-		
+
 		return documentsForQuery(searchDocumentsQuery);
 	}
-	
+
 	@Override
 	public ThesisProposalStatus getThesisProposalStatusForUser(User user) {
 		List<Document> thesisProposals = getAllDocumentForUserOfSpecificType(user, DocumentType.ThesisProposal);
@@ -55,16 +62,24 @@ public class DocumentDAOImpl implements DocumentDAO {
 			return ThesisProposalStatus.NotSubmitted;
 		}
 	}
-	
+
+	@Override
+	public List<ThesisProposal> getThesisProposalDocumentsForUser(User user) {
+		ObjectId userId = user.getId();
+		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(userId));
+		searchDocumentsQuery.addCriteria(Criteria.where("type").is(DocumentType.ThesisProposal.toString()));
+		return thesisProposalDocumentsForQuery(searchDocumentsQuery);
+	}
+
 	@Override
 	public boolean saveDocument(Document document) {
-		// TODO Auto-generated method stub
+		//MUST BE IMPLEMENTED
+		//INSERT AND UPDATE
 		return false;
 	}
 
 	@Override
 	public void deleteDocumentWithId(String documentId) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -73,6 +88,5 @@ public class DocumentDAOImpl implements DocumentDAO {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }
