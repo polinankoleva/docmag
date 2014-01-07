@@ -61,14 +61,29 @@
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>	
-	    	<script type="text/javascript">
+	<script type="text/javascript">
     	
-    	 $(document).on("click",".submit",function getIframeText() {
-            var iframe0 = document.getElementById("iframe0");
-            var iframe0document=iframe0.contentDocument||iframe0.contentWindow.document;
-            var inputIframe = iframe0document.getElementById("studentName");
-            alert(inputIframe.value);
-        });
+	    	$(document).on("click",".submit",function getIframeText() {
+	    		 
+	            var iframe0 = document.getElementById("iframe0");
+	            var iframe0document=iframe0.contentDocument||iframe0.contentWindow.document;
+	            var studentName = iframe0document.getElementById("studentName");
+	            var studentSpec = iframe0document.getElementById("studentSpec");
+	            var fNumber = iframe0document.getElementById("fNumber");
+	            var supervisorName = iframe0document.getElementById("supervisorName");
+	            var supervisorUni = iframe0document.getElementById("supervisorUni");
+	            var consultantName = iframe0document.getElementById("consultantName");
+	            var consultantUni = iframe0document.getElementById("consultantUni");
+	            var theme = iframe0document.getElementById("theme");
+	            var annotation = iframe0document.getElementById("annotation");
+	            var purpose = iframe0document.getElementById("purpose");
+	            var tasks = iframe0document.getElementById("tasks");
+	            var restrictions = iframe0document.getElementById("restrictions");
+	            
+	            alert(studentName.value);
+	            
+	            <!--The rest vars to be added -->
+	        });
     
     
     </script>
