@@ -44,9 +44,14 @@
             </p>
         </div>
     </div>
-    <div class="container">
-    преддипломен стаж
     
+    <div id="documentContents">
+       <iframe id="iframe1" src="SU_FMI_MS_SE-internship_template.html"></iframe>
+    </div>
+    
+    <div class="clearfix"></div>
+   
+    <button class="btn btn-primary submit" style="margin-bottom: 30px;">Предай за Одобрение</button>
 
       <footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
@@ -54,7 +59,30 @@
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>	
-	
-	</div> 
+	 <script type="text/javascript">
+    	
+    	 $(document).on("click",".submit",function getIframeText() {
+    		 
+            var iframe1 = document.getElementById("iframe0");
+            var iframe1document=iframe1.contentDocument||iframe0.contentWindow.document;
+            var organizationName = iframe1document.getElementById("organizationName");
+            var personToBeContacted = iframe1document.getElementById("personToBeContacted");
+            var phoneNumber = iframe1document.getElementById("phoneNumber");
+            var emailAddress = iframe1document.getElementById("emailAddress");
+            var studentInfo = iframe1document.getElementById("studentInfo");
+            var aimOfInternship = iframe1document.getElementById("aimOfInternship");
+            var workingPlace = iframe1document.getElementById("workingPlace");
+            var themeOfInternship = iframe1document.getElementById("themeOfInternship");
+            var annotation = iframe1document.getElementById("annotation");
+            var tasks = iframe1document.getElementById("tasks");
+            var restrictions = iframe1document.getElementById("restrictions");
+            
+            alert(studentName.value);
+            
+            <!--The rest vars to be added -->
+        });
+    
+    
+        </script>
   </body>
 </html>
