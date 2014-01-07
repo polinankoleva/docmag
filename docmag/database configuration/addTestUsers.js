@@ -29,10 +29,9 @@ function addTestUsers(database) {
     educationSubject: "artificial intelligence",
     educationYear: 1,
     gpa: 6.00,
-    recordIdentifier: "phd007",
-    scientificLeaderIds: [teacherId]
+    recordIdentifier: "phd007"
   }
-  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile});
+  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile, scientificLeaderIds: [teacherId]});
 
   var masterProfile = {
     firstName: "Adriyana", 
