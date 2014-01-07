@@ -65,7 +65,6 @@
     	
     	 $(document).on("click",".submit",function getIframeText() {
             var iframe0 = document.getElementById("iframe0");
-            debugger;
             var iframe0document=iframe0.contentDocument||iframe0.contentWindow.document;
             var inputIframe = iframe0document.getElementById("studentName");
             alert(inputIframe.value);
