@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.service.DocumentService;
 
 @Controller
@@ -33,7 +34,8 @@ public class ThesisProposalController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void setThesisProposal(@PathVariable String username, @RequestParam String subject, @RequestParam String annotation, @RequestParam String purpose,
 			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam @DateTimeFormat(pattern = "dd-mm-yyyy") Date executionDeadline, @RequestParam List<String> scientificLeaderIds,
-			@RequestParam List<String> consultantIds) {
+			@RequestParam List<String> consultantIds, @RequestParam ThesisProposalStatus status) {
+		System.out.println("In post thesis");
 		documentService.insertThesisProposalForUserByUsername(username, subject, annotation, purpose, tasks, restrictions,
 			executionDeadline, scientificLeaderIds, consultantIds);
 		
@@ -43,7 +45,7 @@ public class ThesisProposalController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateThesisProposal(@PathVariable String username, @RequestParam(required = false) String subject, @RequestParam(required = false) String anotation, @RequestParam(required = false) String purpose,
 			@RequestParam(required = false) String tasks, @RequestParam(required = false) String restrictions, @RequestParam(required = false) Date executionDeadline, @RequestParam(required = false) List<String> scientificLeaderIds,
-			@RequestParam(required = false) List<String> consultantIds) {
+			@RequestParam(required = false) List<String> consultantIds,@RequestParam(required = false) ThesisProposalStatus status) {
 		documentService.updateThesisProposalForUserByUsername(username, subject, anotation, purpose, tasks, restrictions,
 				executionDeadline, scientificLeaderIds, consultantIds);
 	}
