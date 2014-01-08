@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
+import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
 import bg.unisofia.fmi.docmag.service.DocumentService;
 import bg.unisofia.fmi.docmag.service.UserService;
@@ -40,21 +41,13 @@ public class PdfController {
             @RequestParam(value        = "markdown",
                           required     = false,
                           defaultValue = "false") boolean markdown) {
-
         User student = usrService.getUserByUsername(username);
         // TODO: add error handling if the user is not a student
-
         ThesisProposal document = docService.getThesisProposal(username);
         // TODO: add error handling if the document doesn't exist
-
-        List<User> scientificLeaders = new LinkedList<>();
-        for (String id : document.getScientificLeaderIds())
-            scientificLeaders.add(usrService.getUserByUsername(id));
-
-        List<User> consultants = new LinkedList<>();
-        for (String id : document.getConsultantIds())
-            consultants.add(usrService.getUserByUsername(id));
-
+        List<User> consultants = usrService.getConsultantsForThesis(document);
+        List<Teacher> scientificLeaders =
+            usrService.getScientificLeadersForThesis(document);
         // populate the model
         Map<String, Object> model = new HashMap<>();
         if (markdown) model.put("markdown", MD4J);

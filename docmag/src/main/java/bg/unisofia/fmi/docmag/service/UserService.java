@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bg.unisofia.fmi.docmag.dao.UserDAO;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.user.PHDStudent;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
@@ -35,4 +36,11 @@ public final class UserService {
 		}
 	}
 
+	public List<Teacher> getScientificLeadersForThesis(ThesisProposal thesis) {
+	    return userDao.getScientificLeadersForThesis(thesis);
+	}
+	
+	public List<User> getConsultantsForThesis(ThesisProposal thesis) {
+        return userDao.getConsultantsForThesis(thesis);
+    }
 }
