@@ -60,28 +60,30 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>	
 	 <script type="text/javascript">
+    	$(function(){
+    		
+    		$(document).on("click",".submit",function getIframeText() {
+       		 
+                var iframe1 = document.getElementById("iframe1");
+                var iframe1document=iframe1.contentDocument||iframe1.contentWindow.document;
+                var organizationName = iframe1document.getElementById("organizationName");
+                var personToBeContacted = iframe1document.getElementById("personToBeContacted");
+                var phoneNumber = iframe1document.getElementById("phoneNumber");
+                var emailAddress = iframe1document.getElementById("emailAddress");
+                var studentInfo = iframe1document.getElementById("studentInfo");
+                var aimOfInternship = iframe1document.getElementById("aimOfInternship");
+                var workingPlace = iframe1document.getElementById("workingPlace");
+                var themeOfInternship = iframe1document.getElementById("themeOfInternship");
+                var annotation = iframe1document.getElementById("annotation");
+                var tasks = iframe1document.getElementById("tasks");
+                var restrictions = iframe1document.getElementById("restrictions");
+                
+                //alert(organizationName.value);
+                
+                <!--The rest vars to be added -->
+            });
+    	});			
     	
-    	 $(document).on("click",".submit",function getIframeText() {
-    		 
-            var iframe1 = document.getElementById("iframe0");
-            var iframe1document=iframe1.contentDocument||iframe0.contentWindow.document;
-            var organizationName = iframe1document.getElementById("organizationName");
-            var personToBeContacted = iframe1document.getElementById("personToBeContacted");
-            var phoneNumber = iframe1document.getElementById("phoneNumber");
-            var emailAddress = iframe1document.getElementById("emailAddress");
-            var studentInfo = iframe1document.getElementById("studentInfo");
-            var aimOfInternship = iframe1document.getElementById("aimOfInternship");
-            var workingPlace = iframe1document.getElementById("workingPlace");
-            var themeOfInternship = iframe1document.getElementById("themeOfInternship");
-            var annotation = iframe1document.getElementById("annotation");
-            var tasks = iframe1document.getElementById("tasks");
-            var restrictions = iframe1document.getElementById("restrictions");
-            
-            alert(studentName.value);
-            
-            <!--The rest vars to be added -->
-        });
-    
     
         </script>
   </body>
