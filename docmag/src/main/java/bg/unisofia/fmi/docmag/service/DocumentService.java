@@ -100,7 +100,7 @@ public class DocumentService {
 	
 	private void checkPropertiesForThesisProposal(String subject, String anotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds,
-			ThesisProposal thesisProposal){
+			ThesisProposal thesisProposal) {
 		if(subject != null){
 			thesisProposal.setSubject(subject);
 		}

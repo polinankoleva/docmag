@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
 		Query searchUserQuery = new Query(Criteria.where("username").is(
 				username));
 		User user = getUser(username);
-		
+
 		if (user != null) { 
 			switch (user.getType()) {
 			case Student:

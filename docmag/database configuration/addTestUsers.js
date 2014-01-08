@@ -22,7 +22,7 @@ function addTestUsers(database) {
 
   var phdProfile = {
     firstName: "Teodora", 
-    surname: "Lubomirova"
+    surname: "Lubomirova",
     lastName: "Toncheva", 
     email: "ttoncheva@abv.bg", 
     department: "FMI",
