@@ -2,18 +2,12 @@ package bg.unisofia.fmi.docmag.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import bg.unisofia.fmi.docmag.dao.ProfileDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.profile.Profile;
-import bg.unisofia.fmi.docmag.domain.impl.user.PHDStudent;
-import bg.unisofia.fmi.docmag.domain.impl.user.Student;
-import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
-import bg.unisofia.fmi.docmag.domain.impl.user.User.UserType;
 
 @Repository
 public class ProfileDAOImpl implements ProfileDAO {
@@ -24,31 +18,18 @@ public class ProfileDAOImpl implements ProfileDAO {
 	@Autowired
 	UserDAO userDao;
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Profile getUserProfile(String username) {
-		UserType userType = userDao.getUserByUsername(username).getType();
-		Query searchUserQuery = new Query(Criteria.where("username").is(username));
-		User user = null;
-		
-		switch (userType) {
-		case Student:
-			user = mongoTemplate.findOne(searchUserQuery, Student.class);
-			break;
-		case PHD:
-			user = mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
-			break;
-		case Teacher:
-			user = mongoTemplate.findOne(searchUserQuery, Teacher.class);
-			break;
-		}
-		
-		return user.getProfile();
+	public <T extends Profile> T getUserProfile(String username) {
+		User user = userDao.getUserByUsername(username);
+		return (T) user.getProfile();
 	}
 
 	@Override
-	public boolean updateUserProfile(Profile profile) {
-		// TODO Auto-generated method stub
-		return false;
+	public void updateUserProfile(Profile profile, String username) {
+		User user = userDao.getUserByUsername(username);
+		user.setProfile(profile);
+		mongoTemplate.save(user);
 	}
 	
 

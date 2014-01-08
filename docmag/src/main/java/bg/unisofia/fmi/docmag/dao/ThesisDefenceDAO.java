@@ -11,9 +11,11 @@ public interface ThesisDefenceDAO {
 
 	public ThesisDefence getThesisDefenceByUsername(String username);
 
+	public ThesisDefence getThesisDefenceById(ObjectId id);
+
 	public ThesisDefence getThesisDefenceByThesisProposalId(ObjectId id);
 
-	public void assignTeacherToThesisDefenceCommission(Teacher teacher,
+	public boolean assignTeacherToCommissionForThesisDefence(Teacher teacher,
 			ObjectId thesisDefenceId);
 
 	public void setMarkForThesisDefence(float mark, ObjectId thesisDefenceId);

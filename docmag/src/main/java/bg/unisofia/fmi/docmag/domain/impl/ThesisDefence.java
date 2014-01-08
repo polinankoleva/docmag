@@ -5,20 +5,23 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 
-@Document
+@Document(collection = "thesisdefences")
 public class ThesisDefence {
 	
 	@Id
 	private ObjectId id;
 	
+	@Indexed
 	private ObjectId thesisProposalId;
+	
 	private float mark;
 	private Date date;
-	private List<Teacher> commission;
+	private List<ObjectId> commissionParticipantIds;
 	
 	public float getMark() {
 		return mark;
@@ -32,11 +35,11 @@ public class ThesisDefence {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public List<Teacher> getCommission() {
-		return commission;
+	public List<ObjectId> getCommissionParticipantIds() {
+		return commissionParticipantIds;
 	}
-	public void setCommission(List<Teacher> commission) {
-		this.commission = commission;
+	public void setCommissionParticipantIds(List<ObjectId> commission) {
+		this.commissionParticipantIds = commission;
 	}
 	public ObjectId getId() {
 		return id;

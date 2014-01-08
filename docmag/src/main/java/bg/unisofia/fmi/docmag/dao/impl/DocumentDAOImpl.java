@@ -1,5 +1,6 @@
 package bg.unisofia.fmi.docmag.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -14,6 +15,7 @@ import bg.unisofia.fmi.docmag.domain.impl.document.Document;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
+import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
 
 @Repository
@@ -87,35 +89,76 @@ public class DocumentDAOImpl implements DocumentDAO {
 				Document.getClassForDocumentType(type));
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends Document> T getFirstDocumentForUserOfSpecificType(
+			User user, DocumentType type) {
+		List<?> documents = getAllDocumentsForUserOfSpecificType(user, type);
+		if (documents != null && !documents.isEmpty()) {
+			return (T) documents.get(0);
+		}
+		return null;
+	}
+
 	@Override
 	public ThesisProposalStatus getThesisProposalStatusForUser(User user) {
-		List<?> thesisProposals = getAllDocumentsForUserOfSpecificType(user,
-				DocumentType.ThesisProposal);
-		if (thesisProposals != null && thesisProposals.size() > 0) {
-			ThesisProposal document = (ThesisProposal) thesisProposals.get(0);
-			return document.getStatus();
+		ThesisProposal thesisProposal = getFirstDocumentForUserOfSpecificType(
+				user, DocumentType.ThesisProposal);
+		if (thesisProposal != null) {
+			return thesisProposal.getStatus();
 		} else {
 			return ThesisProposalStatus.NotSubmitted;
 		}
 	}
 
 	@Override
-	public boolean saveDocument(Document documentToSave) {
+	public boolean assignScientificLeaderForThesis(Teacher teacher,
+			ThesisProposal thesis) {
+		List<ObjectId> leaderIds = thesis.getScientificLeaderIds();
+		if (leaderIds == null) {
+			leaderIds = new ArrayList<ObjectId>();
+		}
+		if (!leaderIds.contains(teacher.getId())) {
+			leaderIds.add(teacher.getId());
+			saveDocument(thesis);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean assignConsultantForThesis(User user, ThesisProposal thesis) {
+		List<ObjectId> consultantIds = thesis.getConsultantIds();
+		if (consultantIds == null) {
+			consultantIds = new ArrayList<ObjectId>();
+		}
+		if (!consultantIds.contains(user.getId())) {
+			consultantIds.add(user.getId());
+			saveDocument(thesis);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void saveDocument(Document documentToSave) {
+		documentToSave.setLastModifiedDate();
 		mongoTemplate.save(documentToSave, COLLECTION);
-		return true;
 	}
 
 	@Override
 	public void deleteDocumentWithId(ObjectId documentId) {
-		// TODO Auto-generated method stub
-		
+		Query query = new Query(Criteria.where("_id").is(documentId));
+		mongoTemplate.remove(query, COLLECTION);
+
 	}
 
 	@Override
 	public void deleteAllDocumentsForUser(User user) {
-		// TODO Auto-generated method stub
-
+		Query query = new Query(Criteria.where("userId").is(user.getId()));
+		mongoTemplate.remove(query, COLLECTION);
 	}
-
 
 }
