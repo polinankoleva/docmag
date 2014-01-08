@@ -1,6 +1,7 @@
 package bg.unisofia.fmi.docmag.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,6 @@ public class DocumentService {
 		List<?> thesisProposals = documentDao
 				.getAllDocumentsForUserOfSpecificType(user,
 						DocumentType.ThesisProposal);
-		System.out.println("Proposals " + thesisProposals);
 		if (thesisProposals != null && thesisProposals.size() > 0) {
 			document = (ThesisProposal) thesisProposals.get(0);
 		}
@@ -58,4 +58,74 @@ public class DocumentService {
 		documentDao.saveDocument(thesis);
 	}
 
+
+	public ThesisProposal getThesisProposal(String username){
+		return getThesisProposalForUserWithUsername(username);
+	}
+
+	public void updateThesisProposal(ThesisProposal thesisProposal){
+		documentDao.saveDocument(thesisProposal);
+	}
+	
+	public void insertThesisProposal(ThesisProposal thesisProposal){
+		documentDao.saveDocument(thesisProposal);
+	}
+	
+	public void insertThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
+			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds){
+		ThesisProposal thesisProposal = new ThesisProposal();
+		thesisProposal.setUserId(userDao.getUserByUsername(username).getId());
+		thesisProposal.setAnnotation(anotation);
+		thesisProposal.setSubject(subject);
+		thesisProposal.setPurpose(purpose);
+		thesisProposal.setTasks(tasks);
+		thesisProposal.setRestrictions(restrictions);
+		thesisProposal.setExecutionDeadline(executionDeadline);
+		thesisProposal.setScientificLeaderIds(scientificLeaderIds);
+		thesisProposal.setConsultantIds(consultantIds);
+		thesisProposal.setLastModifiedDate(new Date());
+		insertThesisProposal(thesisProposal);
+	}
+	
+	public void updateThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
+			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds){
+		ThesisProposal thesisProposal = getThesisProposal(username);
+		checkPropertiesForThesisProposal(subject, anotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, thesisProposal);
+		updateThesisProposal(thesisProposal);
+	}
+	
+	
+	private void checkPropertiesForThesisProposal(String subject, String anotation, String purpose,
+			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds,
+			ThesisProposal thesisProposal){
+		if(subject != null){
+			thesisProposal.setSubject(subject);
+		}
+		if(anotation != null){
+			thesisProposal.setAnnotation(anotation);
+		}
+		if(purpose != null){
+			thesisProposal.setPurpose(purpose);
+		}
+		if(tasks != null){
+			thesisProposal.setTasks(tasks);
+		}
+		if(restrictions != null){
+			thesisProposal.setRestrictions(restrictions);
+		}
+		if(executionDeadline != null){
+			thesisProposal.setExecutionDeadline(executionDeadline);
+		}
+		if(scientificLeaderIds != null && !scientificLeaderIds.isEmpty()){
+			thesisProposal.setScientificLeaderIds(scientificLeaderIds);
+		}
+		if(consultantIds != null && !consultantIds.isEmpty()){
+			thesisProposal.setConsultantIds(consultantIds);
+		}
+	}
+	
+	public ThesisProposalStatus checkStatusForThesisProposal(String username){
+		User user = userDao.getUserByUsername(username);
+		return documentDao.getThesisProposalStatusForUser(user);
+	}
 }

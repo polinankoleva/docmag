@@ -3,6 +3,7 @@ package bg.unisofia.fmi.docmag.domain.impl.document;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -31,6 +32,7 @@ public class Document {
 	@Indexed
 	private ObjectId userId;
 
+	@JsonIgnore
 	public ObjectId getUserId() {
 		return userId;
 	}
@@ -47,6 +49,7 @@ public class Document {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
+	@JsonIgnore
 	public ObjectId getId() {
 		return id;
 	}

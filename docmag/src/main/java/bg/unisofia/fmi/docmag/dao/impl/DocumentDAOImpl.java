@@ -19,15 +19,15 @@ import bg.unisofia.fmi.docmag.domain.impl.user.User;
 @Repository
 public class DocumentDAOImpl implements DocumentDAO {
 
-	final static String COLLECTION = "documents";
-	
+	private final String COLLECTION = "documents";
+
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	private <T> List<T> documentsForQueryOfClass(Query query,
 			Class<T> documentClass) {
-		List<T> documents = mongoTemplate.find(query, documentClass,
-				COLLECTION);
+		List<T> documents = mongoTemplate
+				.find(query, documentClass, COLLECTION);
 		return documents;
 	}
 
@@ -44,16 +44,18 @@ public class DocumentDAOImpl implements DocumentDAO {
 				Document.class);
 		return getDocument(document);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Document> T getDocument(Document document) {
-		Query searchDocumentQuery = new Query(Criteria.where("_id").is(document.getId()));
+		Query searchDocumentQuery = new Query(Criteria.where("_id").is(
+				document.getId()));
 		T specificDocument = null;
 
 		switch (document.getType()) {
 		case ThesisProposal:
-			specificDocument = (T) documentForQueryOfClass(searchDocumentQuery, ThesisProposal.class);
+			specificDocument = (T) documentForQueryOfClass(searchDocumentQuery,
+					ThesisProposal.class);
 			break;
 		default:
 			break;
@@ -61,7 +63,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 		return specificDocument;
 	}
-	
+
 	@Override
 	public List<Document> getAllDocumentsForUser(User user) {
 		ObjectId userId = user.getId();
@@ -69,6 +71,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 				userId));
 
 		return documentsForQueryOfClass(searchDocumentsQuery, Document.class);
+
 	}
 
 	@Override
@@ -103,15 +106,15 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	@Override
-	public void deleteDocumentWithId(ObjectId documentId) {
+	public void deleteAllDocumentsForUser(User user) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteAllDocumentsForUser(User user) {
+	public void deleteDocumentWithId(ObjectId documentId) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
