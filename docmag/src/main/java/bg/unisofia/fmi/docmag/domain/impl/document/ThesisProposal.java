@@ -3,6 +3,8 @@ package bg.unisofia.fmi.docmag.domain.impl.document;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 public class ThesisProposal extends Document {
 	
 	public enum ThesisProposalStatus {
@@ -21,19 +23,19 @@ public class ThesisProposal extends Document {
     private String restrictions;
     private Date executionDeadline;
     
-    private List<String> scientificLeaderIds;
-	private List<String> consultantIds;
+    private List<ObjectId> scientificLeaderIds;
+	private List<ObjectId> consultantIds;
     
-	public List<String> getScientificLeaderIds() {
+	public List<ObjectId> getScientificLeaderIds() {
 		return scientificLeaderIds;
 	}
-	public void setScientificLeaderIds(List<String> scientificLeaderIds) {
+	public void setScientificLeaderIds(List<ObjectId> scientificLeaderIds) {
 		this.scientificLeaderIds = scientificLeaderIds;
 	}
-	public List<String> getConsultantIds() {
+	public List<ObjectId> getConsultantIds() {
 		return consultantIds;
 	}
-	public void setConsultantIds(List<String> consultantIds) {
+	public void setConsultantIds(List<ObjectId> consultantIds) {
 		this.consultantIds = consultantIds;
 	}
 	public String getSubject() {

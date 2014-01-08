@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,12 @@ public class DocumentService {
 		User user = userDao.getUserByUsername(username);
 		if (user != null) {
 			List<Document> documents = documentDao.getAllDocumentsForUser(user);
-			
+
 			ArrayList<Document> docs = new ArrayList<Document>();
 			for (Document document : documents) {
 				docs.add(documentDao.getDocumentById(document.getId()));
 			}
-			
+
 			return docs;
 		}
 		return null;
@@ -55,27 +56,26 @@ public class DocumentService {
 		}
 		return document;
 	}
-	
+
 	public void editThesisProposal(ThesisProposal thesis) {
 		thesis.setTasks(thesis.getTasks() + " 1 ");
 		documentDao.saveDocument(thesis);
 	}
 
-
-	public ThesisProposal getThesisProposal(String username){
+	public ThesisProposal getThesisProposal(String username) {
 		return getThesisProposalForUserWithUsername(username);
 	}
 
-	public void updateThesisProposal(ThesisProposal thesisProposal){
+	public void updateThesisProposal(ThesisProposal thesisProposal) {
 		documentDao.saveDocument(thesisProposal);
 	}
-	
-	public void insertThesisProposal(ThesisProposal thesisProposal){
+
+	public void insertThesisProposal(ThesisProposal thesisProposal) {
 		documentDao.saveDocument(thesisProposal);
 	}
-	
+
 	public void insertThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
-			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds, ThesisProposalStatus status){
+			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
 		ThesisProposal thesisProposal = new ThesisProposal();
 		thesisProposal.setUserId(userDao.getUserByUsername(username).getId());
 		thesisProposal.setAnnotation(anotation);
@@ -86,13 +86,13 @@ public class DocumentService {
 		thesisProposal.setExecutionDeadline(executionDeadline);
 		thesisProposal.setScientificLeaderIds(scientificLeaderIds);
 		thesisProposal.setConsultantIds(consultantIds);
-		thesisProposal.setLastModifiedDate(new Date());
+
 		thesisProposal.setStatus(status);
 		insertThesisProposal(thesisProposal);
 	}
 	
 	public void updateThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
-			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds, ThesisProposalStatus status){
+			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
 		ThesisProposal thesisProposal = getThesisProposal(username);
 		checkPropertiesForThesisProposal(subject, anotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, status, thesisProposal);
 		updateThesisProposal(thesisProposal);
@@ -100,38 +100,38 @@ public class DocumentService {
 	
 	
 	private void checkPropertiesForThesisProposal(String subject, String anotation, String purpose,
-			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds, ThesisProposalStatus status,
+			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status,
 			ThesisProposal thesisProposal) {
-		if(subject != null){
+		if (subject != null) {
 			thesisProposal.setSubject(subject);
 		}
-		if(anotation != null){
+		if (anotation != null) {
 			thesisProposal.setAnnotation(anotation);
 		}
-		if(purpose != null){
+		if (purpose != null) {
 			thesisProposal.setPurpose(purpose);
 		}
-		if(tasks != null){
+		if (tasks != null) {
 			thesisProposal.setTasks(tasks);
 		}
-		if(restrictions != null){
+		if (restrictions != null) {
 			thesisProposal.setRestrictions(restrictions);
 		}
-		if(executionDeadline != null){
+		if (executionDeadline != null) {
 			thesisProposal.setExecutionDeadline(executionDeadline);
 		}
-		if(scientificLeaderIds != null && !scientificLeaderIds.isEmpty()){
+		if (scientificLeaderIds != null && !scientificLeaderIds.isEmpty()) {
 			thesisProposal.setScientificLeaderIds(scientificLeaderIds);
 		}
-		if(consultantIds != null && !consultantIds.isEmpty()){
+		if (consultantIds != null && !consultantIds.isEmpty()) {
 			thesisProposal.setConsultantIds(consultantIds);
 		}
 		if(subject != null){
 			thesisProposal.setStatus(status);
 		}
 	}
-	
-	public ThesisProposalStatus checkStatusForThesisProposal(String username){
+
+	public ThesisProposalStatus checkStatusForThesisProposal(String username) {
 		User user = userDao.getUserByUsername(username);
 		return documentDao.getThesisProposalStatusForUser(user);
 	}

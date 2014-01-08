@@ -37,32 +37,33 @@ public class UserDAOImpl implements UserDAO {
 		mongoTemplate.insert(user);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public User getUserByUsername(String username) {
+	public <T extends User> T getUserByUsername(String username) {
 		Query searchUserQuery = new Query(Criteria.where("username").is(
 				username));
 		User user = getUser(username);
 
-		if (user != null) { 
+		if (user != null) {
 			switch (user.getType()) {
 			case Student:
-				return mongoTemplate.findOne(searchUserQuery, Student.class);
+				return (T) mongoTemplate.findOne(searchUserQuery, Student.class);
 			case PHD:
-				return mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
+				return (T) mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
 			case Teacher:
-				return mongoTemplate.findOne(searchUserQuery, Teacher.class);
+				return (T) mongoTemplate.findOne(searchUserQuery, Teacher.class);
 			}
-
 		}
-		
+
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getAllUsersOfType(UserType type) {
+	public <T extends User> List<T> getAllUsersOfType(UserType type) {
 		Query searchUserQuery = new Query(Criteria.where("type").is(
 				type.toString()));
-		List<User> users = mongoTemplate.find(searchUserQuery, User.class);
+		List<T> users = (List<T>) mongoTemplate.find(searchUserQuery, User.getClassForUserType(type));
 		return users;
 	}
 
@@ -100,23 +101,19 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean assignScientificLeaderForPHDStudent(PHDStudent student,
-			Teacher teacher) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean assignScientificLeaderForThesis(ThesisProposal thesis,
-			Teacher teacher) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean assignConsultantForThesis(ThesisProposal thesis, User user) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean assignScientificLeaderForPHDStudent(Teacher teacher,
+			PHDStudent student) {
+		List<ObjectId> leaderIds = student.getScientificLeaderIds();
+		if (leaderIds == null) {
+			leaderIds = new ArrayList<ObjectId>();
+		}
+		if (!leaderIds.contains(teacher.getId())) {
+			leaderIds.add(teacher.getId());
+			mongoTemplate.save(student);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

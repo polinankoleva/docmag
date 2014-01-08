@@ -45,8 +45,8 @@ public class Document {
 		return lastModifiedDate;
 	}
 
-	public void setLastModifiedDate(Date lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
+	public void setLastModifiedDate() {
+		this.lastModifiedDate = new Date();
 	}
 
 	@JsonIgnore

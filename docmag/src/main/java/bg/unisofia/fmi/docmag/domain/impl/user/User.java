@@ -31,6 +31,9 @@ public class User {
 	public Profile getProfile() {
 		return null;
 	}
+	
+	public void setProfile(Profile profile) {
+	}
 
 	public ObjectId getId() {
 		return id;
@@ -56,4 +59,5 @@ public class User {
 			return null;
 		}
 	}
+	
 }
