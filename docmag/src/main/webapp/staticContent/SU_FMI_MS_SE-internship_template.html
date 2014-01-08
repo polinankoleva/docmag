@@ -15,6 +15,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <link rel=themeData href="SU_FMI_MS_SE-internship_template_files/themedata.thmx">
 <link rel=colorSchemeMapping
 href="SU_FMI_MS_SE-internship_template_files/colorschememapping.xml">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 <!--
@@ -82,7 +83,7 @@ input{width:300px;}
 
 </head>
 
-<div class=WordSection1>
+<div class="WordSection1 form-horizontal">
 
 <br /><br />
 
@@ -104,123 +105,140 @@ input{width:300px;}
 
 <p class=MsoNormal>
 	<b>
-		<span lang=BG>От Фирма/Организация:
-            <input  class="name" type="text" id="organizationName"/>
-        </span>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<span lang=BG class="col-sm-3 control-label">От Фирма/Организация:</span>
+			<div class="col-sm-8">
+				<input type="text" id="organizationName" class="form-control"/>
+			</div>
+		</div>	
     </b>
 </p>
+<div class="clearfix"></div>
+<br /><br />
 
+<p class=MsoNormal>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Лице за контакт:</span></b>
+			<div class="col-sm-8">
+				<input type="text" id="personToBeContacted" class="form-control"/>
+			</div>
+		</div>	
+</p>
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
 	<b>
-		<span lang=BG>Лице за контакт:
-            <input  class="name" type="text" id="personToBeContacted"/>
-        </span>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Телефон:</span></b>
+			<div class="col-sm-8">
+				<input type="text" id="phoneNumber" class="form-control"/>
+			</div>
+		</div>
     </b>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Телефон:
-            <input  class="name" type="text" id="phoneNumber"/>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Е-поща:</span></b>
+			<div class="col-sm-8">
+				<input type="text" id="emailAddress" class="form-control"/>
+			</div>
+		</div>
 </p>
+<div class="clearfix"></div>
+<br /><br />
 
+<p class=MsoNormal>	
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Стажант (трите имена, фак.номер, специалност,маг. пр , випуск, Е-поща)</span></b>
+			<div class="col-sm-8">
+				 <textarea id="studentInfo" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
+</p>
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Е-поща: 
-            <input  class="name" type="text" id="emailAddress"/>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Тема на стажа:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="themeOfInternship" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Стажант (трите имена, фак.номер, специалност,маг. пр , випуск, Е-поща, <br/> 
-            <textarea id="studentInfo" rows="5" cols="103"></textarea>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Анотация:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="annotation" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Тема на стажа:<br/> 
-            <textarea id="themeOfInternship" rows="5" cols="103"></textarea>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Цел на стажа:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="aimOfInternship" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Анотация:<br/> 
-            <textarea id="annotation" rows="5" cols="103"></textarea>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Задачи, произтичащи от целта:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="tasks" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Цел на стажа:<br/> 
-            <textarea id="aimOfInternship" rows="5" cols="103"></textarea>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Ограничаващи/облекчаващи условия:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="restrictions" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Задачи, произтичащи от целта:<br/> 
-            <textarea id="tasks" rows="5" cols="103"></textarea>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-3 control-label">Продължителност на проекта:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="datetime-local" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Ограничаващи/облекчаващи условия:<br/> 
-            <textarea id="restrictions" rows="5" cols="103"></textarea>
-        </span>
-    </b>
+		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<span lang=BG class="col-sm-3 control-label"><b>Работно място:<br/></b> 
+			- осигурено от фирмата</span>
+			
+			<div class="col-sm-8">
+				 <textarea id="workingPlace" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
-<br /><br />
-
-<p class=MsoNormal>
-	<b>
-		<span lang=BG>Продължителност на проекта:<br/> 
-            <input type="datetime-local" id="endDate"/>
-        </span>
-    </b>
-</p>
-
-<br /><br />
-
-<p class=MsoNormal>
-	<b>
-		<span lang=BG>Работно място:<br/> 
-		<span style="padding-left: 50px; font-weight: normal;"> - осигурено от фирмата</span><br />
-            <textarea id="workingPlace" rows="5" cols="103"></textarea>
-        </span>
-    </b>
-</p>
-
+<div class="clearfix"></div>
 <br /><br /><br />
 
 <p class=MsoNormal>
@@ -243,8 +261,32 @@ input{width:300px;}
 
 <br /><br />
 
-
+<input type="text" id="isValid" />
 </div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		
+		var isFormValid=false; 
+		
+		
+		//input fields validation
+		$('.form-control').focusout(function(){
+			if($(this).val() === ''){
+				$(this).parent().parent().addClass('has-error');
+			}
+			else{
+				$(this).parent().parent().removeClass('has-error');
+			}
+		});
+		
+		$('.form-control').each(function(){
+			
+		});
+
+	});
+</script>
 
 </body>
 
