@@ -33,10 +33,13 @@ public class ProfileDAOImpl implements ProfileDAO {
 		switch (userType) {
 		case Student:
 			user = mongoTemplate.findOne(searchUserQuery, Student.class);
+			break;
 		case PHD:
 			user = mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
+			break;
 		case Teacher:
 			user = mongoTemplate.findOne(searchUserQuery, Teacher.class);
+			break;
 		}
 		
 		return user.getProfile();

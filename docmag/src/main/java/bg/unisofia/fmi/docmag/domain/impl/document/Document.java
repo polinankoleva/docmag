@@ -2,6 +2,7 @@ package bg.unisofia.fmi.docmag.domain.impl.document;
 
 import java.util.Date;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -19,7 +20,7 @@ public class Document {
 	}
 	
 	@Id
-	private String id;
+	private ObjectId id;
 	
 	@Field ("lastModified")
 	private Date lastModifiedDate;
@@ -28,13 +29,13 @@ public class Document {
 	private DocumentType type;
 	
 	@Indexed
-	private String userId;
+	private ObjectId userId;
 
-	public String getUserId() {
+	public ObjectId getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(ObjectId userId) {
 		this.userId = userId;
 	}
 
@@ -46,7 +47,7 @@ public class Document {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	public String getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
@@ -60,6 +61,13 @@ public class Document {
 				+ type + "lastModifiedDate=" + lastModifiedDate + "]";
 	}
 	
-	
+	public static Class<?> getClassForDocumentType(DocumentType type) {
+		switch (type) {
+		case ThesisProposal:
+			return ThesisProposal.class;
+		default:
+			return null;
+		}
+	}
 	
 }

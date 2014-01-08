@@ -44,4 +44,16 @@ public class User {
 		return username;
 	}
 	
+	public static Class<?> getClassForUserType(UserType type) {
+		switch (type) {
+		case Student:
+			return Student.class;
+		case PHD:
+			return PHDStudent.class;
+		case Teacher:
+			return Teacher.class;
+		default:
+			return null;
+		}
+	}
 }

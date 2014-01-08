@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import bg.unisofia.fmi.docmag.dao.DocumentDAO;
@@ -19,51 +20,97 @@ import bg.unisofia.fmi.docmag.domain.impl.user.User;
 @Repository
 public class DocumentDAOImpl implements DocumentDAO {
 
+	final static String COLLECTION = "documents";
+	
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
-	private List<Document> documentsForQuery(Query query) {
-		List<Document> documents = mongoTemplate.find(query, Document.class, "documents");
+
+	private <T> List<T> documentsForQueryOfClass(Query query,
+			Class<T> documentClass) {
+		List<T> documents = mongoTemplate.find(query, documentClass,
+				COLLECTION);
 		return documents;
+	}
+
+	private <T extends Document> T documentForQueryOfClass(Query query,
+			Class<T> documentClass) {
+		T document = mongoTemplate.findOne(query, documentClass, COLLECTION);
+		return document;
+	}
+
+	@Override
+	public <T extends Document> T getDocumentById(ObjectId id) {
+		Query searchDocumentQuery = new Query(Criteria.where("_id").is(id));
+		Document document = documentForQueryOfClass(searchDocumentQuery,
+				Document.class);
+		return getDocument(document);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends Document> T getDocument(Document document) {
+		Query searchDocumentQuery = new Query(Criteria.where("_id").is(document.getId()));
+		T specificDocument = null;
+
+		switch (document.getType()) {
+		case ThesisProposal:
+			specificDocument = (T) documentForQueryOfClass(searchDocumentQuery, ThesisProposal.class);
+			break;
+		default:
+			break;
+		}
+
+		return specificDocument;
 	}
 	
 	@Override
 	public List<Document> getAllDocumentsForUser(User user) {
 		ObjectId userId = user.getId();
-		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(userId));
-		
-		return documentsForQuery(searchDocumentsQuery);
+		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(
+				userId));
+
+		return documentsForQueryOfClass(searchDocumentsQuery, Document.class);
 	}
 
 	@Override
-	public List<Document> getAllDocumentForUserOfSpecificType(User user, DocumentType type) {
+	public List<?> getAllDocumentsForUserOfSpecificType(User user,
+			DocumentType type) {
 		ObjectId userId = user.getId();
-		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(userId));
-		searchDocumentsQuery.addCriteria(Criteria.where("type").is(type.toString()));
-		
-		return documentsForQuery(searchDocumentsQuery);
+		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(
+				userId));
+		searchDocumentsQuery.addCriteria(Criteria.where("type").is(
+				type.toString()));
+
+		return documentsForQueryOfClass(searchDocumentsQuery,
+				Document.getClassForDocumentType(type));
 	}
-	
+
 	@Override
 	public ThesisProposalStatus getThesisProposalStatusForUser(User user) {
-		List<Document> thesisProposals = getAllDocumentForUserOfSpecificType(user, DocumentType.ThesisProposal);
+		List<?> thesisProposals = getAllDocumentsForUserOfSpecificType(user,
+				DocumentType.ThesisProposal);
 		if (thesisProposals != null && thesisProposals.size() > 0) {
 			ThesisProposal document = (ThesisProposal) thesisProposals.get(0);
 			return document.getStatus();
-		}
-		else {
+		} else {
 			return ThesisProposalStatus.NotSubmitted;
 		}
 	}
-	
+
 	@Override
-	public boolean saveDocument(Document document) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean saveDocument(Document documentToSave) {
+		if (documentToSave.getId() != null) {
+			mongoTemplate.save(documentToSave, COLLECTION);
+		}
+		else {
+			mongoTemplate.insert(documentToSave, COLLECTION);
+		}
+		
+		return true;
 	}
 
 	@Override
-	public void deleteDocumentWithId(String documentId) {
+	public void deleteDocumentWithId(ObjectId documentId) {
 		// TODO Auto-generated method stub
 
 	}
@@ -73,6 +120,5 @@ public class DocumentDAOImpl implements DocumentDAO {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }
