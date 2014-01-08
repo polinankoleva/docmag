@@ -58,27 +58,19 @@
       <version>R8</version>
     </dependency>
 
-    <!-- docx4j -->
-    
-   <dependency>
-  <groupId>fr.opensagres.xdocreport</groupId>
-  <artifactId>fr.opensagres.xdocreport.document.odt</artifactId>
-  <version>${xdocreport.version}</version>
-</dependency>
+    <!-- MARKDOWN4J -->
+    <dependency>
+      <groupId>org.commonjava.googlecode.markdown4j</groupId>
+      <artifactId>markdown4j</artifactId>
+      <version>2.2-cj-1.0</version>
+    </dependency>
 
-<dependency>
-  <groupId>fr.opensagres.xdocreport</groupId>
-  <artifactId>fr.opensagres.xdocreport.template.velocity</artifactId>
-  <version>${xdocreport.version}</version>
-</dependency>
-<dependency>
-  <groupId>fr.opensagres.xdocreport</groupId>
-  <artifactId>fr.opensagres.xdocreport.converter.odt.odfdom</artifactId>
-  <version>${xdocreport.version}</version>
-</dependency>
-
-
-            
+    <!-- VELOCITY -->
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.7</version>
+    </dependency>
 
   </dependencies>
 

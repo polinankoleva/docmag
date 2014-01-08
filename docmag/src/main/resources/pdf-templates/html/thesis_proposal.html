@@ -11,23 +11,35 @@
     <img class="logo" src="logo.png"/>
     <h1>Предложение за възлагане на дипломна работа</h1>
     <h3>
-      към катедра "${department}",<br/>
+      към катедра "${student.profile.department}",<br/>
       ${faculty}, СУ "Св. Климент Охридски"
     </h3>
   </div>
   <div class="clear"></div>
+  <h6>От дипломант:</h6>
   <p>
-    <strong>От дипломант:</strong> <span id="student_name"></span>,
-    специалност <span id="student_subject"></span>,
-    факултетен No <span id="faculty_number"></span>
+    ${student.profile.name},
+    специалност ${student.profile.educationSubject},
+    факултетен No ${student.profile.studentIdentifier}
   </p>
   <p>
-    <strong>Научen ръководител:</strong><br/>
-    <span id="instructor_name"></span>
+    <strong>Научни ръководители:</strong><br/>
+    #foreach($leader in $scientificLeaders)
+        ${leader.profile.name}, катедра ${leader.profile.department}<br/>
+    #end
   </p>
   <p>
     <strong>Консултанти:</strong><br/>
-    <span id="consultants"></span>
+    #foreach ($consult in $consultants)
+        ${consult.profile.name}, катедра ${consult.profile.department}<br/>
+    #end
   </p>
+  <div>
+    #if ($markdown)
+        ${markdown.process($title)}
+    #else
+        <h1>${title}</h1>
+    #end
+  </div>
 </body>
 </html>
