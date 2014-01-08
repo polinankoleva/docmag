@@ -106,15 +106,16 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	@Override
+	public void deleteDocumentWithId(ObjectId documentId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void deleteAllDocumentsForUser(User user) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	public void deleteDocumentWithId(ObjectId documentId) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

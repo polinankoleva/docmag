@@ -10,9 +10,11 @@ function addTestUsers(database) {
   
   var teacherProfile = {
     firstName: "Polina", 
+    surname: "Nikolaeva",
     lastName: "Koleva", 
     email: "pkoleva@abv.bg", 
-    department: "FMI",
+    faculty: "FMI",
+    department: "Software technologies",
     degree: "doc. d-r"
   }
   var teacherId = ObjectId();
@@ -20,6 +22,7 @@ function addTestUsers(database) {
 
   var phdProfile = {
     firstName: "Teodora", 
+    surname: "Lubomirova"
     lastName: "Toncheva", 
     email: "ttoncheva@abv.bg", 
     department: "FMI",
@@ -35,6 +38,7 @@ function addTestUsers(database) {
 
   var masterProfile = {
     firstName: "Adriyana", 
+    surname: "Dyankova",
     lastName: "Dyankova", 
     email: "adyankova@abv.bg", 
     department: "FMI",

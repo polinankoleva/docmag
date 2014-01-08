@@ -25,14 +25,17 @@ public class DocumentService {
 
 	public List<Document> getUserDocuments(String username) {
 		User user = userDao.getUserByUsername(username);
-		List<Document> documents = documentDao.getAllDocumentsForUser(user);
-		
-		ArrayList<Document> docs = new ArrayList<Document>();
-		for (Document document : documents) {
-			docs.add(documentDao.getDocumentById(document.getId()));
+		if (user != null) {
+			List<Document> documents = documentDao.getAllDocumentsForUser(user);
+			
+			ArrayList<Document> docs = new ArrayList<Document>();
+			for (Document document : documents) {
+				docs.add(documentDao.getDocumentById(document.getId()));
+			}
+			
+			return docs;
 		}
-		
-		return docs;
+		return null;
 	}
 
 	public ThesisProposalStatus getThesisProposalStatusForUserWithUsername(

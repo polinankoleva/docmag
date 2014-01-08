@@ -36,9 +36,12 @@ public class DocumentsTestController {
 		List<Document> documents = documentService.getUserDocuments(username);
 		
 		String response = "";
-		for (Document document : documents) {
-			response += document.toString();
+		if (documents != null) {
+			for (Document document : documents) {
+				response += document.toString();
+			}
 		}
+		
 		return response;
 	}
 	
@@ -46,7 +49,11 @@ public class DocumentsTestController {
 	public @ResponseBody
 	String getThesisProposal(@PathVariable String username) {
 		ThesisProposal thesis = documentService.getThesisProposalForUserWithUsername(username);
-		return thesis.toString();
+		String response = "";
+		if (thesis != null) {
+			response += thesis.toString();
+		}
+		return response;
 	}
 	
 	@RequestMapping(value = "/{username}/thesisProposal/status", method = RequestMethod.GET)

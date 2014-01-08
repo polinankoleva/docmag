@@ -41,17 +41,20 @@ public class UserDAOImpl implements UserDAO {
 	public User getUserByUsername(String username) {
 		Query searchUserQuery = new Query(Criteria.where("username").is(
 				username));
-		UserType userType = getUser(username).getType();
+		User user = getUser(username);
+		
+		if (user != null) { 
+			switch (user.getType()) {
+			case Student:
+				return mongoTemplate.findOne(searchUserQuery, Student.class);
+			case PHD:
+				return mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
+			case Teacher:
+				return mongoTemplate.findOne(searchUserQuery, Teacher.class);
+			}
 
-		switch (userType) {
-		case Student:
-			return mongoTemplate.findOne(searchUserQuery, Student.class);
-		case PHD:
-			return mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
-		case Teacher:
-			return mongoTemplate.findOne(searchUserQuery, Teacher.class);
 		}
-
+		
 		return null;
 	}
 
