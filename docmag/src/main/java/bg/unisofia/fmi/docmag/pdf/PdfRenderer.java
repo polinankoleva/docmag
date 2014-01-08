@@ -1,7 +1,11 @@
 package bg.unisofia.fmi.docmag.pdf;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -11,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.dao.impl.UserDAOImpl;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.profile.StudentProfile;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.User.UserType;
@@ -106,29 +111,58 @@ public class PdfRenderer {
 //            facultyNumber.appendChild(doc.createTextNode("65432"));
 //            renderer.renderDoc(doc, output);
 //        }
-        
-        Markdown4jProcessor md4j = new Markdown4jProcessor();
-        
+       
+       Markdown4jProcessor md4j = new Markdown4jProcessor();
        Student student = new Student(UserType.Student);
        StudentProfile profile = new StudentProfile();
        profile.setFirstName("Teddy");
        profile.setLastName("Toncheva");
        profile.setDepartment("Soft Tech");
-       profile.setEducationSubject("SI");
+       profile.setEducationSubject("Soft Eng");
+       profile.setStudentIdentifier("65432");
+       profile.setFaculty("FMI");
        student.setProfile(profile);
        VelocityEngine ve = new VelocityEngine();
        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
        ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
        ve.init();
-       String text = "pdf-templates/html/thesis_proposal.html";
-       org.apache.velocity.Template t = ve.getTemplate(text, "UTF-8");
+       String templ = "pdf-templates/html/thesis_proposal.html";
+       org.apache.velocity.Template t = ve.getTemplate(templ, "UTF-8");
        VelocityContext context = new VelocityContext();
-       context.put("faculty", "FMI");
        context.put("student", student);
        context.put("markdown", md4j);
-       context.put("title", "##title");
+       ThesisProposal doc = new ThesisProposal();
+       doc.setSubject("Subject\n-------");
+       doc.setAnnotation("This is an **annotation**");
+       doc.setPurpose("We want to\n\n+ do some stuff\n+ do some more stuff");
+       doc.setTasks("1. a task\n2. task 2");
+       doc.setRestrictions("We don't want some other stuff");
+       doc.setExecutionDeadline(new Date());
+       DateFormat dateFormat = new SimpleDateFormat("dd.MM.YYYY");
+       context.put("document", doc);
+       context.put("dateFormat", dateFormat);
        StringWriter writer = new StringWriter();
        t.merge(context, writer);
        System.out.println(writer.toString());
+       ClassLoader loader = PdfRenderer.class.getClassLoader();
+       String cssDir = loader.getResource(Constants.CSS_DIR).getPath();
+       String cssUri = new File(cssDir).toURI().toString();
+       ITextRenderer renderer = new ITextRenderer();
+       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+       DocumentBuilder builder        = factory.newDocumentBuilder();
+       // Otherwise will try to download DTD.
+       builder.setEntityResolver(FSEntityResolver.instance());
+       
+       ITextFontResolver resolver = renderer.getFontResolver();
+       for (Font font : Font.values())
+           for (String file : font.files()) {
+               String path = font.dir() + '/' + file;
+               resolver.addFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+           }
+       
+       Document document = builder.parse(new ByteArrayInputStream(writer.toString().getBytes()));
+       renderer.setDocument(document, cssUri);
+       renderer.layout();
+       renderer.createPDF(new FileOutputStream("E:\\Downloads\\test.pdf"), true);
     }
 }
