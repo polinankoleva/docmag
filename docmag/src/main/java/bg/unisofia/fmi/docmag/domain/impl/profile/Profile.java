@@ -1,5 +1,6 @@
 package bg.unisofia.fmi.docmag.domain.impl.profile;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,15 +9,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Profile {
 	
 	@Id
-	private String id;
-	
+	private ObjectId id;
 	private String firstName; 
+	private String surname;
+	public String getSurname() {
+		return surname;
+	}
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
 	private String lastName;
 	private String email; 
 	private String address;
 	private String phone;
+	private String faculty;
 	private String department;
-	
 	
 	public String getFirstName() {
 		return firstName;
@@ -60,14 +67,21 @@ public class Profile {
 		this.department = department;
 	}
 
-	public String getId() {
+	public ObjectId getId() {
 		return id;
 	}
 	
 	public String getName() {
 		return this.firstName + " " + this.lastName;
 	}
-
+	
+	public String getFaculty() {
+		return faculty;
+	}
+	public void setFaculty(String faculty) {
+		this.faculty = faculty;
+	}
+	
 	@Override
 	public String toString() {
 		return "Profile: [firstName=" + firstName + ", lastName=" + lastName

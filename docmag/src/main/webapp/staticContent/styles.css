@@ -7,11 +7,18 @@ body
 	background: url(images/diploma2.png) no-repeat center center fixed;
 }
 
+#logo-image{
+	margin-left:3.2em;
+}
+
 .greeting-line,footer
 {
     background:black;
     height:1.5em;
-	text-align: center;
+}
+
+footer{
+	text-align:center;
 }
 
 .greeting-line p,footer p
@@ -118,7 +125,13 @@ color: #028E9B;
 }
 .infoCont{color: #000000;}
 
-.testingTheCommit .ninja{
-	color:black;
-	display:none;	
+#documentContents{ 
+	margin-left: 13%; 
+	margin-top: 5%; 
+	margin-bottom: 10px; 
+}
+iframe{ 
+	width:1000px; 
+	height: 1250px; 
+	background-color: #fff;
 }

@@ -10,9 +10,11 @@ function addTestUsers(database) {
   
   var teacherProfile = {
     firstName: "Polina", 
+    surname: "Nikolaeva",
     lastName: "Koleva", 
     email: "pkoleva@abv.bg", 
-    department: "FMI",
+    faculty: "FMI",
+    department: "Software technologies",
     degree: "doc. d-r"
   }
   var teacherId = ObjectId();
@@ -20,6 +22,7 @@ function addTestUsers(database) {
 
   var phdProfile = {
     firstName: "Teodora", 
+    surname: "Lubomirova",
     lastName: "Toncheva", 
     email: "ttoncheva@abv.bg", 
     department: "FMI",
@@ -29,13 +32,13 @@ function addTestUsers(database) {
     educationSubject: "artificial intelligence",
     educationYear: 1,
     gpa: 6.00,
-    recordIdentifier: "phd007",
-    scientificLeaderIds: [teacherId]
+    recordIdentifier: "phd007"
   }
-  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile});
+  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile, scientificLeaderIds: [teacherId]});
 
   var masterProfile = {
     firstName: "Adriyana", 
+    surname: "Dyankova",
     lastName: "Dyankova", 
     email: "adyankova@abv.bg", 
     department: "FMI",
@@ -58,9 +61,9 @@ function addTestUsers(database) {
     status: "Unapproved",
     userId: userId,
     scientificLeaderIds: [],
-    conultantIds: [],
+    consultantIds: [],
     subject: "My thesis subject",
-    anotation: "WTF",
+    annotation: "WTF",
     purpose: "No purpose",
     tasks: "No tasks yet",
     restrictions: "oh dear..",
