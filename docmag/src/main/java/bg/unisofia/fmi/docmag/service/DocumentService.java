@@ -75,7 +75,7 @@ public class DocumentService {
 	}
 	
 	public void insertThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
-			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds){
+			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds, ThesisProposalStatus status){
 		ThesisProposal thesisProposal = new ThesisProposal();
 		thesisProposal.setUserId(userDao.getUserByUsername(username).getId());
 		thesisProposal.setAnnotation(anotation);
@@ -87,19 +87,20 @@ public class DocumentService {
 		thesisProposal.setScientificLeaderIds(scientificLeaderIds);
 		thesisProposal.setConsultantIds(consultantIds);
 		thesisProposal.setLastModifiedDate(new Date());
+		thesisProposal.setStatus(status);
 		insertThesisProposal(thesisProposal);
 	}
 	
 	public void updateThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
-			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds){
+			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds, ThesisProposalStatus status){
 		ThesisProposal thesisProposal = getThesisProposal(username);
-		checkPropertiesForThesisProposal(subject, anotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, thesisProposal);
+		checkPropertiesForThesisProposal(subject, anotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, status, thesisProposal);
 		updateThesisProposal(thesisProposal);
 	}
 	
 	
 	private void checkPropertiesForThesisProposal(String subject, String anotation, String purpose,
-			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds,
+			String tasks, String restrictions, Date executionDeadline, List<String> scientificLeaderIds, List<String> consultantIds, ThesisProposalStatus status,
 			ThesisProposal thesisProposal) {
 		if(subject != null){
 			thesisProposal.setSubject(subject);
@@ -124,6 +125,9 @@ public class DocumentService {
 		}
 		if(consultantIds != null && !consultantIds.isEmpty()){
 			thesisProposal.setConsultantIds(consultantIds);
+		}
+		if(subject != null){
+			thesisProposal.setStatus(status);
 		}
 	}
 	

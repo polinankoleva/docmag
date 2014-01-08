@@ -35,19 +35,18 @@ public class ThesisProposalController {
 	public void setThesisProposal(@PathVariable String username, @RequestParam String subject, @RequestParam String annotation, @RequestParam String purpose,
 			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam @DateTimeFormat(pattern = "dd-mm-yyyy") Date executionDeadline, @RequestParam List<String> scientificLeaderIds,
 			@RequestParam List<String> consultantIds, @RequestParam ThesisProposalStatus status) {
-		System.out.println("In post thesis");
 		documentService.insertThesisProposalForUserByUsername(username, subject, annotation, purpose, tasks, restrictions,
-			executionDeadline, scientificLeaderIds, consultantIds);
+			executionDeadline, scientificLeaderIds, consultantIds, status);
 		
 	}
 	
 	@RequestMapping(value = "/{username}", method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateThesisProposal(@PathVariable String username, @RequestParam(required = false) String subject, @RequestParam(required = false) String anotation, @RequestParam(required = false) String purpose,
+	public void updateThesisProposal(@PathVariable String username, @RequestParam(required = false) String subject, @RequestParam(required = false) String annotation, @RequestParam(required = false) String purpose,
 			@RequestParam(required = false) String tasks, @RequestParam(required = false) String restrictions, @RequestParam(required = false) Date executionDeadline, @RequestParam(required = false) List<String> scientificLeaderIds,
-			@RequestParam(required = false) List<String> consultantIds,@RequestParam(required = false) ThesisProposalStatus status) {
-		documentService.updateThesisProposalForUserByUsername(username, subject, anotation, purpose, tasks, restrictions,
-				executionDeadline, scientificLeaderIds, consultantIds);
+			@RequestParam(required = false) List<String> consultantIds, @RequestParam(required = false) ThesisProposalStatus status) {
+		documentService.updateThesisProposalForUserByUsername(username, subject, annotation, purpose, tasks, restrictions,
+				executionDeadline, scientificLeaderIds, consultantIds, status);
 	}
 	
 	@RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
@@ -55,7 +54,7 @@ public class ThesisProposalController {
 		
 	}
 	
-	@RequestMapping(value = "/status/{username}",  /*{name}",*/ method = RequestMethod.GET)
+	@RequestMapping(value = "/status/{username}", method = RequestMethod.GET)
 	public @ResponseBody String checkThesisProposalStatus(@PathVariable String username) {
 		return documentService.checkStatusForThesisProposal(username).name();
 	}
