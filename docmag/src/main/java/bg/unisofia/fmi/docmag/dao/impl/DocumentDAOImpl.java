@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import bg.unisofia.fmi.docmag.dao.DocumentDAO;
@@ -99,13 +98,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 
 	@Override
 	public boolean saveDocument(Document documentToSave) {
-		if (documentToSave.getId() != null) {
-			mongoTemplate.save(documentToSave, COLLECTION);
-		}
-		else {
-			mongoTemplate.insert(documentToSave, COLLECTION);
-		}
-		
+		mongoTemplate.save(documentToSave, COLLECTION);
 		return true;
 	}
 
