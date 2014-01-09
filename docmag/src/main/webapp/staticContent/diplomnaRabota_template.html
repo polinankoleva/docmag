@@ -11,6 +11,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <meta name=Generator content="Microsoft Word 14">
 <meta name=Originator content="Microsoft Word 14">
 
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 <!--
@@ -117,16 +118,32 @@ div.WordSection1
 <br />
 
 <p class=MsoNormal>
+	<div class=""form-inline">
+		<div class="form-group">
+			<b>
+				<span lang=BG class="control-label">От дипломант:</span>
+			</b>
+				<input type="text" id="name" class="form-control"/>
+		</div>
+		<div class="form-group">
+			<b>
+				<span lang=BG class="control-label">От дипломант:</span>
+			</b>
+				<input type="text" id="name" class="form-control"/>
+		</div>
+	</div>
 	<b>
 		<span lang=BG>От дипломант:</span>
 	</b>
+	
+
 	<span lang=BG>
 		<input  class="name" type="text" id="studentName"/> (име), специалност <input type="text" id="studentSpec"/>,
 	</span>
 	<span lang=RU style='mso-ansi-language:RU'> факултетен № <input type="text" id="fNumber"/>
 	</span>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
@@ -236,6 +253,34 @@ div.WordSection1
 
 
 </div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		
+		var isFormValid=true; 
+		
+		
+		//input fields validation
+		$('.form-control').focusout(function(){
+			if($(this).val() === ''){
+				$(this).parent().parent().addClass('has-error');
+				isFormValid=false;
+			}
+			else{
+				$(this).parent().parent().removeClass('has-error');
+				isFormValid=true;
+			}
+		});
+		
+/*	$('.form-control').each(function(){
+			if($(this).val()===''){
+				isFormValid=false;
+			}
+	}); */
+		
+	});
+</script>
 
 </body>
 
