@@ -53,7 +53,10 @@
     
     <div id="addvalue"></div>
     
-    <button class="btn btn-primary submit" style="margin: 30px auto;">Предай за Одобрение</button>
+    <div>
+   	   	<p class="error center-block" style="display:none">Всички полета са задължителни!</p>
+    	<button id="submitButton" class="btn btn-primary submit center-block">Предай за Одобрение</button>
+	</div>
       
       <footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
@@ -65,23 +68,31 @@
     	
 	    	$(document).on("click",".submit",function getIframeText() {
 	    		 
-	            var iframe0 = document.getElementById("iframe0");
-	            var iframe0document=iframe0.contentDocument||iframe0.contentWindow.document;
-	            var studentName = iframe0document.getElementById("studentName");
-	            var studentSpec = iframe0document.getElementById("studentSpec");
-	            var fNumber = iframe0document.getElementById("fNumber");
-	            var supervisorName = iframe0document.getElementById("supervisorName");
-	            var supervisorUni = iframe0document.getElementById("supervisorUni");
-	            var consultantName = iframe0document.getElementById("consultantName");
-	            var consultantUni = iframe0document.getElementById("consultantUni");
-	            var theme = iframe0document.getElementById("theme");
-	            var annotation = iframe0document.getElementById("annotation");
-	            var purpose = iframe0document.getElementById("purpose");
-	            var tasks = iframe0document.getElementById("tasks");
-	            var restrictions = iframe0document.getElementById("restrictions");
-	            
-	            alert(studentName.value);
-	            
+	    		var iframe0 = document.getElementById("iframe0");
+                var iframe0document=iframe0.contentDocument||iframe0.contentWindow.document;
+                var isValid=iframe0document.getElementById("isValid").value;
+
+                
+                if(isValid){
+                	$('.error').css('display','none');
+		            var studentName = iframe0document.getElementById("studentName");
+		            var studentSpec = iframe0document.getElementById("studentSpec");
+		            var fNumber = iframe0document.getElementById("fNumber");
+		            var supervisorName = iframe0document.getElementById("supervisorName");
+		            var supervisorUni = iframe0document.getElementById("supervisorUni");
+		            var consultantName = iframe0document.getElementById("consultantName");
+		            var consultantUni = iframe0document.getElementById("consultantUni");
+		            var theme = iframe0document.getElementById("theme");
+		            var annotation = iframe0document.getElementById("annotation");
+		            var purpose = iframe0document.getElementById("purpose");
+		            var tasks = iframe0document.getElementById("tasks");
+		            var restrictions = iframe0document.getElementById("restrictions");
+		            
+		           // alert(studentName.value);
+                }
+                else{
+                	$('.error').css('display','block');
+                }
 	            <!--The rest vars to be added -->
 	        });
     

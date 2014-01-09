@@ -50,8 +50,10 @@
     </div>
     
     <div class="clearfix"></div>
-   
-    <button class="btn btn-primary submit" style="margin-bottom: 30px;">Предай за Одобрение</button>
+   	<div>
+   	   	<p class="error center-block" style="display:none">Всички полета са задължителни!</p>
+    	<button id="submitButton" class="btn btn-primary submit center-block">Предай за Одобрение</button>
+	</div>
 
       <footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
@@ -66,20 +68,29 @@
        		 
                 var iframe1 = document.getElementById("iframe1");
                 var iframe1document=iframe1.contentDocument||iframe1.contentWindow.document;
-                var organizationName = iframe1document.getElementById("organizationName");
-                var personToBeContacted = iframe1document.getElementById("personToBeContacted");
-                var phoneNumber = iframe1document.getElementById("phoneNumber");
-                var emailAddress = iframe1document.getElementById("emailAddress");
-                var studentInfo = iframe1document.getElementById("studentInfo");
-                var aimOfInternship = iframe1document.getElementById("aimOfInternship");
-                var workingPlace = iframe1document.getElementById("workingPlace");
-                var themeOfInternship = iframe1document.getElementById("themeOfInternship");
-                var annotation = iframe1document.getElementById("annotation");
-                var tasks = iframe1document.getElementById("tasks");
-                var restrictions = iframe1document.getElementById("restrictions");
+                var isValid=iframe1document.getElementById("isValid").value;
+
                 
-                //alert(organizationName.value);
-                
+                if(isValid){
+                	$('.error').css('display','none');
+	                var organizationName = iframe1document.getElementById("organizationName");
+	                var personToBeContacted = iframe1document.getElementById("personToBeContacted");
+	                var phoneNumber = iframe1document.getElementById("phoneNumber");
+	                var emailAddress = iframe1document.getElementById("emailAddress");
+	                var studentInfo = iframe1document.getElementById("studentInfo");
+	                var aimOfInternship = iframe1document.getElementById("aimOfInternship");
+	                var workingPlace = iframe1document.getElementById("workingPlace");
+	                var themeOfInternship = iframe1document.getElementById("themeOfInternship");
+	                var annotation = iframe1document.getElementById("annotation");
+	                var tasks = iframe1document.getElementById("tasks");
+	                var restrictions = iframe1document.getElementById("restrictions");
+	                
+	                //alert(organizationName.value);
+	                
+                }
+                else{
+                	$('.error').css('display','block');
+                }
                 <!--The rest vars to be added -->
             });
     	});			

@@ -118,119 +118,102 @@ div.WordSection1
 <br />
 
 <p class=MsoNormal>
-	<div class=""form-inline">
-		<div class="form-group">
-			<b>
-				<span lang=BG class="control-label">От дипломант:</span>
-			</b>
-				<input type="text" id="name" class="form-control"/>
-		</div>
-		<div class="form-group">
-			<b>
-				<span lang=BG class="control-label">От дипломант:</span>
-			</b>
-				<input type="text" id="name" class="form-control"/>
-		</div>
-	</div>
-	<b>
-		<span lang=BG>От дипломант:</span>
-	</b>
-	
-
-	<span lang=BG>
-		<input  class="name" type="text" id="studentName"/> (име), специалност <input type="text" id="studentSpec"/>,
-	</span>
-	<span lang=RU style='mso-ansi-language:RU'> факултетен № <input type="text" id="fNumber"/>
-	</span>
+		<div class="form-inline" style='margin-left:4.4em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG>От Дипломант:</span></b>
+			<input type="text" id="name" class="form-control" style="width:20em;"/>
+			<span lang=BG>(име), специалност</span>
+			<input type="text" id="studentSpec" class="form-control" style="width:10em;"/>
+			<span lang=RU style='mso-ansi-language:RU'>, факултетен № </span>
+			<input type="text" id="studentSpec" class="form-control" style="width:5em;"/>
+		</div>	
+</p>
+<div class="clearfix"></div>
+<br /><br />
+<p class=MsoNormal>
+		<div class="form-inline" style='margin-left:4.4em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG>Научен ръководител:</span></b>
+			<input type="text" id="supervisorName" class="form-control" style="width:20em;"/>
+			<span lang=BG>, катедра/ВУЗ/институт</span>
+			<input type="text" id="supervisorUni" class="form-control" style="width:15em;"/>
+		</div>	
+</p>
+<div class="clearfix"></div>
+<br /><br />
+<p class=MsoNormal>
+		<div class="form-inline" style='margin-left:4.4em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG>Консултант:</span></b>
+			<input type="text" id="consultantName" class="form-control" style="width:20em;"/>
+			<span lang=BG>, катедра/ВУЗ/институт</span>
+			<input type="text" id="consultantUni" class="form-control" style="width:15em;"/>
+		</div>	
 </p>
 <div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Научен ръководител:</span>
-	</b>
-	<span lang=BG> 
-		<input  class="name" type="text" id="supervisorName"/> , катедра</span>
-	    <span lang=RU style='mso-ansi-language:RU'>/</span>
-	    <span lang=BG>ВУЗ/институт
-	         <input type="text" id="supervisorUni"/>
-	    </span>
+		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-2 control-label">Тема на дипломната работа:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="theme" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
+<div class="clearfix"></div>
+<br /><br />
+
+<p class=MsoNormal>
+		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-2 control-label">Анотация:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="annotation" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
+</p>
+<div class="clearfix"></div>
+<br /><br />
+
+<p class=MsoNormal>
+		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-2 control-label">Цел на дипломната работа:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="purpose" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
+</p>
+<div class="clearfix"></div>
 
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Консултант: <input class="name" type="text" id="consultantName"/> , катедра</span>
-	    <span style='mso-ansi-language:EN-US'>/</span>
-	    <span lang=BG>ВУЗ/институт
-	          <input class="name" type="text" id="consultantUni"/>
-	    </span>      
-   </b>
+		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-2 control-label">Задачи, произтичащи от целта:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="tasks" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
-<br /><br />
-
-<p class=MsoNormal>	
-	<b>
-		<span lang=BG>Тема на дипломната работа:<br/> 
-            <textarea id="theme" rows="5" cols="103"></textarea>
-        </span>
-    </b>
-</p>
-
+<div class="clearfix"></div>
 <br /><br />
 
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Анотация:<br/> 
-           <textarea id="annotation" rows="5" cols="103"></textarea>
-        </span>
-	</b>
+		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-2 control-label">Ограничаващи/облекчаващи условия:</span></b>
+			<div class="col-sm-8">
+				 <textarea id="restrictions" class="form-control" rows="5" cols="103"></textarea>
+			</div>
+		</div>
 </p>
-
+<div class="clearfix"></div>
 <br /><br />
-
-
 <p class=MsoNormal>
-	<b>
-		<span lang=BG>Цел на дипломната работа:<br/> 
-	        <textarea id="purpose" rows="5" cols="103"></textarea>
-	    </span>
-	</b>
+		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
+			<b><span lang=BG class="col-sm-2 control-label">Срок за изпълнение:</span></b>
+			<div class="col-sm-8">
+				 <input type="date" id="endDate" class="form-control"/>
+			</div>
+		</div>
 </p>
-
-<br /><br />
-
-<p class=MsoNormal>
-	<b>
-		<span lang=BG>Задачи, произтичащи от целта:<br/> 
-	         <textarea id="tasks" rows="5" cols="103"></textarea>
-        </span>
-	</b>
-</p>
-
-<br /><br />
-
-<p class=MsoNormal>
-	<b>
-		<span lang=BG>Ограничаващи/облекчаващи условия:<br/> 
-	         <textarea id="restrictions" rows="5" cols="103"></textarea>
-        </span>
-	</b>
-</p>
-
-<br /><br />
-
-<p class=MsoNormal>
-	<b>
-		<span lang=BG>Срок за изпълнение:
-	<input type="datetime-local" id="endDate"/>
-</span>
-	</b>
-</p>
-
+<div class="clearfix"></div>
 <br /><br /><br /><br />
 
 <p class=MsoNormal>
@@ -251,34 +234,16 @@ div.WordSection1
 
 <br /><br />
 
-
+<input type="hidden" id="isValid" />
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript">
 	$(function(){
-		
-		var isFormValid=true; 
-		
-		
-		//input fields validation
-		$('.form-control').focusout(function(){
-			if($(this).val() === ''){
-				$(this).parent().parent().addClass('has-error');
-				isFormValid=false;
-			}
-			else{
-				$(this).parent().parent().removeClass('has-error');
-				isFormValid=true;
-			}
-		});
-		
-/*	$('.form-control').each(function(){
-			if($(this).val()===''){
-				isFormValid=false;
-			}
-	}); */
-		
+		//1st arg - the class of the input fields
+		//2nd arg - the id of the hidden field
+		validate('form-control','isValid');
 	});
 </script>
 

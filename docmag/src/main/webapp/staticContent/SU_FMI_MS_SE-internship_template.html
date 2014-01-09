@@ -222,7 +222,7 @@ input{width:300px;}
 		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
 			<b><span lang=BG class="col-sm-3 control-label">Продължителност на проекта:</span></b>
 			<div class="col-sm-8">
-				 <textarea id="datetime-local" class="form-control" rows="5" cols="103"></textarea>
+				 <input type="date" id="duration" class="form-control"/>
 			</div>
 		</div>
 </p>
@@ -262,34 +262,16 @@ input{width:300px;}
 
 <br /><br />
 
-<input type="text" id="isValid" />
+<input type="hidden" id="isValid" />
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript">
 	$(function(){
-		
-		var isFormValid=true; 
-		
-		
-		//input fields validation
-		$('.form-control').focusout(function(){
-			if($(this).val() === ''){
-				$(this).parent().parent().addClass('has-error');
-				isFormValid=false;
-			}
-			else{
-				$(this).parent().parent().removeClass('has-error');
-				isFormValid=true;
-			}
-		});
-		
-/*	$('.form-control').each(function(){
-			if($(this).val()===''){
-				isFormValid=false;
-			}
-	}); */
-		
+		//1st arg - the class of the input fields
+		//2nd arg - the id of the hidden field
+		validate('form-control','isValid');
 	});
 </script>
 
