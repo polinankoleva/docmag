@@ -21,10 +21,9 @@ public class ThesisDefence {
 	private Date date;
 	private List<ObjectId> commissionParticipantIds;
 	
-	public ThesisDefence(ObjectId id, ObjectId userId, Date date) {
+	public ThesisDefence(ObjectId id, Date date) {
 		super();
 		this.id = id;
-		this.userId = userId;
 		this.date = date;
 	}
 	public float getMark() {
