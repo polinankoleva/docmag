@@ -41,6 +41,15 @@ public class ThesisDefenceDAOImpl implements ThesisDefenceDAO {
 	}
 
 	@Override
+	public ObjectId createThesisDefence(Date date, ObjectId userId) {
+		ObjectId objectId = new ObjectId();
+		ThesisDefence thesisDefence = new ThesisDefence(objectId, userId, date);
+		mongoTemplate.save(thesisDefence);
+		
+		return objectId;
+	}
+
+	@Override
 	public ThesisDefence getThesisDefenceByUsername(String username) {
 		User user = userDao.getUserByUsername(username);
 		if (user != null) {
@@ -78,7 +87,7 @@ public class ThesisDefenceDAOImpl implements ThesisDefenceDAO {
 				commission.add(teacher.getId());
 				mongoTemplate.save(defence);
 				return true;
-			}		
+			}
 		}
 		return false;
 	}
