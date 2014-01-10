@@ -9,7 +9,7 @@ import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 
 public interface ThesisDefenceDAO {
 
-	public ObjectId createThesisDefence(Date date, ObjectId userId);
+	public ObjectId createThesisDefence(Date date);
 	
 	public ThesisDefence getThesisDefenceByUsername(String username);
 
