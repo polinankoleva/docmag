@@ -27,7 +27,8 @@ public class ThesisDefenceController {
 	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
 	public @ResponseBody ThesisDefence getThesisDefence(@PathVariable String username) {
 		System.out.println("in get");
-		return thesisDefenceService.getThesisDefenceByUsername(username);
+//		return thesisDefenceService.getThesisDefenceByUsername(username);
+		return null;
 	}
 	
 	@RequestMapping(value = "/{username}", method = RequestMethod.POST)
