@@ -27,6 +27,10 @@ public final class UserService {
 	public <U extends User> U getUserById(ObjectId userId) {
 	    return userDao.getUserById(userId);
 	}
+	
+	public <U extends User> U getUserById(String userId) {
+        return getUserById(new ObjectId(userId));
+    }
 
 	public User getUserByUsername(String username) {
 		return userDao.getUserByUsername(username);
