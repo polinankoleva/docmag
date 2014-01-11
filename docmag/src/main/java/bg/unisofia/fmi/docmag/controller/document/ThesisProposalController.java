@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +33,7 @@ public class ThesisProposalController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> getThesisProposal(@RequestHeader("User-Id") ObjectId userId) {
-		return documentService.getThesisProposal(userId);
+		return documentService.getThesisProposalInfo(userId);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -62,7 +63,18 @@ public class ThesisProposalController {
 	}
 
 	@RequestMapping(value = "/status", method = RequestMethod.GET)
-	public @ResponseBody String checkThesisProposalStatus(@RequestHeader("User-Id") ObjectId userId) {
-		return documentService.checkStatusForThesisProposal(userId).name();
+	public @ResponseBody Map<String, String> checkThesisProposalStatus(@RequestHeader("User-Id") ObjectId userId) {
+		return documentService.checkStatusForThesisProposal(userId);
+	}
+	
+	@RequestMapping(value = "/{thesisProposalId}/status", method = RequestMethod.GET)
+	public @ResponseBody Map<String, String> getStatusOfThesisProposalById(@PathVariable ObjectId thesisProposalId) {
+		return documentService.getThesisProposalStatus(thesisProposalId);
+	}
+	
+	@RequestMapping(value = "/{thesisProposalId}/status", method = RequestMethod.PUT)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void updateStatusOfThesisProposalById(@PathVariable ObjectId thesisProposalId, @RequestParam ThesisProposalStatus status) {
+		documentService.updateThesisProposalStatus(thesisProposalId, status);
 	}
 }

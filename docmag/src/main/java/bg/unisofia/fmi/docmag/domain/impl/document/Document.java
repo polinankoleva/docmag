@@ -32,8 +32,8 @@ public class Document {
 	@Indexed
 	private ObjectId userId;
 
-	public Document(DocumentType documentType){
-		this.type = documentType;
+	public Document(DocumentType type){
+		this.type = type;
 	}
 	
 	@JsonIgnore
