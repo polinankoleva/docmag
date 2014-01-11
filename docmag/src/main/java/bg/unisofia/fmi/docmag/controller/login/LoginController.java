@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
+import bg.unisofia.fmi.docmag.domain.impl.user.User.UserType;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
@@ -47,6 +48,8 @@ public class LoginController {
             @RequestParam(value = "username", required = true) String username,
             @RequestParam(value = "password", required = true) String password)
                     throws IOException {
+        User user = usrService.getUserByUsername(username);
+        if (user.getType() == UserType.Teacher) return success(user);
         HttpUriRequest req              = loginRequest(username, password);
         try (CloseableHttpResponse resp = client.execute(req)) {
             return handleLoginResponse(resp, username);
