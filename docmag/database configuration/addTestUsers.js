@@ -313,8 +313,27 @@ function addTestUsers(database) {
     gpa: 6.00,
   }
 
+  var thesisDefenceCollection = database.getCollection("thesisdefences");
+
+  var thesisDefenceId = ObjectId();
+  var thesisDefence = {
+    _id: thesisDefenceId,
+    date: new Date(),
+    commissionParticipantIds: [teacherId]
+  }
+
+  thesisDefenceCollection.insert(thesisDefence);
+
+  var thesisDefence2 = {
+    date: new Date(),
+    commissionParticipantIds: [teacherId]
+  }
+
+  thesisDefenceCollection.insert(thesisDefence2);
+
+
   var userId = ObjectId();
-  userCollection.insert({_id: userId, username: "adyankova", password: "pissme", type : "Student", profile: masterProfile});
+  userCollection.insert({_id: userId, thesisDefenceId: thesisDefenceId,username: "adyankova", password: "pissme", type : "Student", profile: masterProfile});
 
   
   var documentCollection = database.getCollection("documents");
