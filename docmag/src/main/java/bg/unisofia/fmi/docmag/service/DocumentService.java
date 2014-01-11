@@ -78,12 +78,12 @@ public class DocumentService {
 		documentDao.saveDocument(thesisProposal);
 	}
 
-	public void insertThesisProposalForUser(ObjectId userId, String subject, String anotation, String purpose,
+	public void insertThesisProposalForUser(ObjectId userId, String subject, String annotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
-		if(userService.getUserById(userId) != null && userService.getUserById(userId) instanceof Student && getThesisProposalForUser(userId) != null){
+		if(userService.getUserById(userId) != null && userService.getUserById(userId) instanceof Student && getThesisProposalForUser(userId) == null){
 			ThesisProposal thesisProposal = new ThesisProposal();
 			thesisProposal.setUserId(userId);
-			thesisProposal.setAnnotation(anotation);
+			thesisProposal.setAnnotation(annotation);
 			thesisProposal.setSubject(subject);
 			thesisProposal.setPurpose(purpose);
 			thesisProposal.setTasks(tasks);
@@ -100,24 +100,24 @@ public class DocumentService {
 		}
 	}
 
-	public void updateThesisProposalForUser(ObjectId userId, String subject, String anotation, String purpose,
+	public void updateThesisProposalForUser(ObjectId userId, String subject, String annotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
 		ThesisProposal thesisProposal = getThesisProposalForUser(userId);
 		if(thesisProposal != null){
-			checkPropertiesForThesisProposal(subject, anotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, status, thesisProposal);
+			checkPropertiesForThesisProposal(subject, annotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, status, thesisProposal);
 			updateThesisProposal(thesisProposal);
 		}
 	}
 
 
-	private void checkPropertiesForThesisProposal(String subject, String anotation, String purpose,
+	private void checkPropertiesForThesisProposal(String subject, String annotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status,
 			ThesisProposal thesisProposal) {
 		if (subject != null) {
 			thesisProposal.setSubject(subject);
 		}
-		if (anotation != null) {
-			thesisProposal.setAnnotation(anotation);
+		if (annotation != null) {
+			thesisProposal.setAnnotation(annotation);
 		}
 		if (purpose != null) {
 			thesisProposal.setPurpose(purpose);
@@ -238,5 +238,16 @@ public class DocumentService {
 			}
 		}
 		return checkedTeacherObjectIds;
+	}
+	
+	public void deleteThesisProposalForUser(ObjectId userId){
+		ThesisProposal thesisProposal  = getThesisProposalForUser(userId);
+		if(thesisProposal != null){
+			deleteDocument(thesisProposal.getId());	
+		}
+	}
+	
+	private void deleteDocument(ObjectId id){
+		documentDao.deleteDocumentWithId(id);
 	}
 }
