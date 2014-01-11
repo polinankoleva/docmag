@@ -43,7 +43,12 @@ public class DocumentDAOImpl implements DocumentDAO {
 		Query searchDocumentQuery = new Query(Criteria.where("_id").is(id));
 		Document document = documentForQueryOfClass(searchDocumentQuery,
 				Document.class);
-		return getDocument(document);
+		if (document == null) {
+			return null;
+		}
+		else {
+			return getDocument(document);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
