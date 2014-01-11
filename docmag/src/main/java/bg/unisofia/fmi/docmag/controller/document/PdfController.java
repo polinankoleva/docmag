@@ -17,31 +17,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
-import bg.unisofia.fmi.docmag.domain.impl.user.User;
 import bg.unisofia.fmi.docmag.service.DocumentService;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
 public class PdfController {
 
-    private static final String DATE_PATTERN = "dd.MM.YYYY";
-    @Autowired UserService     usrService;
-    @Autowired DocumentService docService;
+	private static final String DATE_PATTERN = "dd.MM.YYYY";
+	@Autowired UserService     usrService;
+	@Autowired DocumentService docService;
 
     @RequestMapping(value  = "/thesisproposal/{thesisProposalId}/pdf",
                     method = RequestMethod.GET)
     public String printThesisProposal(
             @PathVariable String thesisProposalId,
-            @RequestHeader("User-Id") String userId,
+            @RequestHeader("User-Id") ObjectId userId,
             @RequestParam(value        = "markdown",
                           required     = false,
                           defaultValue = "false") boolean markdown,
             ModelMap model) {
         Student student         = usrService.getUserById(userId);
         // TODO: add error handling if the user is not a student
-        ThesisProposal document = docService.getThesisProposal(student.getUsername());
+        ThesisProposal document = docService.getThesisProposalForUser(userId);
         // TODO: add error handling if the document doesn't exist
-        List<User> consultants  = usrService.getConsultantsForThesis(document);
+        List<Teacher> consultants =
+                usrService.getConsultantsForThesis(document);
         List<Teacher> scientificLeaders =
                 usrService.getScientificLeadersForThesis(document);
         // populate the model

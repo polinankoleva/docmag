@@ -25,19 +25,11 @@ public class ThesisProposal extends Document {
     
     private List<ObjectId> scientificLeaderIds;
 	private List<ObjectId> consultantIds;
+	
+	public ThesisProposal() {
+		super(DocumentType.ThesisProposal);
+	}
     
-	public List<ObjectId> getScientificLeaderIds() {
-		return scientificLeaderIds;
-	}
-	public void setScientificLeaderIds(List<ObjectId> scientificLeaderIds) {
-		this.scientificLeaderIds = scientificLeaderIds;
-	}
-	public List<ObjectId> getConsultantIds() {
-		return consultantIds;
-	}
-	public void setConsultantIds(List<ObjectId> consultantIds) {
-		this.consultantIds = consultantIds;
-	}
 	public String getSubject() {
 		return subject;
 	}
@@ -80,14 +72,25 @@ public class ThesisProposal extends Document {
 	public void setStatus(ThesisProposalStatus status) {
 		this.status = status;
 	}
+	public List<ObjectId> getScientificLeaderIds() {
+		return scientificLeaderIds;
+	}
+	public void setScientificLeaderIds(List<ObjectId> scientificLeaderIds) {
+		this.scientificLeaderIds = scientificLeaderIds;
+	}
+	public List<ObjectId> getConsultantIds() {
+		return consultantIds;
+	}
+	public void setConsultantIds(List<ObjectId> consultantIds) {
+		this.consultantIds = consultantIds;
+	}
 	@Override
 	public String toString() {
 		return super.toString() + "\n" + "ThesisProposal(" + status + "): [subject=" 
 				+ subject + ", anotation="+ annotation + ", purpose=" + purpose
 				+ ", tasks=" + tasks + ", restrictions=" + restrictions 
 				+ ", executionDeadline=" + executionDeadline 
-				+ ", scientificLeaderIds=" + scientificLeaderIds 
-				+ ", conultantIds=" + consultantIds + "]";
+				+ "]";
 	}
     
     

@@ -1,8 +1,6 @@
 package bg.unisofia.fmi.docmag.domain.impl.document;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.bson.types.ObjectId;
@@ -27,7 +25,7 @@ public class ThesisRecension extends Document {
 	}
 
 	public ThesisRecension() {
-		super();
+		super(DocumentType.ThesisRecension);
 		String[] generalFileds = new String[]{"theoreticalMotivation", 
 				"ownIdeas", "execution", "styleAndLayout"};
 		String[] realizationFileds = new String[]{"architecture", "functionality", "reliability", "documentation"};
