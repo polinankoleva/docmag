@@ -19,7 +19,7 @@ public class Document {
 	    IndividualPHDPlan,
 	    AnnualPDHPlan
 	}
-	
+
 	@Id
 	private ObjectId id;
 	
@@ -32,6 +32,10 @@ public class Document {
 	@Indexed
 	private ObjectId userId;
 
+	public Document(DocumentType documentType){
+		this.type = documentType;
+	}
+	
 	@JsonIgnore
 	public ObjectId getUserId() {
 		return userId;
@@ -57,7 +61,7 @@ public class Document {
 	public DocumentType getType() {
 		return type;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Document [type="

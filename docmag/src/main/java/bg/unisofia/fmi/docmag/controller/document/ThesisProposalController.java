@@ -39,7 +39,7 @@ public class ThesisProposalController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void setThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam String subject, @RequestParam String annotation, @RequestParam String purpose,
 			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam @DateTimeFormat(pattern = "dd-mm-yyyy") Date executionDeadline, @RequestParam List<ObjectId> scientificLeaderIds,
-			@RequestParam List<ObjectId> consultantIds, @RequestParam ThesisProposalStatus status) {
+			@RequestParam List<ObjectId> consultantIds, @RequestParam(required = false) ThesisProposalStatus status) {
 		documentService.insertThesisProposalForUser(userId, subject, annotation, purpose, tasks, restrictions,
 			executionDeadline, scientificLeaderIds, consultantIds, status);
 		

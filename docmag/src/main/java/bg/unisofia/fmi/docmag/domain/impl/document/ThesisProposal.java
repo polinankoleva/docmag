@@ -25,6 +25,10 @@ public class ThesisProposal extends Document {
     
     private List<ObjectId> scientificLeaderIds;
 	private List<ObjectId> consultantIds;
+	
+	public ThesisProposal() {
+		super(DocumentType.ThesisProposal);
+	}
     
 	public String getSubject() {
 		return subject;

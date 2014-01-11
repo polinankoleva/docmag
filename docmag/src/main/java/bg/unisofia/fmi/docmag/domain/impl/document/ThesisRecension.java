@@ -25,7 +25,7 @@ public class ThesisRecension extends Document {
 	}
 
 	public ThesisRecension() {
-		super();
+		super(DocumentType.ThesisRecension);
 		String[] generalFileds = new String[]{"theoreticalMotivation", 
 				"ownIdeas", "execution", "styleAndLayout"};
 		String[] realizationFileds = new String[]{"architecture", "functionality", "reliability", "documentation"};
