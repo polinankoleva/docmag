@@ -9,7 +9,9 @@
   </welcome-file-list>
 
   <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+    </listener-class>
   </listener>
 
   <context-param>
@@ -19,10 +21,14 @@
 
   <servlet>
     <servlet-name>springDispatcher</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <servlet-class>
+      org.springframework.web.servlet.DispatcherServlet
+    </servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:contexts/dispatcherServletContext.xml</param-value>
+      <param-value>
+        classpath:contexts/dispatcherServletContext.xml
+      </param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -45,7 +51,7 @@
   </filter>
   <filter-mapping>
     <filter-name>pdfConversionFilter</filter-name>
-    <url-pattern>/rest/documents/pdf/*</url-pattern>
+    <url-pattern>/rest/pdf/*</url-pattern>
   </filter-mapping>
 
 </web-app>
