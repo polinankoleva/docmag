@@ -1,4 +1,4 @@
-package bg.unisofia.fmi.docmag.controller;
+package bg.unisofia.fmi.docmag.controller.document;
 
 import java.util.List;
 

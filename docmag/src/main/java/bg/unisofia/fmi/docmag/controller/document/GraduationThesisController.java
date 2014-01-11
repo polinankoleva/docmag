@@ -1,4 +1,4 @@
-package bg.unisofia.fmi.docmag.controller;
+package bg.unisofia.fmi.docmag.controller.document;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

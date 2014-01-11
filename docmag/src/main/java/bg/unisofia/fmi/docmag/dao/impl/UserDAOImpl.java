@@ -37,6 +37,12 @@ public class UserDAOImpl implements UserDAO {
 		mongoTemplate.insert(user);
 	}
 
+	@Override
+	public <T extends User> T getUserById(ObjectId userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends User> T getUserByUsername(String username) {
@@ -47,15 +53,23 @@ public class UserDAOImpl implements UserDAO {
 		if (user != null) {
 			switch (user.getType()) {
 			case Student:
-				return (T) mongoTemplate.findOne(searchUserQuery, Student.class);
+				return (T) mongoTemplate
+						.findOne(searchUserQuery, Student.class);
 			case PHD:
-				return (T) mongoTemplate.findOne(searchUserQuery, PHDStudent.class);
+				return (T) mongoTemplate.findOne(searchUserQuery,
+						PHDStudent.class);
 			case Teacher:
-				return (T) mongoTemplate.findOne(searchUserQuery, Teacher.class);
+				return (T) mongoTemplate
+						.findOne(searchUserQuery, Teacher.class);
 			}
 		}
 
 		return null;
+	}
+
+	@Override
+	public void saveUser(User user) {
+		mongoTemplate.save(user);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -63,7 +77,8 @@ public class UserDAOImpl implements UserDAO {
 	public <T extends User> List<T> getAllUsersOfType(UserType type) {
 		Query searchUserQuery = new Query(Criteria.where("type").is(
 				type.toString()));
-		List<T> users = (List<T>) mongoTemplate.find(searchUserQuery, User.getClassForUserType(type));
+		List<T> users = (List<T>) mongoTemplate.find(searchUserQuery,
+				User.getClassForUserType(type));
 		return users;
 	}
 
@@ -114,6 +129,12 @@ public class UserDAOImpl implements UserDAO {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Student> studentsForThesisDefenceWithId(ObjectId thesisDefenceId) {
+		Query query = new Query(Criteria.where("thesisDefenceId").is(thesisDefenceId));
+		return mongoTemplate.find(query, Student.class);
 	}
 
 }
