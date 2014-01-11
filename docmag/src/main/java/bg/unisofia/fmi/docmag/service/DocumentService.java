@@ -55,7 +55,7 @@ public class DocumentService {
 		return document;
 	}
 
-	public Map<String, Object> getThesisProposal(ObjectId userId) {
+	public Map<String, Object> getThesisProposalInfo(ObjectId userId) {
 		ThesisProposal thesisProposal = getThesisProposalForUser(userId); 
 		Map<String, Object> allInformationForThesisProposal = new HashMap<String, Object>();
 		if(userService.getUserById(userId) instanceof Student && userService.getUserById(userId) != null){
@@ -142,16 +142,40 @@ public class DocumentService {
 		}
 	}
 
-	public ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId) {
+	private ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId) {
 		return documentDao.getThesisProposalStatusForUser(userId);
 	}
 
-	public ThesisProposalStatus checkStatusForThesisProposal(ObjectId userId) {
-		return getThesisProposalStatusForUser(userId);
+	public Map<String, String> checkStatusForThesisProposal(ObjectId userId) {
+		ThesisProposalStatus status = getThesisProposalStatusForUser(userId);
+		if(status != null){
+			return makeThesisProposalStatusInMap(status);
+		} 
+		return null;
 	}
 
-	//JSON
+	public Map<String, String> getThesisProposalStatus(ObjectId thesisProposalId){
+		ThesisProposal thesisProposal = documentDao.getDocumentById(thesisProposalId);
+		if(thesisProposal != null && thesisProposal.getStatus() != null){
+			return makeThesisProposalStatusInMap(thesisProposal.getStatus());
+		}
+		return null;
+	}
+	
+	public void updateThesisProposalStatus(ObjectId thesisProposalId, ThesisProposalStatus thesisStatus){
+		ThesisProposal thesisProposal = documentDao.getDocumentById(thesisProposalId);
+		if(thesisStatus != null && thesisProposal != null ){
+			thesisProposal.setStatus(thesisStatus);
+			updateThesisProposal(thesisProposal);
+		}
+	}
 
+	private Map<String, String>  makeThesisProposalStatusInMap(ThesisProposalStatus status){
+		Map<String,String> statusParam = new HashMap<String, String>();
+		statusParam.put("status", status.toString());
+		return statusParam;
+	}
+	
 	private Map<String, String> createUserInfoJsonForThesisProposal(ObjectId userId) {
 		Map<String, String> userInfoForThesisProposal = new HashMap<String, String>();
 		Student student  = userService.getUserById(userId);
@@ -250,4 +274,6 @@ public class DocumentService {
 	private void deleteDocument(ObjectId id){
 		documentDao.deleteDocumentWithId(id);
 	}
+	
+
 }
