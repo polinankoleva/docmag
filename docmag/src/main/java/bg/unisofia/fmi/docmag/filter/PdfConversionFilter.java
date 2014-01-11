@@ -25,7 +25,7 @@ public class PdfConversionFilter implements Filter {
     private PdfRenderer renderer;
     private String fontsDir, cssDir;
     @Autowired ServletContext context;
-    // setters
+    // getters
     public String getFontsDir() { return fontsDir; }
     public String getCssDir()   { return cssDir;   }
 

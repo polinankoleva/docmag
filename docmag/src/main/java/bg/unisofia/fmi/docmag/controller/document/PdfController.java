@@ -23,9 +23,9 @@ import bg.unisofia.fmi.docmag.service.UserService;
 @Controller
 public class PdfController {
 
-	private static final String DATE_PATTERN = "dd.MM.YYYY";
-	@Autowired UserService     usrService;
-	@Autowired DocumentService docService;
+    private static final String DATE_PATTERN = "dd.MM.YYYY";
+    @Autowired UserService     usrService;
+    @Autowired DocumentService docService;
 
     @RequestMapping(value  = "/thesisproposal/{thesisProposalId}/pdf",
                     method = RequestMethod.GET)

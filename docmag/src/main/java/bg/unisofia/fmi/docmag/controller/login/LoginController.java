@@ -31,7 +31,7 @@ public class LoginController {
     public static final String
         SUSI_PARSER    = "http://susi.apphb.com/api",
         SUSI_LOGIN     = SUSI_PARSER + "/login",
-        SUSI_STUDENTS  = SUSI_PARSER + "/student",
+        SUSI_STUDENT   = SUSI_PARSER + "/student",
         SUSI_ROLES     = SUSI_PARSER + "/roles",
         DEFAULT_ERROR  = "Something went terribly wrong.";
 
@@ -50,7 +50,7 @@ public class LoginController {
         HttpUriRequest req              = loginRequest(username, password);
         try (CloseableHttpResponse resp = client.execute(req)) {
             return handleLoginResponse(resp, username);
-        } catch (Exception ex) { ex.printStackTrace(); return error(); }
+        } catch (Exception ex) { return error(); }
     }
 
     private HttpUriRequest loginRequest(String username, String password)
@@ -59,7 +59,6 @@ public class LoginController {
         String   body = String.format("{ username: \"%s\", password: \"%s\" }",
                                       username, password);
 
-        System.out.println(body);
         post.setHeader("Content-Type", "application/json");
         post.setEntity(new StringEntity(body));
         return post;
@@ -67,7 +66,7 @@ public class LoginController {
 
     private HttpUriRequest profileRequest(String key)
             throws UnsupportedEncodingException {
-        HttpPost post = new HttpPost(SUSI_STUDENTS);
+        HttpPost post = new HttpPost(SUSI_STUDENT);
         String   body = String.format("{ key: %s }", key);
         post.setHeader("Content-Type", "application/json");
         post.setEntity(new StringEntity(body));
@@ -97,12 +96,10 @@ public class LoginController {
                         HttpUriRequest req = profileRequest(key);
                         try (CloseableHttpResponse resp = client.execute(req)) {
                             return handleProfileResponse(resp, username);
-                        } catch (Exception ex) { ex.printStackTrace(); return error(); }
+                        } catch (Exception ex) { return error(); }
                     } else return success(user);
                 } finally { dispose(key); }
-            default:
-                System.out.println(status.getStatusCode() + ": " + status.getReasonPhrase());
-                return error(status.getReasonPhrase());
+            default: return error(status.getReasonPhrase());
         }
     }
 
