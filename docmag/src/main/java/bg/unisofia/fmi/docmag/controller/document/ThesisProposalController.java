@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,38 +27,40 @@ public class ThesisProposalController {
 	@Autowired
 	DocumentService documentService;
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
-	public @ResponseBody ThesisProposal getThesisProposal(@PathVariable String username) {
-		return documentService.getThesisProposal(username);
+	@RequestMapping(method = RequestMethod.GET)
+	public @ResponseBody String getThesisProposal(@RequestHeader("User-Id") String userId) {
+		return "User id id:" + userId;
+		
+		//return documentService.getThesisProposal(username);
 	}
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void setThesisProposal(@PathVariable String username, @RequestParam String subject, @RequestParam String annotation, @RequestParam String purpose,
+	public void setThesisProposal(@RequestHeader("User-Id") String userId, @RequestParam String subject, @RequestParam String annotation, @RequestParam String purpose,
 			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam @DateTimeFormat(pattern = "dd-mm-yyyy") Date executionDeadline, @RequestParam List<ObjectId> scientificLeaderIds,
 			@RequestParam List<ObjectId> consultantIds, @RequestParam ThesisProposalStatus status) {
-		documentService.insertThesisProposalForUserByUsername(username, subject, annotation, purpose, tasks, restrictions,
+		documentService.insertThesisProposalForUser(userId, subject, annotation, purpose, tasks, restrictions,
 			executionDeadline, scientificLeaderIds, consultantIds, status);
 		
 	}
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateThesisProposal(@PathVariable String username, @RequestParam(required = false) String subject, @RequestParam(required = false) String anotation, @RequestParam(required = false) String purpose,
+	public void updateThesisProposal(@RequestHeader("User-Id") String userId, @RequestParam(required = false) String subject, @RequestParam(required = false) String anotation, @RequestParam(required = false) String purpose,
 			@RequestParam(required = false) String tasks, @RequestParam(required = false) String restrictions, @RequestParam(required = false) Date executionDeadline, @RequestParam(required = false) List<ObjectId> scientificLeaderIds,
 			@RequestParam(required = false) List<ObjectId> consultantIds,@RequestParam(required = false) ThesisProposalStatus status) {
-		documentService.updateThesisProposalForUserByUsername(username, subject, anotation, purpose, tasks, restrictions,
+		documentService.updateThesisProposalForUser(userId, subject, anotation, purpose, tasks, restrictions,
 				executionDeadline, scientificLeaderIds, consultantIds, status);
 
 	}
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
+	@RequestMapping(method = RequestMethod.DELETE)
 	public void deleteThesisProposal() {
 		
 	}
 	
-	@RequestMapping(value = "/status/{username}", method = RequestMethod.GET)
-	public @ResponseBody String checkThesisProposalStatus(@PathVariable String username) {
-		return documentService.checkStatusForThesisProposal(username).name();
+	@RequestMapping(value = "/status", method = RequestMethod.GET)
+	public @ResponseBody String checkThesisProposalStatus(@RequestHeader("User-Id") String userId) {
+		return documentService.checkStatusForThesisProposal(userId).name();
 	}
 }

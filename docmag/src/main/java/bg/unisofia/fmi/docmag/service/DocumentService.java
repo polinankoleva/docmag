@@ -18,17 +18,21 @@ import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposal
 
 @Service
 public class DocumentService {
+	
 	@Autowired
 	DocumentDAO documentDao;
 
 	@Autowired
 	UserDAO userDao;
 
-	public List<Document> getUserDocuments(String username) {
-		User user = userDao.getUserByUsername(username);
-		if (user != null) {
-			List<Document> documents = documentDao.getAllDocumentsForUser(user);
-
+	private ObjectId getObjectIdOfUser(String userId){
+		return new ObjectId(userId);
+	}
+	
+	public List<Document> getUserDocuments(String userId) {
+		ObjectId objectIdOfUser = getObjectIdOfUser(userId);
+		List<Document> documents = documentDao.getAllDocumentsForUser(objectIdOfUser);
+		if(documents != null && !documents.isEmpty()){
 			ArrayList<Document> docs = new ArrayList<Document>();
 			for (Document document : documents) {
 				docs.add(documentDao.getDocumentById(document.getId()));
@@ -38,32 +42,23 @@ public class DocumentService {
 		}
 		return null;
 	}
-
-	public ThesisProposalStatus getThesisProposalStatusForUserWithUsername(
-			String username) {
-		User user = userDao.getUserByUsername(username);
-		return documentDao.getThesisProposalStatusForUser(user);
+	
+	public ThesisProposalStatus getThesisProposalStatusForUser(String userId) {
+		return documentDao.getThesisProposalStatusForUser(getObjectIdOfUser(userId));
 	}
 
-	public ThesisProposal getThesisProposalForUserWithUsername(String username) {
-		User user = userDao.getUserByUsername(username);
+	public ThesisProposal getThesisProposalForUser(String userId) {
 		ThesisProposal document = null;
-		List<?> thesisProposals = documentDao
-				.getAllDocumentsForUserOfSpecificType(user,
-						DocumentType.ThesisProposal);
+		List<?> thesisProposals = documentDao.getAllDocumentsForUserOfSpecificType(getObjectIdOfUser(userId), 
+				DocumentType.ThesisProposal);
 		if (thesisProposals != null && thesisProposals.size() > 0) {
 			document = (ThesisProposal) thesisProposals.get(0);
 		}
 		return document;
 	}
 
-	public void editThesisProposal(ThesisProposal thesis) {
-		thesis.setTasks(thesis.getTasks() + " 1 ");
-		documentDao.saveDocument(thesis);
-	}
-
-	public ThesisProposal getThesisProposal(String username) {
-		return getThesisProposalForUserWithUsername(username);
+	public ThesisProposal getThesisProposal(String userId) {
+		return getThesisProposalForUser(userId);
 	}
 
 	public void updateThesisProposal(ThesisProposal thesisProposal) {
@@ -74,10 +69,10 @@ public class DocumentService {
 		documentDao.saveDocument(thesisProposal);
 	}
 
-	public void insertThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
+	public void insertThesisProposalForUser(String userId, String subject, String anotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
 		ThesisProposal thesisProposal = new ThesisProposal();
-		thesisProposal.setUserId(userDao.getUserByUsername(username).getId());
+		thesisProposal.setUserId(getObjectIdOfUser(userId));
 		thesisProposal.setAnnotation(anotation);
 		thesisProposal.setSubject(subject);
 		thesisProposal.setPurpose(purpose);
@@ -91,9 +86,9 @@ public class DocumentService {
 		insertThesisProposal(thesisProposal);
 	}
 	
-	public void updateThesisProposalForUserByUsername(String username, String subject, String anotation, String purpose,
+	public void updateThesisProposalForUser(String userId, String subject, String anotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
-		ThesisProposal thesisProposal = getThesisProposal(username);
+		ThesisProposal thesisProposal = getThesisProposal(userId);
 		checkPropertiesForThesisProposal(subject, anotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, status, thesisProposal);
 		updateThesisProposal(thesisProposal);
 	}
@@ -131,8 +126,7 @@ public class DocumentService {
 		}
 	}
 
-	public ThesisProposalStatus checkStatusForThesisProposal(String username) {
-		User user = userDao.getUserByUsername(username);
-		return documentDao.getThesisProposalStatusForUser(user);
+	public ThesisProposalStatus checkStatusForThesisProposal(String userId) {
+		return getThesisProposalStatusForUser(userId);
 	}
 }
