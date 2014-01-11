@@ -4,6 +4,16 @@ docmag
 Welcome to docmag - a project that will revolutionize the way students and
 professors manage documents.
 
+Java
+----
+
+Both the source and target versions are 1.7 so you should
+[get it](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
+if you don't have it.
+
+NOTE: You will need to set the path variable `JAVA_HOME` to point to the install
+directory of Java 1.7. This is required by Maven, otherwise you can't compile.
+
 Database
 --------
 
@@ -21,7 +31,7 @@ commands:
 
 Or supply all options through the command line:
 
-    mongod --dbpath=/path/to/some/folder
+    mongod --dbpath /path/to/some/folder
 
 Verify the database is up by typing `mongo` in a new console. This starts up a
 console client where you can run queries.
@@ -74,10 +84,3 @@ container with equal or better [API](http://tomcat.apache.org/whichversion.html)
 support should work as well. If you write any tests you're encouraged to use the
 [Jetty Maven plugin](http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin)
 to run them.
-
-Java
-----
-
-Both the source and target versions are 1.7 so you should
-[get it](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
-if you don't have it.
