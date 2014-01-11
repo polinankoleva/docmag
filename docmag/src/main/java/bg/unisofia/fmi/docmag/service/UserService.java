@@ -23,6 +23,10 @@ public final class UserService {
 	public void createUser(User user) {
 		userDao.createUser(user);
 	}
+	
+	public <U extends User> U getUserById(ObjectId userId) {
+	    return userDao.getUserById(userId);
+	}
 
 	public User getUserByUsername(String username) {
 		return userDao.getUserByUsername(username);
