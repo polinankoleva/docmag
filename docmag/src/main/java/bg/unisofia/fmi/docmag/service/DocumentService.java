@@ -45,7 +45,7 @@ public class DocumentService {
 		return null;
 	}
 
-	private ThesisProposal getThesisProposalForUser(ObjectId userId) {
+	public ThesisProposal getThesisProposalForUser(ObjectId userId) {
 		ThesisProposal document = null;
 		List<?> thesisProposals = documentDao.getAllDocumentsForUserOfSpecificType(userId, 
 				DocumentType.ThesisProposal);
