@@ -27,7 +27,7 @@ public interface UserDAO {
 
 	public List<Teacher> getScientificLeadersForThesis(ThesisProposal thesis);
 
-	public List<User> getConsultantsForThesis(ThesisProposal thesis);
+	public List<Teacher> getConsultantsForThesis(ThesisProposal thesis);
 
 	public boolean assignScientificLeaderForPHDStudent(Teacher teacher,
 			PHDStudent student);

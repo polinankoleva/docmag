@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
-import bg.unisofia.fmi.docmag.domain.impl.user.User;
 import bg.unisofia.fmi.docmag.service.DocumentService;
 
 @Controller
@@ -33,9 +32,7 @@ public class ThesisProposalController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> getThesisProposal(@RequestHeader("User-Id") ObjectId userId) {
-		
-		User user = userDao.getUserByUsername("adyankova");
-		return documentService.getThesisProposal(user.getId());	
+		return documentService.getThesisProposal(userId);	
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)

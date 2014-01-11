@@ -64,7 +64,7 @@ public final class UserService {
 		return userDao.getScientificLeadersForThesis(thesis);
 	}
 
-	public List<User> getConsultantsForThesis(ThesisProposal thesis) {
+	public List<Teacher> getConsultantsForThesis(ThesisProposal thesis) {
 		return userDao.getConsultantsForThesis(thesis);
 	}
 }
