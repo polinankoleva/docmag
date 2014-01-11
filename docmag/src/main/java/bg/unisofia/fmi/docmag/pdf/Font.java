@@ -2,10 +2,9 @@ package bg.unisofia.fmi.docmag.pdf;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.nio.file.Path;
 
-/**
- * We need Cyrillic support. Also, have to be open source.
- */
+/** We need Cyrillic support. Also, have to be open source. */
 public enum Font {
     LIBERATION_SERIF("liberation_serif", "ttf"), // Serif
     SANSATION("sansation", "ttf"),               // Sans
@@ -14,17 +13,16 @@ public enum Font {
     private String dir, type;
 
     Font(String dir, String type) {
-        String      path   = Constants.FONTS_DIR + '/' + dir;
-        ClassLoader loader = getClass().getClassLoader();
-        this.dir           = loader.getResource(path).getPath();
-        this.type          = type;
+        this.dir  = dir;
+        this.type = type;
     }
 
     public String dir()  { return dir;  }
     public String type() { return type; }
 
-    public String[] files() {
-        return new File(dir()).list(new FilenameFilter() {
+    public String[] files(String baseDir) {
+        Path path = new File(baseDir).toPath().resolve(dir());
+        return path.toFile().list(new FilenameFilter() {
             @Override public boolean accept(File dir, String name) {
                 return name.endsWith('.' + type());
             }

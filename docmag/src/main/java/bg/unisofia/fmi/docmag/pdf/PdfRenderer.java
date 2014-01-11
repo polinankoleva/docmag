@@ -1,168 +1,103 @@
 package bg.unisofia.fmi.docmag.pdf;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.nio.file.Path;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import bg.unisofia.fmi.docmag.dao.UserDAO;
-import bg.unisofia.fmi.docmag.dao.impl.UserDAOImpl;
-import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
-import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
-import bg.unisofia.fmi.docmag.domain.impl.profile.StudentProfile;
-import bg.unisofia.fmi.docmag.domain.impl.user.Student;
-import bg.unisofia.fmi.docmag.domain.impl.user.User.UserType;
-
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
 
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.markdown4j.Markdown4jProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.FSEntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class PdfRenderer {
 
-    private String cssUri;
-    private ITextRenderer renderer;
-    private Map<DocumentType, Document> templates;
-
-    public PdfRenderer() {
-        ClassLoader loader = getClass().getClassLoader();
-        String cssDir      = loader.getResource(Constants.CSS_DIR).getPath();
-        cssUri             = new File(cssDir).toURI().toString();
-        renderer           = new ITextRenderer();
-        templates          = new HashMap<>(Template.values().length);
-    }
+    private String          cssUri;
+    private ITextRenderer   renderer = new ITextRenderer();
+    private DocumentBuilder docBuilder;
 
     /**
-     * Do this only once, because it involves IO and throws Exceptions.
+     * Use initializer pattern, because it involves IO and throws Exceptions.
      */
-    public void loadFonts() throws IOException, DocumentException {
-        ITextFontResolver resolver = renderer.getFontResolver();
-        for (Font font : Font.values())
-            for (String file : font.files()) {
-                String path = font.dir() + '/' + file;
-                resolver.addFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            }
+    public static PdfRenderer newInstance(String fontsDir, String cssDir)
+            throws IOException,
+                   DocumentException,
+                   ParserConfigurationException {
+        PdfRenderer renderer = new PdfRenderer();
+        renderer.loadFonts(fontsDir);
+        renderer.cssUri      = new File(cssDir).toURI().toString();
+        renderer.docBuilder  = newDocumentBuilder();
+        return renderer;
     }
 
-    /**
-     * You know the drill.
-     */
-    public void loadTemplates()
-            throws IOException, SAXException, ParserConfigurationException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder        = factory.newDocumentBuilder();
-        // Otherwise will try to download DTD.
-        builder.setEntityResolver(FSEntityResolver.instance());
-        for (Template templ : Template.values()) {
-            Document doc = builder.parse(new File(templ.file()));
-            templates.put(templ.type(), doc);
-        }
-    }
-
-    /**
-     * Call this to get a template, then fill in the blanks and render it.
-     */
-    public Document getTemplate(DocumentType type) {
-        return templates.get(type);
-    }
-
-    public void renderDoc(Document doc, OutputStream output)
+    public void renderDocument(Document doc, OutputStream output)
             throws DocumentException {
         renderer.setDocument(doc, cssUri);
         renderer.layout();
         renderer.createPDF(output, true);
     }
 
-    // Let's try it.
-    public static void main(String[] args) throws Exception {
-//        String testFile = System.getProperty("user.home") + "/test.pdf";
-//        try (OutputStream output = new FileOutputStream(testFile)) {
-//            PdfRenderer renderer = new PdfRenderer();
-//            renderer.loadFonts();
-//            renderer.loadTemplates();
-//            Document doc = renderer.getTemplate(DocumentType.ThesisProposal);
-//            Element department = doc.getElementById("department");
-//            department.appendChild(doc.createTextNode("Софтуерни технологии"));
-//            Element faculty = doc.getElementById("faculty");
-//            faculty.appendChild(doc.createTextNode("ФМИ"));
-//            Element studentName = doc.getElementById("student_name");
-//            studentName.appendChild(doc.createTextNode("Теодора Тончева"));
-//            Element studentSubject = doc.getElementById("student_subject");
-//            studentSubject.appendChild(doc.createTextNode("Софтуерно инженерство"));
-//            Element facultyNumber = doc.getElementById("faculty_number");
-//            facultyNumber.appendChild(doc.createTextNode("65432"));
-//            renderer.renderDoc(doc, output);
-//        }
-       
-       Markdown4jProcessor md4j = new Markdown4jProcessor();
-       Student student = new Student(UserType.Student);
-       StudentProfile profile = new StudentProfile();
-       profile.setFirstName("Teddy");
-       profile.setLastName("Toncheva");
-       profile.setDepartment("Soft Tech");
-       profile.setEducationSubject("Soft Eng");
-       profile.setStudentIdentifier("65432");
-       profile.setFaculty("FMI");
-       student.setProfile(profile);
-       VelocityEngine ve = new VelocityEngine();
-       ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-       ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-       ve.init();
-       String templ = "pdf-templates/html/thesis_proposal.html";
-       org.apache.velocity.Template t = ve.getTemplate(templ, "UTF-8");
-       VelocityContext context = new VelocityContext();
-       context.put("student", student);
-       context.put("markdown", md4j);
-       ThesisProposal doc = new ThesisProposal();
-       doc.setSubject("Subject\n-------");
-       doc.setAnnotation("This is an **annotation**");
-       doc.setPurpose("We want to\n\n+ do some stuff\n+ do some more stuff");
-       doc.setTasks("1. a task\n2. task 2");
-       doc.setRestrictions("We don't want some other stuff");
-       doc.setExecutionDeadline(new Date());
-       DateFormat dateFormat = new SimpleDateFormat("dd.MM.YYYY");
-       context.put("document", doc);
-       context.put("dateFormat", dateFormat);
-       StringWriter writer = new StringWriter();
-       t.merge(context, writer);
-       System.out.println(writer.toString());
-       ClassLoader loader = PdfRenderer.class.getClassLoader();
-       String cssDir = loader.getResource(Constants.CSS_DIR).getPath();
-       String cssUri = new File(cssDir).toURI().toString();
-       ITextRenderer renderer = new ITextRenderer();
-       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-       DocumentBuilder builder        = factory.newDocumentBuilder();
-       // Otherwise will try to download DTD.
-       builder.setEntityResolver(FSEntityResolver.instance());
-       
-       ITextFontResolver resolver = renderer.getFontResolver();
-       for (Font font : Font.values())
-           for (String file : font.files()) {
-               String path = font.dir() + '/' + file;
-               resolver.addFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-           }
-       
-       Document document = builder.parse(new ByteArrayInputStream(writer.toString().getBytes()));
-       renderer.setDocument(document, cssUri);
-       renderer.layout();
-       renderer.createPDF(new FileOutputStream("E:\\Downloads\\test.pdf"), true);
+    public void renderBytes(byte[] data, OutputStream output)
+            throws IOException, SAXException, DocumentException {
+        Document doc = docBuilder.parse(new ByteArrayInputStream(data));
+        renderDocument(doc, output);
+    }
+
+    public void renderString(String data, OutputStream output)
+            throws IOException, SAXException, DocumentException {
+        renderBytes(data.getBytes(), output);
+    }
+
+    public void renderFile(File file, OutputStream output)
+            throws IOException, SAXException, DocumentException {
+        renderDocument(docBuilder.parse(file), output);
+    }
+
+    public void renderFile(String path, OutputStream output)
+            throws IOException, SAXException, DocumentException {
+        renderFile(new File(path), output);
+    }
+
+    public void renderUri(String uri, OutputStream output)
+            throws IOException, SAXException, DocumentException {
+        renderDocument(docBuilder.parse(uri), output);
+    }
+
+    public void renderInputStream(InputStream input, OutputStream output)
+            throws IOException, SAXException, DocumentException {
+        renderDocument(docBuilder.parse(input), output);
+    }
+
+    public void renderInputSource(InputSource source, OutputStream output)
+            throws IOException, SAXException, DocumentException {
+        renderDocument(docBuilder.parse(source), output);
+    }
+
+    private void loadFonts(String dir) throws IOException, DocumentException {
+        ITextFontResolver resolver = renderer.getFontResolver();
+        Path baseDir = new File(dir).toPath();
+        for (Font font : Font.values()) {
+            Path fontDir = baseDir.resolve(font.dir());
+            for (String file : font.files(dir)) {
+                String path = fontDir.resolve(file).toAbsolutePath().toString();
+                resolver.addFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            }
+        }
+    }
+
+    private static DocumentBuilder newDocumentBuilder()
+            throws ParserConfigurationException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder        builder = factory.newDocumentBuilder();
+        // Otherwise will try to download DTD.
+        builder.setEntityResolver(FSEntityResolver.instance());
+        return builder;
     }
 }

@@ -1,67 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
- 						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-  						http://www.springframework.org/schema/context
- 	 					http://www.springframework.org/schema/context/spring-context-3.0.xsd
- 	 					http://www.springframework.org/schema/data/mongo 
- 	 					http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/data/mongo 
+                           http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 
-	<context:annotation-config />
+  <context:annotation-config/>
 
-	<context:component-scan base-package="bg.unisofia.fmi.docmag"
-		use-default-filters="false">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Repository" />
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Service" />
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Component" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>
+  <context:component-scan base-package="bg.unisofia.fmi.docmag"
+                          use-default-filters="false">
+    <context:include-filter type="annotation"
+                            expression="org.springframework.stereotype.Repository"/>
+    <context:include-filter type="annotation"
+                            expression="org.springframework.stereotype.Service"/>
+    <context:include-filter type="annotation"
+                            expression="org.springframework.stereotype.Component"/>
+    <context:exclude-filter type="annotation"
+                            expression="org.springframework.stereotype.Controller"/>
+  </context:component-scan>
 
-	<bean id="applicationProperties"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:applicationProperties.properties" />
-	</bean>
+  <bean id="applicationProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location"
+              value="classpath:applicationProperties.properties"/>
+  </bean>
 
-	<!-- Default bean name is 'mongo' -->
-	<mongo:mongo host="localhost" />
-	<mongo:db-factory dbname="${db.name}" mongo-ref="mongo" />
+  <!-- Default bean name is 'mongo' -->
+  <mongo:mongo host="localhost"/>
+  <mongo:db-factory dbname="${db.name}" mongo-ref="mongo"/>
 
-	<bean id="mappingContext"
-		class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
+  <bean id="mappingContext"
+        class="org.springframework.data.mongodb.core.mapping.MongoMappingContext"/>
 
-	<bean id="defaultMongoTypeMapper"
-		class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
-		<constructor-arg name="typeKey">
-			<null />
-		</constructor-arg>
-	</bean>
+  <bean id="defaultMongoTypeMapper"
+        class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
+    <constructor-arg name="typeKey"><null/></constructor-arg>
+  </bean>
 
-	<bean id="mappingMongoConverter"
-		class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">
-		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
-		<constructor-arg name="mappingContext" ref="mappingContext" />
-		<property name="typeMapper" ref="defaultMongoTypeMapper" />
-	</bean>
+  <bean id="mappingMongoConverter"
+        class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">
+    <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+    <constructor-arg name="mappingContext" ref="mappingContext"/>
+    <property name="typeMapper" ref="defaultMongoTypeMapper"/>
+  </bean>
 
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
-		<constructor-arg name="mongoConverter" ref="mappingMongoConverter" />
-	</bean>
+  <bean id="mongoTemplate"
+        class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+    <constructor-arg name="mongoConverter" ref="mappingMongoConverter"/>
+  </bean>
 
-	<!-- by default look for a Mongo object named 'mongo' - default name used 
-		for the converter is 'mappingConverter' <mongo:mapping-converter base-package="bg.unisofia.fmi.docmag.domain"> 
-		<mongo:custom-converters> <mongo:converter ref="readConverter" /> </mongo:custom-converters> 
-		</mongo:mapping-converter> <bean id="readConverter" class="bg.unisofia.fmi.docmag.domain.mappings.UserReadConverter" 
-		/> <constructor-arg name="mongoConverter" ref="mappingConverter" /> -->
+  <!--
+    by default look for a Mongo object named 'mongo' -
+    default name used for the converter is 'mappingConverter'
+    <mongo:mapping-converter base-package="bg.unisofia.fmi.docmag.domain"> 
+      <mongo:custom-converters>
+        <mongo:converter ref="readConverter"/>
+      </mongo:custom-converters> 
+    </mongo:mapping-converter>
+    <bean id="readConverter"
+          class="bg.unisofia.fmi.docmag.domain.mappings.UserReadConverter"/>
+    <constructor-arg name="mongoConverter" ref="mappingConverter"/>
+  -->
 
-	<!-- Use this post processor to translate any MongoExceptions thrown in 
-		@Repository annotated classes -->
-	<bean
-		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+  <!--
+    Use this post processor to translate any MongoExceptions thrown in
+    @Repository annotated classes
+  -->
+  <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+  <!-- This filter converts responses to PDF. -->
+  <bean id="pdfConversionFilter"
+        class="bg.unisofia.fmi.docmag.filter.PdfConversionFilter">
+    <property name="fontsDir" value="/WEB-INF/pdf-templates/fonts"/>
+    <property name="cssDir" value="/WEB-INF/pdf-templates/css"/>
+  </bean>
 </beans>

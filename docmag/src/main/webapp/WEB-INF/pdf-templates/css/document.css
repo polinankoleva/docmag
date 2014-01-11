@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+@page {
+    @top-center   { content: element(pageHeader); }
+    @bottom-right { content: element(pageFooter); }
+}
+
+body {
+    font-family: Liberation Serif;
+    font-size: 12pt;
+}
+
+strong { font-weight: bold; }
+.clear { clear: both; }
+
+img.logo {
+    float: left;
+    vertical-align: top;
+    width: 100pt;
+}
+
+.header h1, .header h2, .header h3 { text-align: center; }
+
+#pageHeader {
+    position: running(pageHeader);
+    text-align: center;
+}
+
+#pageFooter {
+    position: running(pageFooter);
+    text-align: right;
+}
+
+#page:after  { content: counter(page);  }
+#pages:after { content: counter(pages); }

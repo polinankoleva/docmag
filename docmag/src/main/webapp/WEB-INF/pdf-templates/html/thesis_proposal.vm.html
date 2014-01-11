@@ -18,12 +18,10 @@
   </div>
   <div class="clear"></div>
   <div id="student">
-    <h4>От дипломант:</h4>
-    <p>
-      ${student.profile.name},
+    <h4>От дипломант: ${student.profile.name},
       специалност ${student.profile.educationSubject},
       факултетен № ${student.profile.studentIdentifier}
-    </p>
+    </h4>
   </div>
   <div id="scientificLeaders">
     <h4>Научни ръководители:</h4>
@@ -45,32 +43,32 @@
   </div>
   <div id="subject">
     <h4>Тема на дипломната работа:</h4>
-    #if ($markdown) ${markdown.process($document.subject)}
-    #else <h4>${document.subject}</h4> #end
+    #if ($markdown) $!{markdown.process($document.subject)}
+    #else <h4>$!{document.subject}</h4> #end
   </div>
   <div id="annotation">
     <h4>Анотация:</h4>
-    #if ($markdown) ${markdown.process($document.annotation)}
-    #else <p>${document.annotation}</p> #end
+    #if ($markdown) $!{markdown.process($document.annotation)}
+    #else <p>$!{document.annotation}</p> #end
   </div>
   <div id="purpose">
     <h4>Цел на дипломната работа:</h4>
-    #if ($markdown) ${markdown.process($document.purpose)}
-    #else <p>${document.purpose}</p> #end
+    #if ($markdown) $!{markdown.process($document.purpose)}
+    #else <p>$!{document.purpose}</p> #end
   </div>
   <div id="tasks">
     <h4>Задачи, произтичащи от целта:</h4>
-    #if ($markdown) ${markdown.process($document.tasks)}
-    #else <p>${document.tasks}</p> #end
+    #if ($markdown) $!{markdown.process($document.tasks)}
+    #else <p>$!{document.tasks}</p> #end
   </div>
   <div id="restrictions">
     <h4>Ограничаващи/облекчаващи условия:</h4>
-    #if ($markdown) ${markdown.process($document.restrictions)}
-    #else <p>${document.restrictions}</p> #end
+    #if ($markdown) $!{markdown.process($document.restrictions)}
+    #else <p>$!{document.restrictions}</p> #end
   </div>
   <div id="executionDeadline">
     <h4>
-      Срок за изпълнение: ${dateFormat.format($document.executionDeadline)}
+      Срок за изпълнение: $!{dateFormat.format($document.executionDeadline)}
     </h4>
   </div>
   <div id="pageFooter">
