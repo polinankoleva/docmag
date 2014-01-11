@@ -9,8 +9,6 @@ import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
-import bg.unisofia.fmi.docmag.domain.impl.user.User;
-
 public interface DocumentDAO {
 
 	public <T extends Document> T getDocumentById(ObjectId id);

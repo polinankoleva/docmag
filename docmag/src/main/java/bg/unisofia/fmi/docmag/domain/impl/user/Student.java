@@ -11,12 +11,15 @@ public class Student extends User {
 		super(type);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	private StudentProfile profile;
 	private String thesisDefenceMark;
-	
+
 	@Indexed
 	private ObjectId thesisDefenceId;
+
+	@Indexed
+	private ObjectId thesisRecensionId;
 
 	public StudentProfile getProfile() {
 		return profile;
@@ -40,6 +43,14 @@ public class Student extends User {
 
 	public void setThesisDefenceId(ObjectId thesisDefenceId) {
 		this.thesisDefenceId = thesisDefenceId;
-	}	
-	
+	}
+
+	public ObjectId getThesisRecensionId() {
+		return thesisRecensionId;
+	}
+
+	public void setThesisRecensionId(ObjectId thesisRecensionId) {
+		this.thesisRecensionId = thesisRecensionId;
+	}
+
 }
