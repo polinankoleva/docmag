@@ -24,31 +24,24 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	private User getUser(String username) {
-		Query searchUserQuery = new Query(Criteria.where("username").is(
-				username));
-		User user = mongoTemplate.findOne(searchUserQuery, User.class);
+	private User getUser(Query query) {
+		User user = mongoTemplate.findOne(query, User.class);
 
 		return user;
 	}
+	
 
 	@Override
 	public void createUser(User user) {
 		mongoTemplate.insert(user);
 	}
 
-	@Override
-	public <T extends User> T getUserById(ObjectId userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends User> T getUserByUsername(String username) {
-		Query searchUserQuery = new Query(Criteria.where("username").is(
-				username));
-		User user = getUser(username);
+	public <T extends User> T getUserById(ObjectId userId) {
+		Query searchUserQuery = new Query(Criteria.where("_id").is(
+				userId));
+		User user = getUser(searchUserQuery);
 
 		if (user != null) {
 			switch (user.getType()) {
@@ -65,6 +58,13 @@ public class UserDAOImpl implements UserDAO {
 		}
 
 		return null;
+	}
+
+	@Override
+	public User getUserByUsername(String username) {
+		Query searchUserQuery = new Query(Criteria.where("username").is(
+				username));
+		return getUser(searchUserQuery);
 	}
 
 	@Override

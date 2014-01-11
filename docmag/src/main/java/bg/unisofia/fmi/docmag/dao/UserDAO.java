@@ -17,7 +17,7 @@ public interface UserDAO {
 
 	public <T extends User> T getUserById(ObjectId userId);
 
-	public <T extends User> T getUserByUsername(String username);
+	public User getUserByUsername(String username);
 
 	public <T extends User> List<T> getAllUsersOfType(UserType type);
 
