@@ -16,7 +16,6 @@ import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
-import bg.unisofia.fmi.docmag.domain.impl.user.User;
 
 @Repository
 public class DocumentDAOImpl implements DocumentDAO {
@@ -67,8 +66,7 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	@Override
-	public List<Document> getAllDocumentsForUser(User user) {
-		ObjectId userId = user.getId();
+	public List<Document> getAllDocumentsForUser(ObjectId userId) {
 		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(
 				userId));
 
@@ -77,9 +75,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	@Override
-	public List<?> getAllDocumentsForUserOfSpecificType(User user,
+	public List<?> getAllDocumentsForUserOfSpecificType(ObjectId userId,
 			DocumentType type) {
-		ObjectId userId = user.getId();
 		Query searchDocumentsQuery = new Query(Criteria.where("userId").is(
 				userId));
 		searchDocumentsQuery.addCriteria(Criteria.where("type").is(
@@ -92,8 +89,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Document> T getFirstDocumentForUserOfSpecificType(
-			User user, DocumentType type) {
-		List<?> documents = getAllDocumentsForUserOfSpecificType(user, type);
+			ObjectId userId, DocumentType type) {
+		List<?> documents = getAllDocumentsForUserOfSpecificType(userId, type);
 		if (documents != null && !documents.isEmpty()) {
 			return (T) documents.get(0);
 		}
@@ -101,9 +98,9 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	@Override
-	public ThesisProposalStatus getThesisProposalStatusForUser(User user) {
+	public ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId) {
 		ThesisProposal thesisProposal = getFirstDocumentForUserOfSpecificType(
-				user, DocumentType.ThesisProposal);
+				userId, DocumentType.ThesisProposal);
 		if (thesisProposal != null) {
 			return thesisProposal.getStatus();
 		} else {
@@ -128,13 +125,13 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	@Override
-	public boolean assignConsultantForThesis(User user, ThesisProposal thesis) {
+	public boolean assignConsultantForThesis(ObjectId userId, ThesisProposal thesis) {
 		List<ObjectId> consultantIds = thesis.getConsultantIds();
 		if (consultantIds == null) {
 			consultantIds = new ArrayList<ObjectId>();
 		}
-		if (!consultantIds.contains(user.getId())) {
-			consultantIds.add(user.getId());
+		if (!consultantIds.contains(userId)) {
+			consultantIds.add(userId);
 			saveDocument(thesis);
 			return true;
 		} else {
@@ -156,8 +153,8 @@ public class DocumentDAOImpl implements DocumentDAO {
 	}
 
 	@Override
-	public void deleteAllDocumentsForUser(User user) {
-		Query query = new Query(Criteria.where("userId").is(user.getId()));
+	public void deleteAllDocumentsForUser(ObjectId userId) {
+		Query query = new Query(Criteria.where("userId").is(userId));
 		mongoTemplate.remove(query, COLLECTION);
 	}
 

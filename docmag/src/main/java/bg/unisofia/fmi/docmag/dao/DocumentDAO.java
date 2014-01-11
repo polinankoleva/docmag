@@ -17,27 +17,27 @@ public interface DocumentDAO {
 
 	public <T extends Document> T getDocument(Document document);
 
-	public List<Document> getAllDocumentsForUser(User user);
+	public List<Document> getAllDocumentsForUser(ObjectId userId);
 
-	public List<?> getAllDocumentsForUserOfSpecificType(User user,
+	public List<?> getAllDocumentsForUserOfSpecificType(ObjectId userId,
 			DocumentType type);
 
 	public <T extends Document> T getFirstDocumentForUserOfSpecificType(
-			User user, DocumentType type);
+			ObjectId userId, DocumentType type);
 
 	public void saveDocument(Document document);
 
 	public void deleteDocumentWithId(ObjectId documentId);
 
-	public void deleteAllDocumentsForUser(User user);
+	public void deleteAllDocumentsForUser(ObjectId userId);
 
 	// specific document methods
 	// thesis proposal
-	public ThesisProposalStatus getThesisProposalStatusForUser(User user);
+	public ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId);
 
 	public boolean assignScientificLeaderForThesis(Teacher teacher,
 			ThesisProposal thesis);
 
-	public boolean assignConsultantForThesis(User user, ThesisProposal thesis);
+	public boolean assignConsultantForThesis(ObjectId userId, ThesisProposal thesis);
 
 }
