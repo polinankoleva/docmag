@@ -1,7 +1,5 @@
 package bg.unisofia.fmi.docmag.domain.impl.profile;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -74,7 +72,7 @@ public class Profile {
 	}
 
 	public String getName() {
-		return this.firstName + " " + this.lastName;
+		return this.firstName + " " + this.surname + " " + this.lastName;
 	}
 
 	public String getFaculty() {

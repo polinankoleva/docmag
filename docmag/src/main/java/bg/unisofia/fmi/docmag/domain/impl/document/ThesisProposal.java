@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import bg.unisofia.fmi.docmag.domain.impl.user.User;
+
 public class ThesisProposal extends Document {
 	
 	public enum ThesisProposalStatus {
@@ -23,21 +25,9 @@ public class ThesisProposal extends Document {
     private String restrictions;
     private Date executionDeadline;
     
-    private List<ObjectId> scientificLeaderIds;
-	private List<ObjectId> consultantIds;
+    private List<User> scientificLeaderIds;
+	private List<User> consultantIds;
     
-	public List<ObjectId> getScientificLeaderIds() {
-		return scientificLeaderIds;
-	}
-	public void setScientificLeaderIds(List<ObjectId> scientificLeaderIds) {
-		this.scientificLeaderIds = scientificLeaderIds;
-	}
-	public List<ObjectId> getConsultantIds() {
-		return consultantIds;
-	}
-	public void setConsultantIds(List<ObjectId> consultantIds) {
-		this.consultantIds = consultantIds;
-	}
 	public String getSubject() {
 		return subject;
 	}
@@ -80,14 +70,25 @@ public class ThesisProposal extends Document {
 	public void setStatus(ThesisProposalStatus status) {
 		this.status = status;
 	}
+	public List<User> getScientificLeaderIds() {
+		return scientificLeaderIds;
+	}
+	public void setScientificLeaderIds(List<User> scientificLeaderIds) {
+		this.scientificLeaderIds = scientificLeaderIds;
+	}
+	public List<User> getConsultantIds() {
+		return consultantIds;
+	}
+	public void setConsultantIds(List<User> consultantIds) {
+		this.consultantIds = consultantIds;
+	}
 	@Override
 	public String toString() {
 		return super.toString() + "\n" + "ThesisProposal(" + status + "): [subject=" 
 				+ subject + ", anotation="+ annotation + ", purpose=" + purpose
 				+ ", tasks=" + tasks + ", restrictions=" + restrictions 
 				+ ", executionDeadline=" + executionDeadline 
-				+ ", scientificLeaderIds=" + scientificLeaderIds 
-				+ ", conultantIds=" + consultantIds + "]";
+				+ "]";
 	}
     
     
