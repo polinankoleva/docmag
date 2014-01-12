@@ -9,21 +9,21 @@ import bg.unisofia.fmi.docmag.domain.impl.profile.Profile;
 
 @Document(collection = "users")
 public class User {
-	
+
 	public enum UserType {
-	    Student, 
-	    PHD, 
-	    Teacher
+		Student, PHD, Teacher
 	}
-	
+
 	@Id
 	private ObjectId id;
-	
+
 	@Indexed(unique = true)
 	private String username;
 	private UserType type;
-	
-	
+
+	// The default value for a boolean is false.
+	private boolean adminRights;
+
 	public User(UserType type) {
 		this.type = type;
 	}
@@ -31,7 +31,7 @@ public class User {
 	public Profile getProfile() {
 		return null;
 	}
-	
+
 	public void setProfile(Profile profile) {
 	}
 
@@ -46,7 +46,19 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
-	
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public boolean hasAdminRights() {
+		return adminRights;
+	}
+
+	public void enableAdminRights(boolean adminRights) {
+		this.adminRights = adminRights;
+	}
+
 	public static Class<?> getClassForUserType(UserType type) {
 		switch (type) {
 		case Student:
@@ -59,8 +71,5 @@ public class User {
 			return null;
 		}
 	}
-	
-	public void setUsername(String username) {
-	    this.username = username;
-	}
+
 }
