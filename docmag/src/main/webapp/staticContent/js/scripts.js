@@ -30,3 +30,7 @@ function validate(inputClass,validationFieldId){
 	
  
 }
+
+function escapeString(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}

@@ -27,12 +27,10 @@ public class PdfController {
     @Autowired UserService     usrService;
     @Autowired DocumentService docService;
 
-    @RequestMapping(value  = "/thesisproposal/{userId}",
-                    method = RequestMethod.GET)
     public String printThesisProposal(
             @PathVariable("userId") ObjectId userId,
-            @RequestParam(value        = "markdown",
-                          required     = false,
+            @RequestParam(value = "markdown",
+                          required = false,
                           defaultValue = "false") boolean markdown,
             ModelMap model) {
         Student student = usrService.getUserById(userId);

@@ -74,26 +74,61 @@
 
                 
                 if(isValid){
+                	
                 	$('.error').css('display','none');
-		            var studentName = iframe0document.getElementById("studentName");
-		            var studentSpec = iframe0document.getElementById("studentSpec");
-		            var fNumber = iframe0document.getElementById("fNumber");
-		            var supervisorName = iframe0document.getElementById("supervisorName");
-		            var supervisorUni = iframe0document.getElementById("supervisorUni");
-		            var consultantName = iframe0document.getElementById("consultantName");
-		            var consultantUni = iframe0document.getElementById("consultantUni");
-		            var theme = iframe0document.getElementById("theme");
-		            var annotation = iframe0document.getElementById("annotation");
-		            var purpose = iframe0document.getElementById("purpose");
-		            var tasks = iframe0document.getElementById("tasks");
-		            var restrictions = iframe0document.getElementById("restrictions");
+                	var queryType=iframe0document.getElementById("requestType").value;
+                	var supervisors=iframe0document.getElementById("supervisorName");
+                	var supervisorsIds=[];
+                	var selectedSuperv=$(supervisors).find('option:selected');
+                	for(i=0;i<selectedSuperv.length;i++){
+                		supervisorsIds.push(selectedSuperv[i].id);
+                	}
+                	
+                	var consultants=iframe0document.getElementById("consultant");
+                	var consultantIds=[];
+                	var selectedCons=$(consultants).find('option:selected');
+                	for(i=0;i<selectedCons.length;i++){
+                		consultantIds.push(selectedCons[i].id);
+                	}
+                	
+		            var studentName = iframe0document.getElementById("hiddenName").value;
+		            var studentSpec = iframe0document.getElementById("hiddenSpec").value;
+		            var fNumber = iframe0document.getElementById("hiddenNumber").value;
+
+		            var theme = iframe0document.getElementById("theme").value;
+		            var annotation = iframe0document.getElementById("annotation").value;
+		            var purpose = iframe0document.getElementById("purpose").value;
+		            var tasks = iframe0document.getElementById("tasks").value;
+		            var restrictions = iframe0document.getElementById("restrictions").value;
+		            var dueDate=iframe0document.getElementById("endDate").value;
 		            
-		           // alert(studentName.value);
+		            //console.log(queryType);
+		         	
+		            
+		            $.ajax({
+		        		url:" ../rest/thesisproposal",
+		        		type:queryType,
+		        		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
+		        		data:{
+		        			'subject':theme,
+		        			'annotation':annotation,
+		        			'purpose':purpose,
+		        			'tasks':tasks,
+		        			'restrictions':restrictions,
+		        			'executionDeadline':new Date(dueDate),
+		        			'scientificLeaderIds':supervisorsIds,
+		        			'consultantIds':consultantIds
+		        		}
+		        	}).done(function(){
+		        		console.log('success');
+		        	}).fail(function( jqXHR, textStatus, errorThrown ) {
+		        		console.log("Error Message: "+errorThrown);
+		        	});
                 }
                 else{
                 	$('.error').css('display','block');
-                }
-	            <!--The rest vars to be added -->
+                } 
+	            
 	        });
     
     

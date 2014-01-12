@@ -133,19 +133,17 @@ div.WordSection1
 <p class=MsoNormal>
 		<div class="form-inline" style='margin-left:4.4em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
 			<b><span lang=BG>Научен ръководител:</span></b>
-			<input type="text" id="supervisorName" class="form-control" style="width:20em;"/>
-			<span lang=BG>, катедра/ВУЗ/институт</span>
-			<input type="text" id="supervisorUni" class="form-control" style="width:15em;"/>
-		</div>	
+		<!--  	<input type="text" id="supervisorName" class="form-control" style="width:20em;"/>-->
+			<select id="supervisorName" multiple class="form-control" style="width:35em;"></select>
+
 </p>
 <div class="clearfix"></div>
 <br /><br />
 <p class=MsoNormal>
 		<div class="form-inline" style='margin-left:4.4em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
 			<b><span lang=BG>Консултант:</span></b>
-			<input type="text" id="consultantName" class="form-control" style="width:20em;"/>
-			<span lang=BG>, катедра/ВУЗ/институт</span>
-			<input type="text" id="consultantUni" class="form-control" style="width:15em;"/>
+			<select id="consultant" multiple class="form-control" style="width:35em;"></select>
+
 		</div>	
 </p>
 <div class="clearfix"></div>
@@ -237,6 +235,10 @@ div.WordSection1
 
 <input type="hidden" id="isValid" />
 <input type="hidden" id="requestType" />
+<input type="hidden" id="hiddenName" />
+<input type="hidden" id="hiddenSpec" />
+<input type="hidden" id="hiddenNumber" />
+
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -258,7 +260,7 @@ div.WordSection1
 		today = dd+'.'+mm+'.'+yyyy;
 		
 		$('#currentDate').text(today);
-		
+		//debugger;
     	$.ajax({
     		url:" ../rest/thesisproposal",
     		type:'GET',
@@ -270,10 +272,29 @@ div.WordSection1
     		if(typeof data.user!='undefined'){
     			var user=data.user;
     			$('#name').text(user.name);
+    			$('#hiddenName').val(user.name);
     			$('#studentSpec').text(user.educationSubject);
+    			$('#hiddenSpec').val(user.educationSubject);
     			$('#fNumber').text(user.studentIdentifier);
+    			$('#hiddenNumber').val(user.studentIdentifier);
     		}
-    		if(typeof data.thesisProposal!=undefined){
+    		if(typeof data.teachers !='undefined'){
+    			var teachers=data.teachers;
+    			for(var i=0;i<teachers.length;i++){
+    				$('#supervisorName').append(
+    				'<option id="'+teachers[i].id+'">'+
+    				teachers[i].name+' ,катедра '+teachers[i].department+
+    				'</option>'		
+    				);
+    				
+    				$('#consultant').append(
+    	    				'<option id="'+teachers[i].id+'">'+
+    	    				teachers[i].name+' ,катедра '+teachers[i].department+
+    	    				'</option>'		
+    	    				);
+    			}
+    		}
+    		if(typeof data.thesisProposal!='undefined'){
     			var proposal=data.thesisProposal;
     			$('#requestType').val('PUT');
     			
@@ -284,7 +305,23 @@ div.WordSection1
     			$('#restrictions').val(proposal.restriction);
     			
     			var parseDate=proposal.executionDeadline.split(" ");
-    			console.log(parseDate);
+
+    			var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    			var dd,mm,yyyy;
+    			
+    			dd=parseDate[2];
+    			yyyy=parseDate[5];
+    			for(var i=0;i<months.length;i++){
+    				if(months[i]==parseDate[1]){
+    					mm=i+1;
+    				}
+    			}
+    			
+    			if(mm.length==1){
+    				mm='0'+mm
+    			}
+    			
+    			$('#endDate').val(yyyy+'-'+mm+'-'+dd);
     		}
     		else{
     			$('#requestType').val('POST');
@@ -293,12 +330,11 @@ div.WordSection1
     		console.log("Error Message: "+errorThrown);
     	});
 		
-    	
-    	$.ajax({
-    		url:" ../rest/pdf/thesisproposal",
+   	
+    /*	$.ajax({
+    		url:" ../pdf/thesisproposal",
     		type:'GET',
-    		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
-    		data:{'markdown':true},
+    		data:{'userId':'52d26b75f71d7eb7a2ce06fa'},
     		//contentType: "application/json; charset=utf-8",
     		//dataType: "application/pdf", 
     	}).done(function(data){
@@ -306,8 +342,8 @@ div.WordSection1
     		console.log(data);
     	}).fail(function( jqXHR, textStatus, errorThrown ){
     		console.log("Error Message: "+errorThrown);
-    	});
-    	
+    	}); */
+    
 		//1st arg - the class of the input fields
 		//2nd arg - the id of the hidden field
 		validate('form-control','isValid');
