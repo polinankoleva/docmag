@@ -88,5 +88,12 @@ public class ThesisDefenceDAOImpl implements ThesisDefenceDAO {
 		Query query = new Query(Criteria.where("_id").is(thesisDefenceId));
 		mongoTemplate.remove(query);
 	}
+	
+	@Override
+	public List<ThesisDefence> selectThesisDefences(ObjectId userId,
+			Date startDate, Date endDate, ObjectId commissionParticipantId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

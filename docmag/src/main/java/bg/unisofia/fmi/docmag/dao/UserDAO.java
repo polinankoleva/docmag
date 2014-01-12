@@ -1,5 +1,6 @@
 package bg.unisofia.fmi.docmag.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -33,5 +34,9 @@ public interface UserDAO {
 			PHDStudent student);
 
 	public List<Student> studentsForThesisDefenceWithId(ObjectId thesisDefenceId);
+
+	// reports
+	public List<Student> getGraduatedStudents(ObjectId userId, Date startDate, Date endDate,
+			ObjectId leaderId, ObjectId reviewerId);
 
 }
