@@ -49,7 +49,7 @@ public class LoginController {
             @RequestParam(value = "password", required = true) String password)
                     throws IOException {
         User user = usrService.getUserByUsername(username);
-        if (user.getType() == UserType.Teacher) return success(user);
+        if (user != null && user.getType() == UserType.Teacher) return success(user);
         HttpUriRequest req              = loginRequest(username, password);
         try (CloseableHttpResponse resp = client.execute(req)) {
             return handleLoginResponse(resp, username);

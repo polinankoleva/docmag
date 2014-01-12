@@ -230,7 +230,7 @@ td{padding: 5px;}
             <tr>
             <td colspan="4" style="font-weight: bold;">Обща оценка:</td>
             <td></td>
-            <td><input type="text" disabled id="calcResults" value="0.00" onchange="assignAssessment()" style="width: 50px;"/></td>
+            <td><input type="text" disabled id="calcResults" value="0.00" style="width: 50px;"/></td>
           </tr>
         </tbody>
       </table>
@@ -270,8 +270,8 @@ td{padding: 5px;}
 		<div class="form-group" style='font-family:"Times New Roman","serif";font-size:12.0pt;'>
 			<b><span lang=BG class="col-sm-3 control-label">Заключение:</span></b>
 			<div class="col-sm-8">
-				 Предлагам дипломанта <input disabled type="text" id="res"/> <b>да бъде</b> допуснат до защита.<br />
-				 Дипломната работа да бъде оценена с <input type="text" style="width: 100px;"/> /среден, добър, много добър, отличен/
+				 Предлагам дипломанта <span id="res"></span> <b>да бъде</b> допуснат до защита.<br />
+				 Дипломната работа да бъде оценена с <b><span id="assessment"></span></b> /среден, добър, много добър, отличен/
 			</div>
 		</div>
 </p>
@@ -307,36 +307,24 @@ td{padding: 5px;}
 		  
 		  $('#calcResults').val(sum);
 		 
-	}
 	
-	/*function assignAssessment(){
-		
-		var grade = parseFloat($('#calcResults').val());
-		
-		var finalGrade = grade.toFixed(2);
-		
-		
-		/* switch(this.finalGrade){
-		 
-		 case (finalGrade>=3.00 && sum<3.50):
-		     $('#assesment').val('Среден');
-		     break;
-		 case (finalGrade>=3.50 && sum<4.50):
-		     $('#assesment').val('Добър');
-		     break;
-		 case (finalGrade>=4.50 && sum<5.50):
-		     $('#assesment').val('Много добър');
-		     break;
-		 case (finalGrade>5.50):
-		     $('#assesment').val('Отличен');
-		     break;
-		 default:
-			 $('#assesment').val('');
-		     break;    
-		}*/
+	
+	if(sum>=3.00 && sum<3.50){
+		     $('#assessment').text('Среден');
+	}else if(sum>=3.50 && sum<4.50){
+		     $('#assessment').text('Добър');
+	}else if(sum>=4.50 && sum<5.50){
+		     $('#assessment').text('Много добър');
+	}else if(sum>5.50){
+		     $('#assessment').text('Отличен');
+	}else{
+			 $('#assessment').text('...');
+	}
+   
+            }
 	
 	$( "#studentName" ).on( "paste keyup", function() { 
-	     $( "#res" ).val( $( this ).val() );
+	     $( "#res" ).text( $( this ).val() );
 	});
 	
 	

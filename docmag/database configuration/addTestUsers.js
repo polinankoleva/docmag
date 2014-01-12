@@ -71,7 +71,7 @@ function addTeachers(database) {
       ["Чавдар", "Георгиев", "Лозанов", "доц. д-р", "lozanov@fmi.uni-sofia.bg"],
       ["Иван", "Минчев", "Минчев", "доц. д-р", "minchev@fmi.uni-sofia.bg"],
       ["Маргарита", "Георгиева", "Спирова", "гл. ас. д-р", "spirova@fmi.uni-sofia.bg"],
-      ["Юлиан", "Цанков", "Цанков", "гл. ас.", "spirova@fmi.uni-sofia.bg"],
+      ["Юлиан", "Цанков", "Цанков", "гл. ас.", "ucankov@fmi.uni-sofia.bg"],
       ["Яна", "Алексиева", "Алексиева", "гл. ас.", "yana_a_n@fmi.uni-sofia.bg"],
       ["Невяна", "Димитрова", "Георгиева", "математик", "nevyanag@fmi.uni-sofia.bg"],
       ["Владимир", "", "Митанкин", "математик", "vladimirm@fmi.uni-sofia.bg"]
@@ -160,7 +160,7 @@ function addTeachers(database) {
       ["Петьо", "Петров", "Петков", "доц. д-р", "ppetkov@fmi.uni-sofia.bg"],
       ["Стела", "Колева", "Николова", "доц. д-р", "stenik@fmi.uni-sofia.bg"],
       ["Христо", "Александров", "Ганчев", "доц. д-р", "h.ganchev@fmi.uni-sofia.bg"],
-      ["Антон", "Кирилов", "Зиновиев", "гл. ас.", "anton@lml.bas.bg"],
+      // ["Антон", "Кирилов", "Зиновиев", "гл. ас.", "anton@lml.bas.bg"],
       ["Петър", "Николаев", "Митанкин", "гл. ас. д-р", "pmitankin@fmi.uni-sofia.bg"],
       ["Стефан", "Володов", "Вътев", "ас.", "stefanv@fmi.uni-sofia.bg"]
       // ["Стефан", "Владимиров", "Герджиков", "ас.", ""]
@@ -224,7 +224,7 @@ function addTeachers(database) {
       ["Рони", "Нисим", "Леви", "проф. д.м.н", "levy@fmi.uni-sofia.bg"],
       ["Румен", "Петров", "Малеев", "проф. д.м.н", "maleev@fmi.uni-sofia.bg"],
       ["Людмила", "Йорданова", "Николова", "проф. д-р", "ludmilan@fmi.uni-sofia.bg"],
-      ["Борислав", "Радков", "Драганов", "доц. д-р", "bdraganov(at)fmi.uni-sofia.bg"],
+      ["Борислав", "Радков", "Драганов", "доц. д-р", "bdraganov@fmi.uni-sofia.bg"],
       ["Васил", "Валдемаров", "Цанов", "доц. д-р", "tsanov@fmi.uni-sofia.bg"],
       ["Георги", "Атанасов", "Александров", "доц. д-р", "galex@fmi.uni-sofia.bg"],
       ["Милен", "Николаев", "Иванов", "доц. д-р", "milen@fmi.uni-sofia.bg"],

@@ -13,8 +13,13 @@ public interface ThesisDefenceDAO {
 	// POST, PUT
 	public ObjectId createThesisDefence(Date date);
 
+	public ObjectId createThesisDefence(Date date,
+			List<ObjectId> commissionParticipantIds);
+
 	public boolean assignTeacherToCommissionForThesisDefence(Teacher teacher,
 			ObjectId thesisDefenceId);
+
+	public void saveThesisDefence(ThesisDefence thesisDefence);
 
 	// GET
 	public List<ThesisDefence> getAllThesisDefences();

@@ -18,8 +18,6 @@ public class Profile {
 
 	private String lastName;
 	private String email;
-	private String address;
-	private String phone;
 	private String faculty;
 	private String department;
 
@@ -47,22 +45,6 @@ public class Profile {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public String getDepartment() {
 		return department;
 	}
@@ -86,8 +68,7 @@ public class Profile {
 	@Override
 	public String toString() {
 		return "Profile: [firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", address=" + address + ", phone="
-				+ phone + ", department=" + department + "]";
+				+ ", email=" + email + ", department=" + department + "]";
 	}
 
 }
