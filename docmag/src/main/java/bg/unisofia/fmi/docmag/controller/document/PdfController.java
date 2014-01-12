@@ -8,10 +8,7 @@ import org.markdown4j.Markdown4jProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.PathVariable;
-=======
->>>>>>> branch 'master' of https://github.com/polinankoleva/docmag
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,8 +27,7 @@ public class PdfController {
 	@Autowired UserService     usrService;
 	@Autowired DocumentService docService;
 	@RequestMapping(value  = "/thesisproposal", method = RequestMethod.GET)
-	public String printThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam(value = "markdown", required = false,
-			defaultValue = "false") boolean markdown, ModelMap model) {
+	public String printThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam(value = "markdown", required = false,defaultValue = "false") boolean markdown, ModelMap model) {
 		User student  = usrService.getUserById(userId);
 		// TODO: add error handling if the user is not a student
 		ThesisProposal document = docService.getThesisProposalForUser(userId);
@@ -51,12 +47,7 @@ public class PdfController {
 
     @RequestMapping(value  = "/pdf/thesisproposal",
                     method = RequestMethod.GET)
-    public String printThesisProposal(
-            @RequestHeader("User-Id") ObjectId userId,
-            @RequestParam(value        = "markdown",
-                          required     = false,
-                          defaultValue = "false") boolean markdown,
-            ModelMap model) {
+    public String printThesisProposal(@RequestHeader("User-Id") ObjectId userId,@RequestParam(value= "markdown",required = false,defaultValue = "false") boolean markdown,ModelMap model) {
         Student student         = usrService.getUserById(userId);
         // TODO: add error handling if the user is not a student
         ThesisProposal document = docService.getThesisProposalForUser(userId);
