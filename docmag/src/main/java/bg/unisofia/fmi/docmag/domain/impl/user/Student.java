@@ -1,5 +1,7 @@
 package bg.unisofia.fmi.docmag.domain.impl.user;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -9,11 +11,11 @@ public class Student extends User {
 
 	public Student(UserType type) {
 		super(type);
-		// TODO Auto-generated constructor stub
 	}
 
 	private StudentProfile profile;
 	private String thesisDefenceMark;
+	private Date graduationDate;
 
 	@Indexed
 	private ObjectId thesisDefenceId;
@@ -35,6 +37,7 @@ public class Student extends User {
 
 	public void setThesisDefenceMark(String mark) {
 		this.thesisDefenceMark = mark;
+		this.graduationDate = new Date();
 	}
 
 	public ObjectId getThesisDefenceId() {
@@ -51,6 +54,10 @@ public class Student extends User {
 
 	public void setThesisRecensionId(ObjectId thesisRecensionId) {
 		this.thesisRecensionId = thesisRecensionId;
+	}
+
+	public Date getGraduationDate() {
+		return graduationDate;
 	}
 
 }

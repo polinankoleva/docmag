@@ -28,4 +28,8 @@ public interface ThesisDefenceDAO {
 
 	// DELETE
 	public void delete(ObjectId thesisDefenceId);
+	
+	//reports
+	public List<ThesisDefence> selectThesisDefences(ObjectId userId, Date startDate,
+			Date endDate, ObjectId commissionParticipantId);
 }

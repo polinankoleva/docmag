@@ -276,9 +276,9 @@ function addTestUsers(database) {
     surname: "Nikolaeva",
     lastName: "Koleva", 
     email: "pkoleva@abv.bg", 
-    faculty: "FMI",
-    department: "Software technologies",
-    degree: "doc. d-r"
+    faculty: "ФМИ",
+    department: "Софтуерни технологии",
+    degree: "доц. д-р"
   }
   var teacherId = ObjectId();
   userCollection.insert({_id: teacherId, username: "pkoleva", password: "pissme", type : "Teacher", profile: teacherProfile});
@@ -288,7 +288,7 @@ function addTestUsers(database) {
     surname: "Lubomirova",
     lastName: "Toncheva", 
     email: "ttoncheva@abv.bg", 
-    department: "FMI",
+    faculty: "ФМИ",
     studentIdentifier: "61387",
     educationForm: "Regular",
     educationDegree: "PHD",
@@ -304,7 +304,7 @@ function addTestUsers(database) {
     surname: "Dyankova",
     lastName: "Dyankova", 
     email: "adyankova@abv.bg", 
-    department: "FMI",
+    faculty: "FMI",
     studentIdentifier: "61388",
     educationForm: "Regular",
     educationDegree: "Master",

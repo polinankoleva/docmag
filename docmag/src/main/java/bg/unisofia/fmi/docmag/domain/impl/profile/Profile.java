@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Profile {
-
+	
 	private String firstName;
 	private String surname;
 
@@ -19,7 +19,6 @@ public class Profile {
 	private String lastName;
 	private String email;
 	private String faculty;
-	private String department;
 
 	public String getFirstName() {
 		return firstName;
@@ -45,14 +44,6 @@ public class Profile {
 		this.email = email;
 	}
 
-	public String getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-
 	public String getName() {
 		return this.firstName + " " + this.surname + " " + this.lastName;
 	}
@@ -68,7 +59,7 @@ public class Profile {
 	@Override
 	public String toString() {
 		return "Profile: [firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", department=" + department + "]";
+				+ ", email=" + email + ", faculty=" + faculty + "]";
 	}
 
 }

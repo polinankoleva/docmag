@@ -1,6 +1,7 @@
 package bg.unisofia.fmi.docmag.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -10,8 +11,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
+import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
+import bg.unisofia.fmi.docmag.domain.impl.profile.TeacherProfile.Department;
 import bg.unisofia.fmi.docmag.domain.impl.user.PHDStudent;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
@@ -23,13 +28,15 @@ public class UserDAOImpl implements UserDAO {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private DocumentDAO documentDao;
 
 	private User getUser(Query query) {
 		User user = mongoTemplate.findOne(query, User.class);
 
 		return user;
 	}
-	
 
 	@Override
 	public void createUser(User user) {
@@ -39,8 +46,7 @@ public class UserDAOImpl implements UserDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends User> T getUserById(ObjectId userId) {
-		Query searchUserQuery = new Query(Criteria.where("_id").is(
-				userId));
+		Query searchUserQuery = new Query(Criteria.where("_id").is(userId));
 		User user = getUser(searchUserQuery);
 
 		if (user != null) {
@@ -133,8 +139,51 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<Student> studentsForThesisDefenceWithId(ObjectId thesisDefenceId) {
-		Query query = new Query(Criteria.where("thesisDefenceId").is(thesisDefenceId));
+		Query query = new Query(Criteria.where("thesisDefenceId").is(
+				thesisDefenceId));
 		return mongoTemplate.find(query, Student.class);
+	}
+
+	@Override
+	public List<Student> getGraduatedStudents(ObjectId userId, Date startDate,
+			Date endDate, ObjectId leaderId, ObjectId reviewerId) {
+		
+		Teacher teacher = getUserById(userId);
+		if (teacher != null) {
+			
+			Boolean teacherHaveRights = teacher.getProfile().getDepartment() == Department.SoftTechnologies;
+			
+			Query searchStudentQuery = new Query(Criteria.where("graduationDate").gte(startDate));
+			Date secondDate = (endDate == null) ? startDate : endDate;
+			searchStudentQuery.addCriteria(Criteria.where("graduationDate").lte(secondDate));
+			
+			List<Student> students = mongoTemplate.find(searchStudentQuery, Student.class);
+			
+			if (students != null && !students.isEmpty()) {
+				List<Student> filteredStudents = new ArrayList<Student>(students);
+				for (Student student : students) {
+					ThesisProposal thesis = documentDao.getFirstDocumentForUserOfSpecificType(
+							student.getId(), DocumentType.ThesisProposal);
+					if (!teacherHaveRights && !thesis.getScientificLeaderIds().contains(userId)) {
+						filteredStudents.remove(student);
+						continue;
+					}
+					if (thesis != null && leaderId != null &&
+							!thesis.getScientificLeaderIds().contains(leaderId)) {
+						filteredStudents.remove(student);
+						continue;
+					} 
+					ThesisRecension recension = documentDao.getDocumentById(student.getThesisRecensionId());
+					if (recension != null && reviewerId != null &&
+							recension.getReviewerId() != reviewerId) {
+						filteredStudents.remove(student);
+					}
+				}
+			}
+			
+		}
+		
+		return null;
 	}
 
 }
