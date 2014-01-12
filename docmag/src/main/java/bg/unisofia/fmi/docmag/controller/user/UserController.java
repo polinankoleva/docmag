@@ -1,5 +1,6 @@
 package bg.unisofia.fmi.docmag.controller.user;
 
+import java.util.List;
 import java.util.Map;
 
 import org.bson.types.ObjectId;
@@ -22,10 +23,16 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@RequestMapping(value="/allTeachers", method = RequestMethod.GET)
+	public @ResponseBody List<Object> getAllTeachers() {
+		return userService.getAllTeacher();
+	}
+	
 	@RequestMapping(value="/{userId}/thesisdefence", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> getThesisDefenceForUser(@PathVariable ObjectId userId) {
 		return userService.getThesisDefenceForUser(userId);
 	}
+	
 	
 	@RequestMapping(value="/{userId}/thesisdefence", method = RequestMethod.POST)
 	public @ResponseBody Map<String, String> setThesisDefenceForUser(@PathVariable ObjectId userId, @RequestParam ObjectId thesisDefenceId) {
