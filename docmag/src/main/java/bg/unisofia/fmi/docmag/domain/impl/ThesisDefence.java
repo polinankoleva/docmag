@@ -4,12 +4,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import bg.unisofia.fmi.docmag.utils.JsonObjectIdSerializer;
 
 @Document(collection = "thesisdefences")
 public class ThesisDefence {
 	
+	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Id
 	private ObjectId id;
 	

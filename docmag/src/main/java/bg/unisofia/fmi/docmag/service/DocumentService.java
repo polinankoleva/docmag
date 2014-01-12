@@ -62,6 +62,7 @@ public class DocumentService {
 			if(thesisProposal != null){
 				allInformationForThesisProposal.put("user", createUserInfoJsonForThesisProposal(userId));
 				allInformationForThesisProposal.put("thesisProposal", createThesisProposalJsonWithConsultsAndscientificLeader(thesisProposal));
+				allInformationForThesisProposal.put("teachers", createAllTeacherMap(getAllTeachers()));
 			}else{
 				allInformationForThesisProposal.put("user", createUserInfoJsonForThesisProposal(userId));
 				allInformationForThesisProposal.put("teachers", createAllTeacherMap(getAllTeachers()));
@@ -234,14 +235,15 @@ public class DocumentService {
 		return scientificLeadersInfo;
 	}
 	
-	private Map<String, Object> createAllTeacherMap(List<Teacher> teachers){
-		Map<String, Object> teachersInfo = new HashMap<String, Object>();
+	private List<Object> createAllTeacherMap(List<Teacher> teachers){
+		List<Object> teachersInfo = new ArrayList<Object>();
 		if(teachers !=  null && !teachers.isEmpty()){
 			for(int i = 0; i < teachers.size(); i++){
 				Map<String, String> teacher  = new HashMap<String, String>();
 				teacher.put("name", teachers.get(i).getProfile().getName());
 				teacher.put("id", teachers.get(i).getId().toString());
-				teachersInfo.put("teacher", teacher);
+				teacher.put("department", teachers.get(i).getProfile().getDepartment());
+				teachersInfo.add(teacher);
 			}
 		}
 		return teachersInfo;	
@@ -251,7 +253,7 @@ public class DocumentService {
 		return userDao.getAllUsersOfType(UserType.Teacher);
 	}
 	
-	private List<ObjectId> checkTeacherObjectIds(List<ObjectId> objectIds){
+	public List<ObjectId> checkTeacherObjectIds(List<ObjectId> objectIds){
 		List<ObjectId> checkedTeacherObjectIds = new ArrayList<ObjectId>();
 		if(objectIds != null && !objectIds.isEmpty()){
 			for(int i = 0 ; i< objectIds.size(); i++){

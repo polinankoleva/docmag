@@ -2,7 +2,9 @@ package bg.unisofia.fmi.docmag.controller.document;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -13,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import bg.unisofia.fmi.docmag.domain.impl.ThesisDefence;
 import bg.unisofia.fmi.docmag.service.ThesisDefenceService;
 
 @Controller
@@ -24,28 +24,26 @@ public class ThesisDefenceController {
 	@Autowired
 	ThesisDefenceService thesisDefenceService;
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.GET)
-	public @ResponseBody ThesisDefence getThesisDefence(@PathVariable String username) {
-		System.out.println("in get");
-//		return thesisDefenceService.getThesisDefenceByUsername(username);
-		return null;
+	@RequestMapping(method = RequestMethod.GET)
+	public @ResponseBody List<Object> getAllThesisDefences() {
+		return thesisDefenceService.getThesisDefences();
 	}
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void addThesisDefence(@PathVariable String username, @RequestParam float mark, @RequestParam @DateTimeFormat(pattern = "dd-mm-yyyy") Date date, @RequestParam List<Integer> teachersId) {
-		//must be implemented
+	public void addThesisDefence(@RequestParam Date date, @RequestParam List<ObjectId> commissionParticipantIds) {
+		System.out.println();
+		thesisDefenceService.insertThesisDefence(date, commissionParticipantIds);
 	}
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.PUT)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateThesisDefence(@PathVariable String username, @RequestParam(required = false) float mark, @RequestParam(required = false) @DateTimeFormat(pattern = "dd-mm-yyyy") Date date, @RequestParam(required = false) List<Integer> teachersId) {
-		//must be implemented
+	@RequestMapping(value = "/{thesisDefenceId}", method = RequestMethod.PUT)
+	public @ResponseBody Map<String, String> updateThesisDefence(@PathVariable ObjectId thesisDefenceId, @RequestParam(required = false) Date date, @RequestParam(required = false) List<ObjectId> commissionParticipantIds) {
+		return thesisDefenceService.updateThesisDefence(thesisDefenceId, date, commissionParticipantIds);
 	}
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteThesisDefence(@PathVariable String username) {
-		//must be implemented
+	@RequestMapping(value = "/{thesisDefenceId}", method = RequestMethod.DELETE)
+	public @ResponseBody Map<String, String> deleteThesisDefence(@PathVariable ObjectId thesisDefenceId) {
+		return thesisDefenceService.deteteThesisDefence(thesisDefenceId);
 	}
+	
 }
