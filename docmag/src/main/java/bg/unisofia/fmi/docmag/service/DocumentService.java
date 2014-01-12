@@ -242,7 +242,7 @@ public class DocumentService {
 				Map<String, String> teacher  = new HashMap<String, String>();
 				teacher.put("name", teachers.get(i).getProfile().getName());
 				teacher.put("id", teachers.get(i).getId().toString());
-				teacher.put("department", teachers.get(i).getProfile().getDepartment());
+				teacher.put("department", teachers.get(i).getProfile().getDepartment().toString());
 				teachersInfo.add(teacher);
 			}
 		}

@@ -135,7 +135,7 @@ public class ThesisDefenceService {
 		if(user instanceof Teacher && user != null){
 			commissionParticipant.put("id",user.getId().toString());
 			commissionParticipant.put("name", user.getProfile().getName());
-			commissionParticipant.put("deparment", user.getProfile().getDepartment());
+			commissionParticipant.put("deparment", user.getProfile().getDepartment().toSting());
 		}
 		return commissionParticipant;
 	}
