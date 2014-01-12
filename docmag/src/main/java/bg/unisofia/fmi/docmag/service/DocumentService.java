@@ -251,7 +251,7 @@ public class DocumentService {
 		return userDao.getAllUsersOfType(UserType.Teacher);
 	}
 	
-	private List<ObjectId> checkTeacherObjectIds(List<ObjectId> objectIds){
+	public List<ObjectId> checkTeacherObjectIds(List<ObjectId> objectIds){
 		List<ObjectId> checkedTeacherObjectIds = new ArrayList<ObjectId>();
 		if(objectIds != null && !objectIds.isEmpty()){
 			for(int i = 0 ; i< objectIds.size(); i++){
