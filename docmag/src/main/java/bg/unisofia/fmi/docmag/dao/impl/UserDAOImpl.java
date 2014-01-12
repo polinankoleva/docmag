@@ -151,7 +151,7 @@ public class UserDAOImpl implements UserDAO {
 		Teacher teacher = getUserById(userId);
 		if (teacher != null) {
 			
-			Boolean teacherHaveRights = teacher.getProfile().getDepartment() == Department.SoftTechnologies;
+			Boolean teacherHaveRights = teacher.getProfile().getDepartment() == Department.SoftwareTechnologies;
 			
 			Query searchStudentQuery = new Query(Criteria.where("graduationDate").gte(startDate));
 			Date secondDate = (endDate == null) ? startDate : endDate;
