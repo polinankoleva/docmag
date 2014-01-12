@@ -123,6 +123,74 @@ color: #028E9B;
 	color: #028E9B;
 	
 }
+#isStudent,#isTeacher{
+
+	width:84%;
+	margin-left:8%;
+	margin-top:5%;
+	padding: 55px;
+	font-size: 1.2em;
+	color: black;
+	border: 2px solid #028E9B;
+	border-radius: 15px;
+	color: black;
+	
+}
+
+#isStudent p,#isTeacher p{
+	
+	padding-left: 20px;
+	
+} 
+
+#isStudent input,#isStudent select,#isTeacher input,#isTeacher select{
+	
+	width: 200px;
+	margin-left: 30px;
+	
+}
+
+#isStudent button,#isTeacher button{
+	
+	margin-left: 750px;
+	margin-top:20px;
+	
+	
+}
+
+#labelChecks{
+position: absolute;	
+padding:10px;
+margin-top: -355px;
+margin-left: 150px;
+background-color: #e8ecee;
+font-size: 26px;
+text-align:center;
+color: #028E9B;
+}
+#labelChecks2{
+position: absolute;	
+padding:10px;
+margin-top: -261px;
+margin-left: 150px;
+background-color: #e8ecee;
+font-size: 26px;
+text-align:center;
+color: #028E9B;
+}
+#searchResultsLabel{
+	
+position: absolute;	
+padding:10px;
+margin-top: 50px;
+margin-left: 250px;
+background-color: #e8ecee;
+font-size: 26px;
+text-align:center;
+color: #028E9B;
+}
+	
+}
 .infoCont{color: #000000;}
 
 #documentContents{ 
@@ -142,4 +210,18 @@ iframe{
 	color:red;
 	font-weight:bold;
 	text-align:center;
+}
+#checkboxes{
+	
+	margin-top: 50px;
+	margin-left: 200px;
+	color: black;
+	font-size:1.2em;
+}
+#searchResults{
+	
+	font-size:1.2em;
+	width: 84%;
+	margin-left: 13%;
+	
 }
