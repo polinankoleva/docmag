@@ -120,11 +120,12 @@ div.WordSection1
 <p class=MsoNormal>
 		<div class="form-inline" style='margin-left:4.4em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
 			<b><span lang=BG>От Дипломант:</span></b>
-			<input type="text" id="name" class="form-control" style="width:20em;"/>
-			<span lang=BG>(име), специалност</span>
-			<input type="text" id="studentSpec" class="form-control" style="width:10em;"/>
-			<span lang=RU style='mso-ansi-language:RU'>, факултетен № </span>
-			<input type="text" id="studentSpec" class="form-control" style="width:5em;"/>
+			<span id="name"></span>
+			<span lang=BG>(име),</span>
+			<b><span lang=BG> специалност</span></b>
+			<span id="studentSpec"></span>
+			<b><span lang=RU style='mso-ansi-language:RU'>, факултетен № </span></b>
+			<span id="fNumber"></span>
 		</div>	
 </p>
 <div class="clearfix"></div>
@@ -217,7 +218,7 @@ div.WordSection1
 <br /><br /><br /><br />
 
 <p class=MsoNormal>
-	<span lang=BG>Дата:</span><span lang=BG style="padding-left: 450px;">Заявител:</span>
+	<span lang=BG>Дата:<span id='currentDate'></span></span><span lang=BG style="padding-left: 450px;">Заявител:</span>
 </p>
 
 <br />
@@ -235,12 +236,63 @@ div.WordSection1
 <br /><br />
 
 <input type="hidden" id="isValid" />
+<input type="hidden" id="requestType" />
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript">
 	$(function(){
+		
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd;
+			} 
+		if(mm<10){
+			mm='0'+mm;
+		} 
+		today = dd+'.'+mm+'.'+yyyy;
+		
+		$('#currentDate').text(today);
+		
+    	$.ajax({
+    		url:" ../rest/thesisproposal",
+    		type:'GET',
+    		headers:{'User-Id':'52d165091144f5b5f459cf74'},
+    		//contentType: "application/json; charset=utf-8",
+            //dataType: "json",
+    	}).done(function(data){
+    		console.log(data);
+    		if(typeof data.user!='undefined'){
+    			var user=data.user;
+    			$('#name').text(user.name);
+    			$('#studentSpec').text(user.educationSubject);
+    			$('#fNumber').text(user.studentIdentifier);
+    		}
+    		if(typeof data.thesisProposal!=undefined){
+    			var proposal=data.thesisProposal;
+    			$('#requestType').val('PUT');
+    			
+    			$('#annotation').val(proposal.annotation);
+    			$('#theme').val(proposal.subject);
+    			$('#purpose').val(proposal.purpose);
+    			$('#tasks').val(proposal.task);
+    			$('#restrictions').val(proposal.restriction);
+    			
+    			
+    			
+    		}
+    		else{
+    			$('#requestType').val('POST');
+    		}
+    	}).fail(function( jqXHR, textStatus, errorThrown ) {
+    		console.log("Error Message: "+errorThrown)
+    	});
+		
 		//1st arg - the class of the input fields
 		//2nd arg - the id of the hidden field
 		validate('form-control','isValid');

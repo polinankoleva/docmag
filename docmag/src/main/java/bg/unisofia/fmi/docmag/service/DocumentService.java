@@ -55,7 +55,7 @@ public class DocumentService {
 		return document;
 	}
 
-	public Map<String, Object> getThesisProposal(ObjectId userId) {
+	public Map<String, Object> getThesisProposalInfo(ObjectId userId) {
 		ThesisProposal thesisProposal = getThesisProposalForUser(userId); 
 		Map<String, Object> allInformationForThesisProposal = new HashMap<String, Object>();
 		if(userService.getUserById(userId) instanceof Student && userService.getUserById(userId) != null){
@@ -78,12 +78,12 @@ public class DocumentService {
 		documentDao.saveDocument(thesisProposal);
 	}
 
-	public void insertThesisProposalForUser(ObjectId userId, String subject, String anotation, String purpose,
+	public void insertThesisProposalForUser(ObjectId userId, String subject, String annotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
-		if(userService.getUserById(userId) != null && userService.getUserById(userId) instanceof Student && getThesisProposalForUser(userId) != null){
+		if(userService.getUserById(userId) != null && userService.getUserById(userId) instanceof Student && getThesisProposalForUser(userId) == null){
 			ThesisProposal thesisProposal = new ThesisProposal();
 			thesisProposal.setUserId(userId);
-			thesisProposal.setAnnotation(anotation);
+			thesisProposal.setAnnotation(annotation);
 			thesisProposal.setSubject(subject);
 			thesisProposal.setPurpose(purpose);
 			thesisProposal.setTasks(tasks);
@@ -100,24 +100,24 @@ public class DocumentService {
 		}
 	}
 
-	public void updateThesisProposalForUser(ObjectId userId, String subject, String anotation, String purpose,
+	public void updateThesisProposalForUser(ObjectId userId, String subject, String annotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
 		ThesisProposal thesisProposal = getThesisProposalForUser(userId);
 		if(thesisProposal != null){
-			checkPropertiesForThesisProposal(subject, anotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, status, thesisProposal);
+			checkPropertiesForThesisProposal(subject, annotation, purpose, tasks, restrictions, executionDeadline, scientificLeaderIds, consultantIds, status, thesisProposal);
 			updateThesisProposal(thesisProposal);
 		}
 	}
 
 
-	private void checkPropertiesForThesisProposal(String subject, String anotation, String purpose,
+	private void checkPropertiesForThesisProposal(String subject, String annotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status,
 			ThesisProposal thesisProposal) {
 		if (subject != null) {
 			thesisProposal.setSubject(subject);
 		}
-		if (anotation != null) {
-			thesisProposal.setAnnotation(anotation);
+		if (annotation != null) {
+			thesisProposal.setAnnotation(annotation);
 		}
 		if (purpose != null) {
 			thesisProposal.setPurpose(purpose);
@@ -142,16 +142,40 @@ public class DocumentService {
 		}
 	}
 
-	public ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId) {
+	private ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId) {
 		return documentDao.getThesisProposalStatusForUser(userId);
 	}
 
-	public ThesisProposalStatus checkStatusForThesisProposal(ObjectId userId) {
-		return getThesisProposalStatusForUser(userId);
+	public Map<String, String> checkStatusForThesisProposal(ObjectId userId) {
+		ThesisProposalStatus status = getThesisProposalStatusForUser(userId);
+		if(status != null){
+			return makeThesisProposalStatusInMap(status);
+		} 
+		return null;
 	}
 
-	//JSON
+	public Map<String, String> getThesisProposalStatus(ObjectId thesisProposalId){
+		ThesisProposal thesisProposal = documentDao.getDocumentById(thesisProposalId);
+		if(thesisProposal != null && thesisProposal.getStatus() != null){
+			return makeThesisProposalStatusInMap(thesisProposal.getStatus());
+		}
+		return null;
+	}
+	
+	public void updateThesisProposalStatus(ObjectId thesisProposalId, ThesisProposalStatus thesisStatus){
+		ThesisProposal thesisProposal = documentDao.getDocumentById(thesisProposalId);
+		if(thesisStatus != null && thesisProposal != null ){
+			thesisProposal.setStatus(thesisStatus);
+			updateThesisProposal(thesisProposal);
+		}
+	}
 
+	private Map<String, String>  makeThesisProposalStatusInMap(ThesisProposalStatus status){
+		Map<String,String> statusParam = new HashMap<String, String>();
+		statusParam.put("status", status.toString());
+		return statusParam;
+	}
+	
 	private Map<String, String> createUserInfoJsonForThesisProposal(ObjectId userId) {
 		Map<String, String> userInfoForThesisProposal = new HashMap<String, String>();
 		Student student  = userService.getUserById(userId);
@@ -239,4 +263,17 @@ public class DocumentService {
 		}
 		return checkedTeacherObjectIds;
 	}
+	
+	public void deleteThesisProposalForUser(ObjectId userId){
+		ThesisProposal thesisProposal  = getThesisProposalForUser(userId);
+		if(thesisProposal != null){
+			deleteDocument(thesisProposal.getId());	
+		}
+	}
+	
+	private void deleteDocument(ObjectId id){
+		documentDao.deleteDocumentWithId(id);
+	}
+	
+
 }

@@ -39,13 +39,17 @@
 	<div class="greeting-line"></div>
 	
 	<div id="loginForm">
-	    <div id="formContainer">
-			<label>Потребителско име:</label></br>
-			<input id="username" type="text" class="span3"></br></br>
-	
-			<label>Парола:</label></br>
-			<input id="password" type="password" class="span3"></br></br>
-			<button class="btn btn-primary submit">Вход</button>
+	    <div class="form-group">
+				<label class="control-label" for="username">Потребителско име:</label></br>
+				<input id="username" type="text" class="span3 form-control">
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="password">Парола:</label></br>
+				<input id="password" type="password" class="span3 form-control">
+			</div>
+			<p id='badInput' class="error center-block" style="display:none">Всички полета са задължителни!</p>
+			<p id='noSuchUser' class="error center-block" style="display:none">Грешка при въвеждане на потребителско име/парола.</p>
+			<button class="btn btn-primary submit" id="logIn">Вход</button>
 		</div>
 	</div>
 	
@@ -59,7 +63,54 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>	
     <script type="text/javascript">
-    
+    $(function(){
+    	$('#logIn').click(function(){
+    		
+    		if(($('#username').val()=='')||($('#password').val()=='')){
+    			$('#badInput').css('display','block');
+    			
+    			if($('#username').val()==''){
+    				$('#username').addClass('has-error');
+    			}
+    			
+    			if($('#password').val()==''){
+    				$('#password').addClass('has-error');
+    			}
+    		}
+    		else{
+    			$('#badInput').css('display','none');
+    			$('#username').removeClass('has-error');
+    			$('#password').removeClass('has-error');
+    			
+    			var username=escapeString(($('#username').val()));
+    			var password=escapeString(($('#password').val()));
+    			
+    		//TODO: send user credential to server	
+        	$.ajax({
+	        		url:" rest/login",
+	        		type:'POST',
+	        		data:{'username':username,'password':password}
+	        	}).done(function(data){
+	        		console.log(data);
+	        	}).fail(function( jqXHR, textStatus, errorThrown ) {
+	        		console.log("Error Message: "+errorThrown)
+	        	});
+    	/*	$.ajaxSetup({
+        		headers: {'User-Id':'52d11c97363934b3b33f3a01'}
+        	});		*/
+        	//if user is authenticated - get userId and userRole
+        	
+        	//save userId and userRole
+        	
+        	
+        	//rediect to mainScreen
+        	
+
+   			}	
+    	});
+    	
+    	
+    });
     
     </script>
   </body>

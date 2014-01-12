@@ -19,6 +19,10 @@
   </repositories>
 
   <properties>
+    <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+    <maven-war-plugin.version>2.3</maven-war-plugin.version>
+    <java-source.version>1.7</java-source.version>
+    <java-target.version>1.7</java-target.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>4.0.0.RELEASE</spring.version>
     <mongo.java.version>2.11.0</mongo.java.version>
@@ -27,17 +31,16 @@
     <jackson.version>1.9.13</jackson.version>
     <commons.fileupload.version>1.3</commons.fileupload.version>
     <javax.mail.version>1.4</javax.mail.version>
+    <markdown4j.version>2.2-cj-1.0</markdown4j.version>
+    <velocity.version>1.7</velocity.version>
+    <velocity-tools.version>2.0</velocity-tools.version>
+    <flying-saucer.version>R8</flying-saucer.version>
+    <http-client.version>4.3.1</http-client.version>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>javax</groupId>
-      <artifactId>javaee-web-api</artifactId>
-      <version>6.0</version>
-      <scope>provided</scope>
-    </dependency>
 
-    <!-- SPRING DEPENDENCIES -->
+    <!-- Spring -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
@@ -58,19 +61,17 @@
       <artifactId>spring-webmvc</artifactId>
       <version>${spring.version}</version>
     </dependency>
-
-    <!-- MONGODB JAVA DRIVER -->
-    <dependency>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongo-java-driver</artifactId>
-      <version>${mongo.java.version}</version>
-    </dependency>
-
-    <!-- SPRING MONGO DB -->
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-mongodb</artifactId>
       <version>${spring.mongo.version}</version>
+    </dependency>
+
+    <!-- MongoDB Java Driver -->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>${mongo.java.version}</version>
     </dependency>
 
     <!-- Jackson JSON Mapper -->
@@ -87,55 +88,76 @@
       <version>${commons.fileupload.version}</version>
     </dependency>
 
-    <!-- MARKDOWN4J -->
+    <!-- Markdown4J -->
     <dependency>
       <groupId>org.commonjava.googlecode.markdown4j</groupId>
       <artifactId>markdown4j</artifactId>
-      <version>2.2-cj-1.0</version>
+      <version>${markdown4j.version}</version>
     </dependency>
 
-    <!-- VELOCITY -->
+    <!-- Apache Velocity -->
     <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
-      <version>1.7</version>
+      <version>${velocity.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity-tools</artifactId>
-      <version>2.0</version>
+      <version>${velocity-tools.version}</version>
     </dependency>
 
-    <!-- FLYING SAUCER -->
+    <!-- Flying Saucer -->
     <dependency>
       <groupId>org.xhtmlrenderer</groupId>
       <artifactId>core-renderer</artifactId>
-      <version>R8</version>
+      <version>${flying-saucer.version}</version>
     </dependency>
 
+    <!-- Java Mail -->
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>${javax.mail.version}</version>
     </dependency>
 
+    <!-- Apache HTTP Client -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${http-client.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
+
     <finalName>docmag</finalName>
+
     <pluginManagement>
       <plugins>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
+          <version>${maven-compiler-plugin.version}</version>
           <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>${java-source.version}</source>
+            <target>${java-target.version}</target>
           </configuration>
         </plugin>
+
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${maven-war-plugin.version}</version>
+          <configuration>
+            <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+          </configuration>
+        </plugin>
+
       </plugins>
     </pluginManagement>
+
   </build>
 
 </project>

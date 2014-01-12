@@ -1,6 +1,6 @@
 package bg.unisofia.fmi.docmag.domain.impl.document;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.bson.types.ObjectId;
@@ -17,7 +17,7 @@ public class ThesisRecension extends Document {
 	private String conclusion;
 
 	private Map<String, Float> mapWithFileds(String[] fields) {
-		Map<String, Float> map = new HashMap<String, Float>();
+		Map<String, Float> map = new LinkedHashMap<>(fields.length);
 		for (String string : fields) {
 			map.put(string, (float) 0);
 		}
@@ -31,7 +31,7 @@ public class ThesisRecension extends Document {
 		String[] realizationFileds = new String[]{"architecture", "functionality", "reliability", "documentation"};
 		String[] experimentFileds = new String[]{"description", "presentation", "interpretation"};
 		
-		this.points = new HashMap<String, Map<String,Float>>();
+		this.points = new LinkedHashMap<>(3);
 		this.points.put("General", mapWithFileds(generalFileds));
 		this.points.put("Realization", mapWithFileds(realizationFileds));
 		this.points.put("Experiment", mapWithFileds(experimentFileds));
