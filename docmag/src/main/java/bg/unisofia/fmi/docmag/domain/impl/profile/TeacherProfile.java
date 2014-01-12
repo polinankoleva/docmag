@@ -12,18 +12,18 @@ public class TeacherProfile extends Profile {
 
 	public enum Department {
 		Algebra ("Алгебра"),
-	    Mechanics ("Аналитична механика"),
-	    VOIS ("ВОИС"),
-	    Geomerty("Геометрия"),
+		AnalyticalMechanics  ("Аналитична механика"),
+		Statistics ("ВОИС"),
+	    Geometry("Геометрия"),
 	    DifferentialEquations("Диференциални уравнения"),
 	    ComputingSystems("Изчислителни системи"),
-	    Informatics("Информационни технологии"),
-	    ComplexAnalisys("Комплексен анализ и топология"),
-	    Logic("Математическа логика и приложенията й"),
-	    Education("Обучение по математика и информатика"),
-	    SoftTechnologies("Софтуерни технологии"),
-	    NumericMethods("Числени методи и алгоритми"),
-	    Analisys("Математически анализ");
+	    InformationTechnology("Информационни технологии"),
+	    ComplexAnalysis("Комплексен анализ и топология"),
+	    MathematicalLogic("Математическа логика и приложенията й"),
+	    MathematicsEducatio("Обучение по математика и информатика"),
+	    SoftwareTechnologies("Софтуерни технологии"),
+	    NumericalMethods("Числени методи и алгоритми"),
+	    Analysis("Математически анализ");
 	   
 	    private final String name;       
 
@@ -35,7 +35,7 @@ public class TeacherProfile extends Profile {
 	        return (otherName == null)? false:name.equals(otherName);
 	    }
 
-	    public String toString(){
+	    public String getName(){
 	       return name;
 	    }
 
@@ -47,6 +47,7 @@ public class TeacherProfile extends Profile {
 	@DBRef
 	private List<User> assignees;
 
+	
 	public TeacherProfile(String degree, List<User> assignees) {
 		super();
 		this.degree = degree;

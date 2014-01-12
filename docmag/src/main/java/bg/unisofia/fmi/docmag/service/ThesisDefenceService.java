@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import bg.unisofia.fmi.docmag.dao.ThesisDefenceDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.ThesisDefence;
+import bg.unisofia.fmi.docmag.domain.impl.profile.TeacherProfile;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
@@ -65,7 +66,7 @@ public class ThesisDefenceService {
 		return null;
 	}
 
-	public Map<String, String> createErrorMessage(String text){
+	private Map<String, String> createErrorMessage(String text){
 		Map<String, String> errorMessage = new HashMap<String, String>();
 		errorMessage.put("errorMessage", text);
 		return errorMessage;
@@ -110,7 +111,7 @@ public class ThesisDefenceService {
 		return thesisDefencesList;
 	}
 
-	public Map<String, Object> getThesisDefenceInMap(ThesisDefence thesisDefence){
+	private Map<String, Object> getThesisDefenceInMap(ThesisDefence thesisDefence){
 		Map <String, Object> thesisDefenceMap = new HashMap<String, Object>();
 		thesisDefenceMap.put("id", thesisDefence.getId().toString());
 		thesisDefenceMap.put("date", thesisDefence.getDate());
@@ -133,10 +134,9 @@ public class ThesisDefenceService {
 		Map<String, String> commissionParticipant = new HashMap<String, String>();
 		User user = userDao.getUserById(commissionParticipantId);
 		if(user instanceof Teacher && user != null){
-			Teacher teacher = (Teacher)user;
-			commissionParticipant.put("id",teacher.getId().toString());
-			commissionParticipant.put("name", teacher.getProfile().getName());
-			commissionParticipant.put("deparment", teacher.getProfile().getDepartment().toString());
+			commissionParticipant.put("id",user.getId().toString());
+			commissionParticipant.put("name", user.getProfile().getName());
+			commissionParticipant.put("deparment", ((TeacherProfile)user.getProfile()).getDepartment().getName());
 		}
 		return commissionParticipant;
 	}

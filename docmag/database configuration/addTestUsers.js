@@ -8,7 +8,7 @@ function addTeachers(database) {
   var userCollection = database.getCollection("users");
 
   var algebra = {
-    "Алгебра": [
+    Algebra: [
       ["Евгения", "Димитрова", "Великова", "доц. д-р", "velikova@fmi.uni-sofia.bg"],
       ["Недялко", "Димов", "Ненов", "проф. д.м.н", "nenov@fmi.uni-sofia.bg"],
       ["Азнив", "Киркор", "Каспарян", "проф д-р", "kasparia@fmi.uni-sofia.bg"],
@@ -27,7 +27,7 @@ function addTeachers(database) {
   }
 
   var mechanics = {
-    "Аналитична механика": [
+    AnalyticalMechanics: [
       ["Тодор", "Асенов", "Парталин", "доц. д-р", "topart@fmi.uni-sofia.bg"],
       ["Любомир", "Кръстев", "Лолов", "проф. д.м.н", "lilov@fmi.uni-sofia.bg"],
       ["Богдана", "Атанасова", "Георгиева", "гл. ас. д-р", "georgieva@fmi.uni-sofia.bg"],
@@ -40,7 +40,7 @@ function addTeachers(database) {
   }
 
   var vois = {
-    "ВОИС": [
+    Statistics: [
       ["Маруся", "Никифорова", "Божкова", "доц. д-р", "ojkova@fmi.uni-sofia.bg"],
       ["Михаил", "Иванов", "Кръстанов", "проф. д.м.н", "krastanov @fmi.uni-sofia.bg"],
       ["Никола", "Иванов", "Янев", "проф. д-р", "choby@fmi.uni-sofia.bg"],
@@ -60,7 +60,7 @@ function addTeachers(database) {
   }
 
   var geometry = {
-    "Геометрия": [
+    Geometry: [
       ["Стефан", "Петров", "Иванов", "проф. д.м.н", "ivanovsp@fmi.uni-sofia.bg"],
       ["Ася", "Петрова", "Русева", "доц. д-р", "assia@fmi.uni-sofia.bg"],
       ["Богдан", "Тодоров", "Александров", "доц. д-р", "btaleksand@fmi.uni-sofia.bg"],
@@ -79,7 +79,7 @@ function addTeachers(database) {
   }
 
   var differentialEquations = {
-    "Диференциални уравнения": [
+    DifferentialEquations: [
       ["Ангел", "Иванов", "Живков", "доц. д-р", "zhivkov@fmi.uni-sofia.bg"],
       ["Емил", "Иванов", "Хорозов", "чл. кор.", "horozov@fmi.uni-sofia.bg"],
       ["Недю", "Иванов", "Попиванов", "проф. д.м.н", "nedyu@fmi.uni-sofia.bg"],
@@ -96,7 +96,7 @@ function addTeachers(database) {
   }
 
   var computingSystems = {
-    "Изчислителни системи": [
+    ComputingSystems: [
       ["Стефан", "Станчев", "Димитров", "доц. д-р", "stefansd@fmi.uni-sofia.bg"],
       ["Антон", "Любенов", "Петков", "доц. д-р", "anton@fmi.uni-sofia.bg"],
       ["Атанас", "Иванов", "Терзиев", "доц. д-р", "aterziev@fmi.uni-sofia.bg"],
@@ -117,7 +117,7 @@ function addTeachers(database) {
   }
 
   var informatics = {
-    "Информационни технологии": [
+    InformationTechnology: [
       ["Красен", "Стефанов", "Стефанов", "проф. д-р", "krassen@fmi.uni-sofia.bg"],
       ["Евгений", "Христов", "Кръстев", "доц. д-р", "eck@fmi.uni-sofia.bg"],
       ["Илиана", "Христова", "Николова", "доц. д-р", "iliana@fmi.uni-sofia.bg"],
@@ -136,7 +136,7 @@ function addTeachers(database) {
   }
 
   var complexAnalisys = {
-    "Комплексен анализ и топология": [
+    ComplexAnalysis: [
       ["Ваня", "Христов", "Хаджийски", "доц. д-р", "hadzijski@fmi.uni-sofia.bg"],
       ["Георги", "Добромиров", "Димов", "проф. д.м.н", "gdimov@fmi.uni-sofia.bg"],
       ["Евгений", "Христов", "Христов", "проф. д.м.н", "hristov@fmi.uni-sofia.bg"],
@@ -149,7 +149,7 @@ function addTeachers(database) {
   }
 
   var logic = {
-    "Математическа логика и приложенията й": [
+    MathematicalLogic: [
       ["Александра", "Андреева", "Соскова", "доц. д-р", "asoskova@fmi.uni-sofia.bg"],
       ["Тинко", "Величков", "Тинчев", "проф. д-р", "tinko@fmi.uni-sofia.bg"],
       ["Димитър", "Иванов", "Вакарелов", "проф. д.м.н", "dvak@fmi.uni-sofia.bg"],
@@ -168,7 +168,7 @@ function addTeachers(database) {
   }
 
   var education = {
-    "Обучение по математика и информатика": [
+    MathematicsEducatio: [
       ["Кирил", "Георгиев", "Банков", "проф. д-р", "kbankov@fmi.uni-sofia.bg"],
       ["Иван", "Костадинов", "Тонов", "проф. д-р", "tonov@fmi.uni-sofia.bg"],
       ["Ангел", "Илиев", "Ангелов", "доц. д-р", "aangelov@fmi.uni-sofia.bg"],
@@ -184,7 +184,7 @@ function addTeachers(database) {
   }
 
   var softTechnologies = {
-    "Софтуерни технологии": [
+    SoftwareTechnologies: [
       ["Силвия", "Христова", "Илиева", "проф. д-р", "sylvia@fmi.uni-sofia.bg"],
       ["Христо", "Августов", "Кабакчиев", "проф. д.т.н", "ckabakchiev@fmi.uni-sofia.bg"],
       ["Боян", "Паскалев", "Бончев", "проф. д-р", "bbontchev@fmi.uni-sofia.bg"],
@@ -202,7 +202,7 @@ function addTeachers(database) {
   }
 
   var numMethods = {
-    "Числени методи и алгоритми": [
+    NumericalMethods: [
       ["Татяна", "Параскевова", "Черногорова", "доц. д-р", "chernogorova@fmi.uni-sofia.bg"],
       ["Гено", "Петков", "Николов", "проф. д.м.н.", "geno@fmi.uni-sofia.bg"],
       ["Стефка", "Николаева", "Димова", "проф. д.м.н.", "dimova@fmi.uni-sofia.bg"],
@@ -218,7 +218,7 @@ function addTeachers(database) {
   }
 
   var analisys = {
-    "Математически анализ": [
+    Analysis: [
       ["Владимир", "", "Бабев", "доц. д-р", "babev@fmi.uni-sofia.bg"],
       ["Дойчин", "Иванов", "Толев", "проф. д.м.н.", "dtolev@fmi.uni-sofia.bg"],
       ["Рони", "Нисим", "Леви", "проф. д.м.н", "levy@fmi.uni-sofia.bg"],
@@ -277,7 +277,7 @@ function addTestUsers(database) {
     lastName: "Koleva", 
     email: "pkoleva@abv.bg", 
     faculty: "ФМИ",
-    department: "Софтуерни технологии",
+    department: "SoftwareTechnologies",
     degree: "доц. д-р"
   }
   var teacherId = ObjectId();
