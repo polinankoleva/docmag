@@ -61,9 +61,11 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>	
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>		
     <script type="text/javascript">
     $(function(){
+    	//url:" ../rest/pdf/thesisproposal/52d26b75f71d7eb7a2ce06fa",
     	$('#logIn').click(function(){
     		
     		if(($('#username').val()=='')||($('#password').val()=='')){
@@ -82,10 +84,10 @@
     			$('#username').removeClass('has-error');
     			$('#password').removeClass('has-error');
     			
-    			//var username=escapeString(($('#username').val()));
-    			//var password=escapeString(($('#password').val()));
-    			var username=$('#username').val();
-    			var password=$('#password').val();
+    			var username=escapeString(($('#username').val()));
+    			var password=escapeString(($('#password').val()));
+    			//var username=$('#username').val();
+    			//var password=$('#password').val();
     			
     			
     		//TODO: send user credential to server	
@@ -93,11 +95,10 @@
 	        		url:" ../rest/login",
 	        		type:'POST',
 	        		data:{'username':username,'password':password},
-	        		//contentType: "application/json; charset=utf-8",
-	        	    dataType: "json",
+	        		dataType:"text",
 	        	}).done(function(data){
 	        		//TODO save user credentials in session storage
-	        		console.log(data);
+	        		console.log(JSON.parse(data));
 	        	}).fail(function( jqXHR, textStatus, errorThrown ) {
 	        		console.log("Error Message: "+errorThrown)
 	        	});
