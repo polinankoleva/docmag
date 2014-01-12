@@ -1,8 +1,10 @@
 package bg.unisofia.fmi.docmag.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bouncycastle.asn1.tsp.TSTInfo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,9 +103,39 @@ public final class UserService {
 	
 	public void setThesisDefenceMarkForStudentWithId(String mark,
 			ObjectId studentId) {
-		Student student = userDao.getUserById(studentId);
-		student.setThesisDefenceMark(mark);
-		userDao.saveUser(student);
+		User user = userDao.getUserById(studentId);
+		if(user != null && user instanceof Student){
+			Student student = (Student) user;
+			if(student.getThesisDefenceId() != null){
+				student.setThesisDefenceMark(mark);
+				userDao.saveUser(student);
+			}
+		}
+	}
+	
+	public void updateThesisDefenceMarkForStudentWithId(String mark,
+			ObjectId studentId) {
+		User user = userDao.getUserById(studentId);
+		if(user != null && user instanceof Student){
+			Student student = (Student) user;
+			if(student.getThesisDefenceId() != null && student.getThesisDefenceMark() != null){
+				student.setThesisDefenceMark(mark);
+				userDao.saveUser(student);
+			}
+		}
+	}
+	
+	
+	public Map<String, String> getThesisDefenceMarkForStudentWithId(ObjectId studentId) {
+		Map<String, String> thesisDefenceMark = new HashMap<String, String>();
+		User user = userDao.getUserById(studentId);
+		if(user != null && user instanceof Student){
+			Student student = (Student) user;
+			if(student.getThesisDefenceMark() != null){
+			thesisDefenceMark.put("mark", student.getThesisDefenceMark());
+			}
+		}
+		return thesisDefenceMark;
 	}
 
 	public List<Teacher> getScientificLeadersPHDStudentWithUsername(
