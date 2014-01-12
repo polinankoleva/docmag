@@ -8,7 +8,7 @@ import org.markdown4j.Markdown4jProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,16 +20,17 @@ import bg.unisofia.fmi.docmag.service.DocumentService;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
+@RequestMapping("/pdf")
 public class PdfController {
 
     private static final String DATE_PATTERN = "dd.MM.YYYY";
     @Autowired UserService     usrService;
     @Autowired DocumentService docService;
 
-    @RequestMapping(value  = "/pdf/thesisproposal",
+    @RequestMapping(value  = "/thesisproposal/{userId}",
                     method = RequestMethod.GET)
     public String printThesisProposal(
-            @RequestHeader("User-Id") ObjectId userId,
+            @PathVariable("userId") ObjectId userId,
             @RequestParam(value        = "markdown",
                           required     = false,
                           defaultValue = "false") boolean markdown,
