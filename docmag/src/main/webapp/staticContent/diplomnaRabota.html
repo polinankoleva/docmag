@@ -104,26 +104,43 @@
 		            
 		            //console.log(queryType);
 		         	
+		            if(queryType==='POST'){
+			            $.ajax({
+			        		url:" ../rest/thesisproposal",
+			        		type:'POST',
+			        		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
+			        		data:{
+			        			'subject':theme,
+			        			'annotation':annotation,
+			        			'purpose':purpose,
+			        			'tasks':tasks,
+			        			'restrictions':restrictions,
+			        			'executionDeadline':new Date(dueDate),
+			        			'scientificLeaderIds':supervisorsIds,
+			        			'consultantIds':consultantIds
+			        		}
+			        	}).done(function(){
+			        		console.log('success');
+			        	}).fail(function( jqXHR, textStatus, errorThrown ) {
+			        		console.log("Error Message: "+errorThrown);
+			        	});
+		            }
 		            
-		            $.ajax({
-		        		url:" ../rest/thesisproposal",
-		        		type:queryType,
-		        		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
-		        		data:{
-		        			'subject':theme,
-		        			'annotation':annotation,
-		        			'purpose':purpose,
-		        			'tasks':tasks,
-		        			'restrictions':restrictions,
-		        			'executionDeadline':new Date(dueDate),
-		        			'scientificLeaderIds':supervisorsIds,
-		        			'consultantIds':consultantIds
-		        		}
-		        	}).done(function(){
-		        		console.log('success');
-		        	}).fail(function( jqXHR, textStatus, errorThrown ) {
-		        		console.log("Error Message: "+errorThrown);
-		        	});
+		            if(queryType=='PUT'){
+		            	
+		            	var data="subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate)+'&scientificLeaderIds='+JSON.stringify(supervisorsIds)+'&consultantIds='+JSON.stringify(consultantIds);
+		            	
+			            $.ajax({
+			        		url:" ../rest/thesisproposal",
+			        		type:'PUT',
+			        		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
+			        		data:data,
+			        	}).done(function(){
+			        		console.log('success');
+			        	}).fail(function( jqXHR, textStatus, errorThrown ) {
+			        		console.log("Error Message: "+errorThrown);
+			        	});
+		            }
                 }
                 else{
                 	$('.error').css('display','block');
