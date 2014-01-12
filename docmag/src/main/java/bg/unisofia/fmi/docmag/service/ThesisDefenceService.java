@@ -66,7 +66,7 @@ public class ThesisDefenceService {
 		return null;
 	}
 
-	private Map<String, String> createErrorMessage(String text){
+	public Map<String, String> createErrorMessage(String text){
 		Map<String, String> errorMessage = new HashMap<String, String>();
 		errorMessage.put("errorMessage", text);
 		return errorMessage;
@@ -111,7 +111,7 @@ public class ThesisDefenceService {
 		return thesisDefencesList;
 	}
 
-	private Map<String, Object> getThesisDefenceInMap(ThesisDefence thesisDefence){
+	public Map<String, Object> getThesisDefenceInMap(ThesisDefence thesisDefence){
 		Map <String, Object> thesisDefenceMap = new HashMap<String, Object>();
 		thesisDefenceMap.put("id", thesisDefence.getId().toString());
 		thesisDefenceMap.put("date", thesisDefence.getDate());
