@@ -82,16 +82,22 @@
     			$('#username').removeClass('has-error');
     			$('#password').removeClass('has-error');
     			
-    			var username=escapeString(($('#username').val()));
-    			var password=escapeString(($('#password').val()));
+    			//var username=escapeString(($('#username').val()));
+    			//var password=escapeString(($('#password').val()));
+    			var username=$('#username').val();
+    			var password=$('#password').val();
+    			
     			
     		//TODO: send user credential to server	
         	$.ajax({
-	        		url:" rest/login",
+	        		url:" ../rest/login",
 	        		type:'POST',
-	        		data:{'username':username,'password':password}
+	        		data:{'username':username,'password':password},
+	        		//contentType: "application/json; charset=utf-8",
+	        	    dataType: "json",
 	        	}).done(function(data){
 	        		//TODO save user credentials in session storage
+	        		console.log(data);
 	        	}).fail(function( jqXHR, textStatus, errorThrown ) {
 	        		console.log("Error Message: "+errorThrown)
 	        	});

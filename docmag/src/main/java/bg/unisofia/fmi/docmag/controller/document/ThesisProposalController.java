@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.service.DocumentService;
 
@@ -28,9 +26,6 @@ public class ThesisProposalController {
 	@Autowired
 	DocumentService documentService;
 
-	@Autowired
-	UserDAO userDao;
-
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> getThesisProposal(@RequestHeader("User-Id") ObjectId userId) {
 		return documentService.getThesisProposalInfo(userId);
@@ -39,7 +34,7 @@ public class ThesisProposalController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void setThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam String subject, @RequestParam String annotation, @RequestParam String purpose,
-			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam @DateTimeFormat(pattern = "dd-mm-yyyy") Date executionDeadline, @RequestParam List<ObjectId> scientificLeaderIds,
+			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam Date executionDeadline, @RequestParam List<ObjectId> scientificLeaderIds,
 			@RequestParam List<ObjectId> consultantIds, @RequestParam(required = false) ThesisProposalStatus status) {
 		documentService.insertThesisProposalForUser(userId, subject, annotation, purpose, tasks, restrictions,
 			executionDeadline, scientificLeaderIds, consultantIds, status);
