@@ -145,49 +145,6 @@ public class UserDAOImpl implements UserDAO {
             return mongoTemplate.find(query, Student.class);
     }
 
-
-    @Override
-    public List<Student> getGraduatedStudents(ObjectId userId, Date startDate,
-                    Date endDate, ObjectId leaderId, ObjectId reviewerId) {
-            
-            Teacher teacher = getUserById(userId);
-            if (teacher != null) {
-                    
-                    Boolean teacherHaveRights = teacher.getProfile().getDepartment() == Department.SoftwareTechnologies;
-                    
-                    Query searchStudentQuery = new Query(Criteria.where("graduationDate").gte(startDate));
-                    Date secondDate = (endDate == null) ? startDate : endDate;
-                    searchStudentQuery.addCriteria(Criteria.where("graduationDate").lte(secondDate));
-                    
-                    List<Student> students = mongoTemplate.find(searchStudentQuery, Student.class);
-                    
-                    if (students != null && !students.isEmpty()) {
-                            List<Student> filteredStudents = new ArrayList<Student>(students);
-                            for (Student student : students) {
-                                    ThesisProposal thesis = documentDao.getFirstDocumentForUserOfSpecificType(
-                                                    student.getId(), DocumentType.ThesisProposal);
-                                    if (!teacherHaveRights && !thesis.getScientificLeaderIds().contains(userId)) {
-                                            filteredStudents.remove(student);
-                                            continue;
-                                    }
-                                    if (thesis != null && leaderId != null &&
-                                                    !thesis.getScientificLeaderIds().contains(leaderId)) {
-                                            filteredStudents.remove(student);
-                                            continue;
-                                    }
-                                    ThesisRecension recension = documentDao.getDocumentById(student.getThesisRecensionId());
-                                    if (recension != null && reviewerId != null &&
-                                                    recension.getReviewerId() != reviewerId) {
-                                            filteredStudents.remove(student);
-                                    }
-                            }
-                    }
-                    
-            }
-            
-            return null;
-    }
-
 	@Override
 	public List<Student> getGraduatedStudents(ObjectId userId, Date startDate,
 			Date endDate, ObjectId leaderId, ObjectId reviewerId) {
