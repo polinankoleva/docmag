@@ -15,6 +15,11 @@ import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.dao.ThesisDefenceDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.ThesisDefence;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
+import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
+import bg.unisofia.fmi.docmag.domain.impl.profile.TeacherProfile.Department;
+import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 
 @Repository
@@ -92,7 +97,21 @@ public class ThesisDefenceDAOImpl implements ThesisDefenceDAO {
 	@Override
 	public List<ThesisDefence> selectThesisDefences(ObjectId userId,
 			Date startDate, Date endDate, ObjectId commissionParticipantId) {
-		// TODO Auto-generated method stub
+		Teacher teacher = userDao.getUserById(userId);
+		if (teacher != null) {
+			
+			Boolean teacherHaveRights = teacher.getProfile().getDepartment() == Department.SoftwareTechnologies;
+			
+			Query searchStudentQuery = new Query(Criteria.where("graduationDate").gte(startDate));
+			Date secondDate = (endDate == null) ? startDate : endDate;
+			searchStudentQuery.addCriteria(Criteria.where("graduationDate").lte(secondDate));
+			
+			List<Student> students = mongoTemplate.find(searchStudentQuery, Student.class);
+			
+			
+			
+		}
+		
 		return null;
 	}
 

@@ -16,9 +16,12 @@ public interface UserDAO {
 
 	public void createUser(User user);
 
+	public User getUserByUsername(String username);
+
 	public <T extends User> T getUserById(ObjectId userId);
 
-	public User getUserByUsername(String username);
+	public <T extends User> T getUserByThesisProposalId(
+			ObjectId thesisProposalId);
 
 	public <T extends User> List<T> getAllUsersOfType(UserType type);
 
@@ -36,7 +39,7 @@ public interface UserDAO {
 	public List<Student> studentsForThesisDefenceWithId(ObjectId thesisDefenceId);
 
 	// reports
-	public List<Student> getGraduatedStudents(ObjectId userId, Date startDate, Date endDate,
-			ObjectId leaderId, ObjectId reviewerId);
+	public List<Student> getGraduatedStudents(ObjectId userId, Date startDate,
+			Date endDate, ObjectId leaderId, ObjectId reviewerId);
 
 }

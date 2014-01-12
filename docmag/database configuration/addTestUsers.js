@@ -304,13 +304,13 @@ function addTestUsers(database) {
     surname: "Dyankova",
     lastName: "Dyankova", 
     email: "adyankova@abv.bg", 
-    faculty: "FMI",
+    faculty: "ФМИ",
     studentIdentifier: "61388",
     educationForm: "Regular",
     educationDegree: "Master",
     educationSubject: "software technologies",
     educationYear: 1,
-    gpa: 6.00,
+    gpa: 6.00
   }
 
   var thesisDefenceCollection = database.getCollection("thesisdefences");
@@ -333,7 +333,16 @@ function addTestUsers(database) {
 
 
   var userId = ObjectId();
-  userCollection.insert({_id: userId, thesisDefenceId: thesisDefenceId,username: "adyankova", password: "pissme", type : "Student", profile: masterProfile});
+  userCollection.insert({
+    _id: userId, 
+    thesisDefenceId: thesisDefenceId, 
+    username: "adyankova", 
+    password: "pissme", 
+    type : "Student", 
+    profile: masterProfile,
+    thesisDefenceMark: "6+",
+    graduationDate: new Date()
+  });
 
   
   var documentCollection = database.getCollection("documents");
