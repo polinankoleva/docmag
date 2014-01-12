@@ -25,10 +25,12 @@ public class ReportsController {
 
 	@RequestMapping(value = "/graduated", method = RequestMethod.GET)
 	public @ResponseBody List<Student> getStudentsReport(@RequestHeader("User-Id") ObjectId userId,
-			@RequestParam Date startDate, @RequestParam(required = false) Date endDate, 
+			@RequestParam(required = true) Date startDate, 
+			@RequestParam(required = false) Date endDate, 
 			@RequestParam(required = false) ObjectId leaderId, 
 			@RequestParam(required = false) ObjectId reviewerId) {
-		return reportsService.reportForStudents(userId, startDate, endDate, leaderId, reviewerId);
+		Date firstDate = (startDate == null) ? new Date() : startDate;
+		return reportsService.reportForStudents(userId, firstDate, endDate, leaderId, reviewerId);
 	}
 	
 	@RequestMapping(value = "/thesisdefences", method = RequestMethod.GET)

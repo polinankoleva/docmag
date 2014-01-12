@@ -1,11 +1,13 @@
 package bg.unisofia.fmi.docmag.domain.impl.user;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import bg.unisofia.fmi.docmag.domain.impl.profile.Profile;
+import bg.unisofia.fmi.docmag.utils.JsonObjectIdSerializer;
 
 @Document(collection = "users")
 public class User {
@@ -14,6 +16,7 @@ public class User {
 		Student, PHD, Teacher
 	}
 
+	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Id
 	private ObjectId id;
 

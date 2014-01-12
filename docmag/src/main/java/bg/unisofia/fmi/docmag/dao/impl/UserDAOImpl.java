@@ -1,6 +1,7 @@
 package bg.unisofia.fmi.docmag.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -150,16 +151,33 @@ public class UserDAOImpl implements UserDAO {
 		
 		Teacher teacher = getUserById(userId);
 		if (teacher != null) {
-			
 			Boolean teacherHaveRights = teacher.getProfile().getDepartment() == Department.SoftwareTechnologies;
 			
-			Query searchStudentQuery = new Query(Criteria.where("graduationDate").gte(startDate));
 			Date secondDate = (endDate == null) ? startDate : endDate;
-			searchStudentQuery.addCriteria(Criteria.where("graduationDate").lte(secondDate));
 			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(startDate);
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			Date startDateOnDayStart = calendar.getTime();
+			
+			calendar.setTime(secondDate);
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+			Date endDateOnDayEnd = calendar.getTime();
+			
+			
+			System.out.println("Start date: " + startDateOnDayStart + " End date: " + endDateOnDayEnd);
+			Query searchStudentQuery = new Query(Criteria.where("graduationDate").gte(startDateOnDayStart).lte(endDateOnDayEnd));
 			List<Student> students = mongoTemplate.find(searchStudentQuery, Student.class);
 			
 			if (students != null && !students.isEmpty()) {
+				System.out.println("Students: " + students);
 				List<Student> filteredStudents = new ArrayList<Student>(students);
 				for (Student student : students) {
 					ThesisProposal thesis = documentDao.getFirstDocumentForUserOfSpecificType(
@@ -179,6 +197,7 @@ public class UserDAOImpl implements UserDAO {
 						filteredStudents.remove(student);
 					}
 				}
+				return filteredStudents;
 			}
 			
 		}

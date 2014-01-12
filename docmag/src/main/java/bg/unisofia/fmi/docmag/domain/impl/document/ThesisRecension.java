@@ -4,10 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.data.mongodb.core.index.Indexed;
+
+import bg.unisofia.fmi.docmag.utils.JsonObjectIdSerializer;
 
 public class ThesisRecension extends Document {
 
+	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Indexed
 	private ObjectId reviewerId;
 
