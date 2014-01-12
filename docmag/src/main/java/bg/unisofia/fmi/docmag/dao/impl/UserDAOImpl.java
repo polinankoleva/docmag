@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
+import bg.unisofia.fmi.docmag.domain.impl.document.Document;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
@@ -72,6 +73,19 @@ public class UserDAOImpl implements UserDAO {
             Query searchUserQuery = new Query(Criteria.where("username").is(
                             username));
             return getUser(searchUserQuery);
+    }
+    
+    @Override
+    public <T extends User> T getUserByThesisProposalId(
+    		ObjectId thesisProposalId) {
+    	Document document = documentDao.getDocumentById(thesisProposalId);
+    	
+    	if (document != null) {
+    		return getUserById(document.getUserId());
+		}
+    	else {
+    		return null;
+    	}
     }
 
     @Override
