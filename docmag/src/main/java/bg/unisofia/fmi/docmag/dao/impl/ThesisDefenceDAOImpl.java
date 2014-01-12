@@ -37,6 +37,22 @@ public class ThesisDefenceDAOImpl implements ThesisDefenceDAO {
 
 		return objectId;
 	}
+	
+	@Override
+	public ObjectId createThesisDefence(Date date,
+			List<ObjectId> commissionParticipantIds) {
+		ObjectId objectId = new ObjectId();
+		ThesisDefence thesisDefence = new ThesisDefence(objectId, date);
+		thesisDefence.setCommissionParticipantIds(commissionParticipantIds);
+		mongoTemplate.save(thesisDefence);
+
+		return objectId;
+	}
+
+	@Override
+	public void saveThesisDefence(ThesisDefence thesisDefence) {
+		mongoTemplate.save(thesisDefence);
+	}
 
 	@Override
 	public ThesisDefence getThesisDefenceById(ObjectId id) {

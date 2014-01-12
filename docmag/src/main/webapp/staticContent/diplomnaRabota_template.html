@@ -262,7 +262,7 @@ div.WordSection1
     	$.ajax({
     		url:" ../rest/thesisproposal",
     		type:'GET',
-    		headers:{'User-Id':'52d165091144f5b5f459cf74'},
+    		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
     		//contentType: "application/json; charset=utf-8",
             //dataType: "json",
     	}).done(function(data){
@@ -283,16 +283,31 @@ div.WordSection1
     			$('#tasks').val(proposal.task);
     			$('#restrictions').val(proposal.restriction);
     			
-    			
-    			
+    			var parseDate=proposal.executionDeadline.split(" ");
+    			console.log(parseDate);
     		}
     		else{
     			$('#requestType').val('POST');
     		}
     	}).fail(function( jqXHR, textStatus, errorThrown ) {
-    		console.log("Error Message: "+errorThrown)
+    		console.log("Error Message: "+errorThrown);
     	});
 		
+    	
+    	$.ajax({
+    		url:" ../rest/pdf/thesisproposal",
+    		type:'GET',
+    		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
+    		data:{'markdown':true},
+    		//contentType: "application/json; charset=utf-8",
+    		//dataType: "application/pdf", 
+    	}).done(function(data){
+    		console.log('ok');
+    		console.log(data);
+    	}).fail(function( jqXHR, textStatus, errorThrown ){
+    		console.log("Error Message: "+errorThrown);
+    	});
+    	
 		//1st arg - the class of the input fields
 		//2nd arg - the id of the hidden field
 		validate('form-control','isValid');

@@ -21,6 +21,7 @@ import bg.unisofia.fmi.docmag.service.DocumentService;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
+@RequestMapping("/pdf")
 public class PdfController {
 
     private static final String DATE_PATTERN = "dd.MM.YYYY";
@@ -28,11 +29,15 @@ public class PdfController {
     @Autowired DocumentService docService;
 
     @RequestMapping(value = "/pdf/thesisproposal",
+    @RequestMapping(value  = "/thesisproposal/{userId}",
                     method = RequestMethod.GET)
     public String printThesisProposal(
             @RequestHeader("User-Id") ObjectId userId,
             @RequestParam(value = "markdown",
                           required = false,
+            @PathVariable("userId") ObjectId userId,
+            @RequestParam(value        = "markdown",
+                          required     = false,
                           defaultValue = "false") boolean markdown,
             ModelMap model) {
         Student student = usrService.getUserById(userId);
