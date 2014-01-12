@@ -28,33 +28,29 @@ public class PdfController {
     @Autowired UserService usrService;
     @Autowired DocumentService docService;
 
-    @RequestMapping(value = "/pdf/thesisproposal",
-    @RequestMapping(value  = "/thesisproposal/{userId}",
-                    method = RequestMethod.GET)
-    public String printThesisProposal(
-            @RequestHeader("User-Id") ObjectId userId,
-            @RequestParam(value = "markdown",
-                          required = false,
-            @PathVariable("userId") ObjectId userId,
-            @RequestParam(value        = "markdown",
-                          required     = false,
-                          defaultValue = "false") boolean markdown,
-            ModelMap model) {
-        Student student = usrService.getUserById(userId);
-        // TODO: add error handling if the user is not a student
-        ThesisProposal document = docService.getThesisProposalForUser(userId);
-        // TODO: add error handling if the document doesn't exist
-        List<Teacher> consultants =
-                usrService.getConsultantsForThesis(document);
-        List<Teacher> scientificLeaders =
-                usrService.getScientificLeadersForThesis(document);
-        // populate the model
-        if (markdown) model.put("markdown", new Markdown4jProcessor());
-        model.put("dateFormat", new SimpleDateFormat(DATE_PATTERN));
-        model.put("student", student);
-        model.put("document", document);
-        model.put("scientificLeaders", scientificLeaders);
-        model.put("consultants", consultants);
-        return "thesis_proposal";
-    }
+    @RequestMapping(value = "/thesisproposal/{userId}",
+            method = RequestMethod.GET)
+public String printThesisProposal(
+    @PathVariable("userId") ObjectId userId,
+    @RequestParam(value = "markdown",
+                  required = false,
+                  defaultValue = "false") boolean markdown,
+    ModelMap model) {
+Student student = usrService.getUserById(userId);
+// TODO: add error handling if the user is not a student
+ThesisProposal document = docService.getThesisProposalForUser(userId);
+// TODO: add error handling if the document doesn't exist
+List<Teacher> consultants =
+        usrService.getConsultantsForThesis(document);
+List<Teacher> scientificLeaders =
+        usrService.getScientificLeadersForThesis(document);
+// populate the model
+if (markdown) model.put("markdown", new Markdown4jProcessor());
+model.put("dateFormat", new SimpleDateFormat(DATE_PATTERN));
+model.put("student", student);
+model.put("document", document);
+model.put("scientificLeaders", scientificLeaders);
+model.put("consultants", consultants);
+return "thesis_proposal";
+}
 }
