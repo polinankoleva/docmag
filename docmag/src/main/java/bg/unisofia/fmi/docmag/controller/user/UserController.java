@@ -38,4 +38,21 @@ public class UserController {
 	public void deleteThesisDefenceForUser(@PathVariable ObjectId userId) {
 		userService.deteleThesisdefenceForUser(userId);
 	}
+	
+	@RequestMapping(value="/{userId}/thesisdefence/mark", method = RequestMethod.GET)
+	public Map<String, String> getThesisDefenceMarkForUser(@PathVariable ObjectId userId) {
+		return userService.getThesisDefenceMarkForStudentWithId(userId);
+	}
+	
+	@RequestMapping(value="/{userId}/thesisdefence/mark", method = RequestMethod.POST)
+	public void setThesisDefenceMarkForUser(@PathVariable ObjectId userId, @RequestParam String mark) {
+		userService.setThesisDefenceMarkForStudentWithId(mark, userId);
+	}
+	
+	@RequestMapping(value="/{userId}/thesisdefence/mark", method = RequestMethod.PUT)
+	public void updateThesisDefenceMarkForUser(@PathVariable ObjectId userId, @RequestParam String mark) {
+		userService.updateThesisDefenceMarkForStudentWithId(mark, userId);
+	}
+	
+	
 }

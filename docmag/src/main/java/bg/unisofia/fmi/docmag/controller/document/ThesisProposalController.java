@@ -25,7 +25,6 @@ public class ThesisProposalController {
 
 	@Autowired
 	DocumentService documentService;
-	
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> getThesisProposal(@RequestHeader("User-Id") ObjectId userId) {
