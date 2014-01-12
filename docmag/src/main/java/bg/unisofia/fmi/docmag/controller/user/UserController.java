@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import bg.unisofia.fmi.docmag.service.UserService;
@@ -22,12 +23,12 @@ public class UserController {
 	UserService userService;
 
 	@RequestMapping(value="/{userId}/thesisdefence", method = RequestMethod.GET)
-	public Map<String, Object> getThesisDefenceForUser(@PathVariable ObjectId userId) {
+	public @ResponseBody Map<String, Object> getThesisDefenceForUser(@PathVariable ObjectId userId) {
 		return userService.getThesisDefenceForUser(userId);
 	}
 	
 	@RequestMapping(value="/{userId}/thesisdefence", method = RequestMethod.POST)
-	public Map<String, String> setThesisDefenceForUser(@PathVariable ObjectId userId, @RequestParam ObjectId thesisDefenceId) {
+	public @ResponseBody Map<String, String> setThesisDefenceForUser(@PathVariable ObjectId userId, @RequestParam ObjectId thesisDefenceId) {
 		return userService.setThesisDefenceIdForStudentWithId(thesisDefenceId, userId);
 	}
 	
@@ -44,7 +45,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/{userId}/thesisdefence/mark", method = RequestMethod.GET)
-	public Map<String, String> getThesisDefenceMarkForUser(@PathVariable ObjectId userId) {
+	public @ResponseBody Map<String, String> getThesisDefenceMarkForUser(@PathVariable ObjectId userId) {
 		return userService.getThesisDefenceMarkForStudentWithId(userId);
 	}
 	
