@@ -4,9 +4,12 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import bg.unisofia.fmi.docmag.utils.JsonObjectIdSerializer;
 
 public class Document {
 	
@@ -20,6 +23,7 @@ public class Document {
 	    AnnualPDHPlan
 	}
 
+	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Id
 	private ObjectId id;
 	
@@ -29,6 +33,7 @@ public class Document {
 	@Indexed
 	private DocumentType type;
 	
+	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Indexed
 	private ObjectId userId;
 

@@ -235,7 +235,7 @@ public class DocumentService {
 		return scientificLeadersInfo;
 	}
 	
-	private List<Object> createAllTeacherMap(List<Teacher> teachers){
+	public List<Object> createAllTeacherMap(List<Teacher> teachers){
 		List<Object> teachersInfo = new ArrayList<Object>();
 		if(teachers !=  null && !teachers.isEmpty()){
 			for(int i = 0; i < teachers.size(); i++){
@@ -249,7 +249,7 @@ public class DocumentService {
 		return teachersInfo;	
 	} 
 
-	private List<Teacher> getAllTeachers(){
+	public List<Teacher> getAllTeachers(){
 		return userDao.getAllUsersOfType(UserType.Teacher);
 	}
 	

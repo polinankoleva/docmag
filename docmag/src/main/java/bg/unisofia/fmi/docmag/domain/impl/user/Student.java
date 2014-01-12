@@ -3,9 +3,11 @@ package bg.unisofia.fmi.docmag.domain.impl.user;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import bg.unisofia.fmi.docmag.domain.impl.profile.StudentProfile;
+import bg.unisofia.fmi.docmag.utils.JsonObjectIdSerializer;
 
 public class Student extends User {
 
@@ -17,9 +19,11 @@ public class Student extends User {
 	private String thesisDefenceMark;
 	private Date graduationDate;
 
+	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Indexed
 	private ObjectId thesisDefenceId;
 
+	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Indexed
 	private ObjectId thesisRecensionId;
 

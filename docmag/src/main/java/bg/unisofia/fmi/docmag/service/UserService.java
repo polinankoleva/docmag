@@ -30,6 +30,9 @@ public final class UserService {
      
      @Autowired
      ThesisDefenceDAO thesisDefenceDao;
+     
+     @Autowired
+     DocumentService documentService;
 
      public void createUser(User user) {
              userDao.createUser(user);
@@ -47,6 +50,11 @@ public final class UserService {
              return userDao.getUserByUsername(username);
      }
 
+     public List<Object> getAllTeacher(){
+    	 List<Teacher> allTeacher = documentService.getAllTeachers();
+    	 return documentService.createAllTeacherMap(allTeacher);
+     }
+     
      public Map<String, String> setThesisDefenceIdForStudentWithId(ObjectId thesisDefenceId, ObjectId studentId) {
              User user = userDao.getUserById(studentId);
              if(user != null && user instanceof Student){
