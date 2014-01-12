@@ -29,8 +29,6 @@ public class PdfController {
 	private static final String DATE_PATTERN = "dd.MM.YYYY";
 	@Autowired UserService     usrService;
 	@Autowired DocumentService docService;
-
-<<<<<<< HEAD
 	@RequestMapping(value  = "/thesisproposal", method = RequestMethod.GET)
 	public String printThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam(value = "markdown", required = false,
 			defaultValue = "false") boolean markdown, ModelMap model) {
@@ -50,7 +48,7 @@ public class PdfController {
 		model.put("consultants", consultants);
 		return "thesis_proposal";
 	}
-=======
+
     @RequestMapping(value  = "/pdf/thesisproposal",
                     method = RequestMethod.GET)
     public String printThesisProposal(
@@ -76,5 +74,4 @@ public class PdfController {
         model.put("consultants", consultants);
         return "thesis_proposal";
     }
->>>>>>> branch 'master' of https://github.com/polinankoleva/docmag
 }
