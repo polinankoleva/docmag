@@ -13,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Component;
 
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
+
 @Component
 public class EmailSender {
 	
@@ -43,11 +45,19 @@ public class EmailSender {
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(to));
 			message.setSubject(subject);
-			message.setText(text);
+			message.setContent(text,"text/html");
 			Transport.send(message);
 
 		} catch (MessagingException e) {
 			System.out.println("Sending email failed.Message:" + e.getMessage());
 		}
+	}
+	
+	public String generateTextForThesisProposal(ThesisProposalStatus status, String name){
+		String text = "<p>Dear " + name + ", </p>"+
+				"<p>We are glad to announce that your thesis proposal has been approved </p>"+
+				"<p>Wishing you good luck on the upcomming defence.</p>"+
+				"<p>SU Team</p>";
+		return text;
 	}
 }

@@ -18,7 +18,9 @@ import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
+import bg.unisofia.fmi.docmag.domain.impl.user.User;
 import bg.unisofia.fmi.docmag.domain.impl.user.User.UserType;
+import bg.unisofia.fmi.docmag.email.EmailSender;
 
 @Service
 public class DocumentService {
@@ -31,6 +33,12 @@ public class DocumentService {
 
 	@Autowired
 	UserDAO userDao;
+	
+	@Autowired
+	EmailSender emailSender;
+	
+	private final String APPROVED_SUBJECT = "Approved Thesis Proposal";
+	private final String APPROVED_WITH_NOTES_SUBJECT = "Approved with notes Thesis Proposal";
 
 	public List<Document> getUserDocuments(ObjectId userId) {
 		List<Document> documents = documentDao.getAllDocumentsForUser(userId);
@@ -138,11 +146,27 @@ public class DocumentService {
 		if (consultantIds != null && !consultantIds.isEmpty()) {
 			thesisProposal.setConsultantIds(checkTeacherObjectIds(consultantIds));
 		}
-		if(subject != null){
+		if(status != null){
 			thesisProposal.setStatus(status);
+			User user = userDao.getUserByThesisProposalId(thesisProposal.getId());
+			if(user != null && user instanceof Student){
+				Student student = (Student) user;
+				sendEmailForUpdateInThesisStatus(status, student);
+			}	
 		}
 	}
 
+	private void sendEmailForUpdateInThesisStatus(ThesisProposalStatus status, Student student){
+		if(status.toString().equalsIgnoreCase(ThesisProposalStatus.Approved.toString())){
+			System.out.println("Sending email to:" + student.getUsername());
+			//emailSender.sendEmail(student.getProfile().getEmail(), APPROVED_SUBJECT, emailSender.generateTextForThesisProposal(status, student.getProfile().getName()));
+		}
+		if(status.toString().equalsIgnoreCase(ThesisProposalStatus.ApprovedWithNotes.toString())){
+			System.out.println("Sending email to:" + student.getUsername());
+			//emailSender.sendEmail(student.getProfile().getEmail(), APPROVED_WITH_NOTES_SUBJECT, emailSender.generateTextForThesisProposal(status, student.getProfile().getName()));
+		}
+	}
+	
 	private ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId) {
 		return documentDao.getThesisProposalStatusForUser(userId);
 	}
@@ -168,6 +192,11 @@ public class DocumentService {
 		if(thesisStatus != null && thesisProposal != null ){
 			thesisProposal.setStatus(thesisStatus);
 			updateThesisProposal(thesisProposal);
+			User user = userDao.getUserByThesisProposalId(thesisProposalId);
+			if(user != null && user instanceof Student){
+				Student student = (Student) user;
+				sendEmailForUpdateInThesisStatus(thesisStatus, student);
+			}
 		}
 	}
 
