@@ -260,11 +260,11 @@ div.WordSection1
 		today = dd+'.'+mm+'.'+yyyy;
 		
 		$('#currentDate').text(today);
-		//debugger;
+		
     	$.ajax({
     		url:" ../rest/thesisproposal",
     		type:'GET',
-    		headers:{'User-Id':'52d303c2fba3086eace8797c'},
+    		headers:{'User-Id':sessionStorage.userId},
     	}).done(function(data){
     		console.log(data);
     		if(typeof data.user!='undefined'){

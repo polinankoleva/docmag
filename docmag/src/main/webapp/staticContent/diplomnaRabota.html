@@ -39,7 +39,7 @@
     <div class="greeting-line">
         <div class="container">
             <p>
-                Добре дошъл, <a href="#" class="navbar-link">землянино</a>!
+                Добре дошъл, <a href="#" class="navbar-link" id="username"></a>!
                 <a href="#" class="navbar-link navbar-right">Изход</a>
             </p>
         </div>
@@ -65,7 +65,9 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>	
 	<script type="text/javascript">
-    	
+	if(sessionStorage.username){
+		$('#username').text(sessionStorage.username);
+	}
 	    	$(document).on("click",".submit",function getIframeText() {
 	    		 
 	    		var iframe0 = document.getElementById("iframe0");
@@ -102,13 +104,14 @@
 		            var restrictions = iframe0document.getElementById("restrictions").value;
 		            var dueDate=iframe0document.getElementById("endDate").value;
 		            
-		            //console.log(queryType);
-		         	
+		            console.log(dueDate);
+		         	console.log(new Date(dueDate).toISOString())
+		            
 		            if(queryType==='POST'){
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
+			        		headers:{'User-Id':sessionStorage.userId},
 			        		type:'POST',
-			        		headers:{'User-Id':'52d26b75f71d7eb7a2ce06fa'},
 			        		data:{
 			        			'subject':theme,
 			        			'annotation':annotation,
@@ -116,8 +119,8 @@
 			        			'tasks':tasks,
 			        			'restrictions':restrictions,
 			        			'executionDeadline':new Date(dueDate),
-			        			'scientificLeaderIds':supervisorsIds,
-			        			'consultantIds':consultantIds
+			        			'scientificLeaderIds':JSON.stringify(supervisorsIds),
+			        			'consultantIds':JSON.stringify(consultantIds)
 			        		}
 			        	}).done(function(){
 			        		console.log('success');
@@ -133,7 +136,7 @@
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
 			        		type:'PUT',
-			        		headers:{'User-Id':'52d303c2fba3086eace8797c'},
+			        		headers:{'User-Id':sessionStorage.userId},
 			        		data:data,
 			        	}).done(function(){
 			        		console.log('success');

@@ -96,38 +96,31 @@
 	        		data:{'username':username,'password':password},
 	        		dataType:"text",
 	        	}).done(function(data){
-	        		//TODO save user credentials in session storage
 	        		var str = JSON.stringify(eval('('+data+')'));
 	        		var user=JSON.parse(str);
 	        		
-	        		if(user){
-	        			$('noSuchUser').css('display','none');
+	        		if(typeof user.errorMessage === 'undefined'){
+	        			$('#noSuchUser').css('display','none');
 	        			if(typeof(Storage)!=="undefined")
 		        		  {
 		        		  	sessionStorage.userId=user.userId;
 		        		  	sessionStorage.type=user.type;
 		        		  	sessionStorage.username=username;
 		        		  	
+		            		$.ajaxSetup({
+		                		headers: {'User-Id':user.userId}
+		                	});	
+		        		  	
 		        		  	window.location.replace("mainScreen.htm");
 		        		  }
 	        		}
 	        		else{
-	        			$('noSuchUser').css('display','block');
+	        			$('#noSuchUser').css('display','block');
 	        		}
 	        		
 	        	}).fail(function( jqXHR, textStatus, errorThrown ) {
 	        		console.log("Error Message: "+errorThrown)
-	        	});
-    	/*	$.ajaxSetup({
-        		headers: {'User-Id':'52d11c97363934b3b33f3a01'}
-        	});		*/
-        	//if user is authenticated - get userId and userRole
-        	
-        	//save userId and userRole
-        	
-        	
-        	//rediect to mainScreen
-        	
+	        	});	
 
    			}	
     	});
