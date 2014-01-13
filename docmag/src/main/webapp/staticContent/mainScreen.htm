@@ -39,7 +39,7 @@
     <div class="greeting-line">
         <div class="container">
             <p>
-                Добре дошъл, <a href="#" class="navbar-link">землянино</a>!
+                Добре дошъл, <a href="#" class="navbar-link" id="username"></a>!
                 <a href="#" class="navbar-link navbar-right">Изход</a>
             </p>
         </div>
@@ -61,27 +61,72 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>	
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>		
     <script type="text/javascript">
-        var titles = ['Предложение за Дипломна Работа', 'diplomnaRabota.html', 'Предложение за Преддипломен Стаж', 'preddiplomenStaj.html', 
-              'Документи', 'documents.html', 'Оценки и Рецензии', 'recenzii.html', 'Профил', 'studentProfile.html', 'Справки', 'checks.html'];
-		
-        $('#navigation-menu').append('<div class="row">');
-       
-	for (i = 0; i < titles.length; i+=2){
-	   
-            
-			if (parseInt(i) % 3 == 0) {
-                $('#navigation-menu').append('</div><div class="row">');
-            }
-			
-			
+    $(function(){
 
-		    $('#navigation-menu').append('<a href="'+titles[i+1]+'"><div class="col-md-3 col-md-offset-1 nav-tile"><h2>' + titles[i] + '</h2></div></a>');
-        
-	}
-        $('#navigation-menu').append('</div>');
-		
+    	if(sessionStorage.username){
+    		$('#username').text(sessionStorage.username);
+    	}
+    	if(sessionStorage.type){
+    	
+    	//NavigationItem and SystemUser objects are defined in js/scripts.js
+    	
+    	var masterUserNav=[new NavigationItem('Предложение за Дипломна Работа', 'diplomnaRabota.html'),
+    	                   new NavigationItem('Предложение за Преддипломен Стаж', 'preddiplomenStaj.html'),
+    	                   new NavigationItem('Документи', 'documents.html'),
+    					   new NavigationItem('Оценки и Рецензии', 'recenzii.html'),
+    					   new NavigationItem('Профил', 'studentProfile.html'),
+    					   new NavigationItem('Справки', 'checks.html')];			
+    	
+    	var master=new SystemUser('Student',masterUserNav);
+    	
+    	var teacherNav=[new NavigationItem('Одобряване на Предложение за Дипломна Работа', '#'),
+ 	                   new NavigationItem('Одобряване на Предложение за Преддипломен Стаж', '#'),
+	                   new NavigationItem('Оценяване и Рецензии', '#'),
+					   new NavigationItem('Атестации', '#'),
+					   new NavigationItem('Документи', '#'),
+					   new NavigationItem('Профил', '#'),
+					   new NavigationItem('Справки', 'checks.html')];
+    	var teacher=new SystemUser('Teacher',teacherNav);
+    	
+    	var doctorNav=[new NavigationItem('Въвеждане на Индивидуален План', '#'),
+  	                   new NavigationItem('Въвеждане на Общ Работен План', '#'),
+ 	                   new NavigationItem('Въвеждане на План за Една Година', '#'),
+ 					   new NavigationItem('Документи', '#'),
+ 					   new NavigationItem('Атестации', '#'),
+ 					   new NavigationItem('Профил', '#'),
+ 					   new NavigationItem('Справки', '#')];
+    	var doctor=new SystemUser('Doctor',doctorNav);
+    	
+    	var users=[];
+    	var titles;
+    	
+    	users.push(master);
+    	users.push(teacher);
+    	users.push(doctor);
+    	
+    	for(i=0;i<users.length;i++){
+    		if(sessionStorage.type==users[i].type){
+    			titles=users[i].navigation;
+    		}
+    	}
+    	    $('#navigation-menu').append('<div class="row">');
+    	    
+    	    if(titles.length!==0){
+	    	  	for (i = 0; i < titles.length; i++){
+    	  	   	    if (parseInt(i) % 3 == 0) {
+    	                  $('#navigation-menu').append('</div><div class="row">');
+    	             }
+	    	  	
+    	  		    $('#navigation-menu').append('<a href="'+titles[i].url+'"><div class="col-md-3 col-md-offset-1 nav-tile"><h2>' + titles[i].title + '</h2></div></a>');
+	    	          
+	    	  	}
+   	            $('#navigation-menu').append('</div>');
+	    	}
+    	}
+    });
 	    
       </script>
   </body>

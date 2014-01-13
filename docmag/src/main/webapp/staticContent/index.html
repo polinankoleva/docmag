@@ -100,13 +100,20 @@
 	        		var str = JSON.stringify(eval('('+data+')'));
 	        		var user=JSON.parse(str);
 	        		
-	        		if(typeof(Storage)!=="undefined")
-	        		  {
-	        		  	sessionStorage.userId=user.userId;
-	        		  	sessionStorage.type=user.type;
-	        		  	
-	        		  	window.location.replace("mainScreen.htm");
-	        		  }
+	        		if(user){
+	        			$('noSuchUser').css('display','none');
+	        			if(typeof(Storage)!=="undefined")
+		        		  {
+		        		  	sessionStorage.userId=user.userId;
+		        		  	sessionStorage.type=user.type;
+		        		  	sessionStorage.username=username;
+		        		  	
+		        		  	window.location.replace("mainScreen.htm");
+		        		  }
+	        		}
+	        		else{
+	        			$('noSuchUser').css('display','block');
+	        		}
 	        		
 	        	}).fail(function( jqXHR, textStatus, errorThrown ) {
 	        		console.log("Error Message: "+errorThrown)

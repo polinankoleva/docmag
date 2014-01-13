@@ -34,3 +34,16 @@ function validate(inputClass,validationFieldId){
 function escapeString(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+
+function SystemUser(userType, navigation){
+	var self=this;
+	self.type=userType;
+	self.navigation=navigation;
+}  
+
+function NavigationItem(title,url){
+	var self=this;
+	self.title=title;
+	self.url=url;
+}
