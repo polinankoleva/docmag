@@ -170,10 +170,10 @@ function displayFormForTeachers(){
     		type:'GET',
      		//contentType: "application/json; charset=utf-8",
             //dataType: "json",
-    	}).done(function(data){
-    		console.log(data);
-    		if(typeof data.teachers !='undefined'){
-    			var teachers=data.teachers;
+    	}).done(function(teachers){
+    		console.log(teachers);
+    		if(typeof teachers !='undefined'){
+    			
     			for(var i=0;i<teachers.length;i++){
     				$('#leaderName').append(
     				'<option id="'+teachers[i].id+'">'+
