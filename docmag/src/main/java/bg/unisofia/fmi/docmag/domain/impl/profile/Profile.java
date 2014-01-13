@@ -4,18 +4,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Profile {
-	
+
 	private String firstName;
 	private String surname;
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
 	private String lastName;
 	private String email;
 	private String faculty;
@@ -26,6 +17,14 @@ public class Profile {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getLastName() {

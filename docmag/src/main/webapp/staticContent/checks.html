@@ -44,9 +44,91 @@
             </p>
         </div>
     </div>
-    <div class="container">
-    Справки
     
+    <div class="container">
+    
+    <div id="checkboxes">
+    
+    <label><input type="checkbox" name="checkStudents" onclick="displayFormForStudents()" class="checkB" />  Справки за студенти   </label>
+    <label style="margin-left:300px;"><input type="checkbox" name="checkTeachers" onclick="displayFormForTeachers()" class="checkB" />  Справки за преподаватели</label>
+    
+    </div>
+    
+    <div id="isStudent" style="display:none;">
+    
+	<p>Изберете начална дата: 
+	    <input type="date" id="studentDate1" class="form-control"/>
+	    <div style="margin-left:350px; margin-top: -70px;">Изберете крайна дата: 
+	    <input type="date" id="studentDate2" style="margin-left: 30px;" class="form-control"/>
+	    </div>
+	</p>
+	<br/>
+	
+	<p>Изберете преподавател: 
+	
+		<select class="form-control" id="leaderName">
+            <option value="default" selected>Избери преподавател</option>
+		</select>
+	
+	<div style="margin-left:350px; margin-top: -70px;">Изберете рецензент: 
+		<select class="form-control" id="reviewerName">
+            <option value="default" selected>Избери рецензент</option>
+		</select>
+	</div>
+	</p>
+	
+	<button class="btn btn-primary">Търси...</button>
+	
+	</div>
+    
+    <div id="labelChecks" style="display:none;">Справки за студенти</div>
+    
+     
+    
+    <div id="isTeacher" style="display:none;">
+    
+         <p>Изберете начална дата: 
+	    <input type="date" id="studentDate1" class="form-control"/>
+	    <div style="margin-left:304px; margin-top: -70px;">Изберете крайна дата: 
+	    <input type="date" id="studentDate2" style="margin-left: 30px;" class="form-control"/>
+	    </div>
+	
+	<div style="margin-left:600px; margin-top: -62px;">Изберете преподавател: 
+		<select class="form-control" id="leaderNamet">
+            <option value="default" selected>Избери преподавател</option>
+		</select>
+	</div>
+	</p>
+	
+	<button class="btn btn-primary">Търси...</button>
+	
+	</div>
+    
+    <div id="labelChecks2" style="display:none;">Справки за преподаватели</div>
+    </div>
+    
+    <div id="searchResultsLabel">Резултати</div>
+    
+    <br/><br/><br/><br/><br/><br/><br/>
+
+	<div id="searchResults">
+	
+	<table class="table">
+        <thead>
+          <tr>
+            <th>Имена</th>
+            <th>Факултетен номер</th>
+            <th>Дата на защита</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+	
+	</div>
+	
+	<br/><br/><br/><br/><br/><br/><br/>
+	
 
       <footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
@@ -54,6 +136,105 @@
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>	
+	
+	<script type="text/javascript">
+
+	
+	var $inputs = $(".checkB");
+
+	$inputs.change(function()
+	{
+	    $inputs.not(this).prop('checked', false);
+	});
+	
+	function displayFormForStudents(){
+		
+		$("#isStudent").show();
+		$("#labelChecks").show();
+		$("#isTeacher").hide();
+		$("#labelChecks2").hide();
+	
+	}
+function displayFormForTeachers(){
+		
+		$("#isTeacher").show();
+		$("#labelChecks2").show();
+		$("#isStudent").hide();
+		$("#labelChecks").hide();
+	}
+	
+	
+	$(function(){
+    	$.ajax({
+    		url:" ../rest/users/allTeachers",
+    		type:'GET',
+     		//contentType: "application/json; charset=utf-8",
+            //dataType: "json",
+    	}).done(function(data){
+    		console.log(data);
+    		if(typeof data.teachers !='undefined'){
+    			var teachers=data.teachers;
+    			for(var i=0;i<teachers.length;i++){
+    				$('#leaderName').append(
+    				'<option id="'+teachers[i].id+'">'+
+    				teachers[i].name+
+    				'</option>'		
+    				);
+    				
+    				$('#leaderNamet').append(
+    	    				'<option id="'+teachers[i].id+'">'+
+    	    				teachers[i].name+
+    	    				'</option>'		
+    	    				);
+    				
+    				
+    				$('#reviewerName').append(
+    	    				'<option id="'+teachers[i].id+'">'+
+    	    				teachers[i].name+
+    	    				'</option>'		
+    	    				);
+    			}
+    		}
+    	
+    	});
+    	
+    });
+	
+//	$(function submitSearchFormStudents(){
+		
+	//	var startDateStudent = $("#studentDate1").val();
+		//var endDateStudent = $("#studentDate2").val();
+		//var leaderIdentifier = //TODO check how to get the id of the selected option;
+		//var reviewerIdentifier = //TODO check how to get the id of the selected option;
+
+	//	$.ajax({
+   //		url:" ../rest/reports/graduated",
+   // 		type:'GET',
+   // 		headers:{'User-Id':'52d2e72efba3086eace878d9'},
+   // 		data:{
+   // 			'startDate':startDateStudent,
+   // 			'endDate':endDateStudent,
+   // 			'leaderId':leaderIdentifier,
+   // 			'reviewerId':reviewerIdentifier,
+   // 	  //dataType:"text",
+   // 	}).done(function(data){
+   // 		console.log(data);
+   // 		if(typeof data.graduates !='undefined'){
+   // 			var students=data.graduates;
+   // 			for(var i=0;i<graduates.length;i++){
+   // 				$('#tableBody').append(
+   // 				'<tr><td>'+graduates[i].name+'></td><td>'+graduates[i].facultyNumber+'</td><td>'+graduates[i].defenceDate+'</td></tr>
+    					
+   // 				);
+   // 			}
+   // 		}
+    	
+   // 	});
+    	
+ //   });
+	
+	</script>
+	
 	
 	</div> 
   </body>
