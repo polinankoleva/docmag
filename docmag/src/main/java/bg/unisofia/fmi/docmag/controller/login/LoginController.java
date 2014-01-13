@@ -2,14 +2,17 @@ package bg.unisofia.fmi.docmag.controller.login;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketException;
 import java.net.URI;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -29,6 +32,10 @@ import bg.unisofia.fmi.docmag.service.UserService;
 @Controller
 public class LoginController {
 
+    public static final int
+        REQUEST_TIMEOUT = 5000, // 5s
+        CONNECT_TIMEOUT = 5000, // 5s
+        SOCKET_TIMEOUT  = 5000; // 5s
     public static final String
         SUSI_PARSER    = "http://susi.apphb.com/api",
         SUSI_LOGIN     = SUSI_PARSER + "/login",
@@ -37,9 +44,18 @@ public class LoginController {
         DEFAULT_ERROR  = "Something went terribly wrong.";
 
     @Autowired private UserService  usrService;
-    private CloseableHttpClient     client  = HttpClients.createMinimal();
+    private CloseableHttpClient     client;
     private ResponseHandler<String> handler = new BasicResponseHandler();
     private ObjectMapper            mapper  = new ObjectMapper();
+
+    public LoginController() {
+        RequestConfig config = RequestConfig.custom()
+                              .setConnectionRequestTimeout(REQUEST_TIMEOUT)
+                              .setConnectTimeout(CONNECT_TIMEOUT)
+                              .setSocketTimeout(SOCKET_TIMEOUT).build();
+
+        client = HttpClients.custom().setDefaultRequestConfig(config).build();
+    }
 
     @RequestMapping(value    = "/login",
                     method   = RequestMethod.POST,
@@ -49,10 +65,13 @@ public class LoginController {
             @RequestParam(value = "password", required = true) String password)
                     throws IOException {
         User user = usrService.getUserByUsername(username);
-        if (user != null && user.getType() == UserType.Teacher) return success(user);
+        if (user != null && user.getType() == UserType.Teacher)
+            return success(user);
         HttpUriRequest req              = loginRequest(username, password);
         try (CloseableHttpResponse resp = client.execute(req)) {
             return handleLoginResponse(resp, username);
+        } catch (ConnectTimeoutException | SocketException ex) {
+            return error("Request timed out.");
         } catch (Exception ex) { return error(); }
     }
 
@@ -97,9 +116,8 @@ public class LoginController {
                 try {
                     if (user == null) {
                         HttpUriRequest req = profileRequest(key);
-                        try (CloseableHttpResponse resp = client.execute(req)) {
-                            return handleProfileResponse(resp, username);
-                        } catch (Exception ex) { return error(); }
+                        try (CloseableHttpResponse resp = client.execute(req))
+                            { return handleProfileResponse(resp, username); }
                     } else return success(user);
                 } finally { dispose(key); }
             default: return error(status.getReasonPhrase());
@@ -128,7 +146,7 @@ public class LoginController {
         String             body   = String.format("{ key: %s }", key);
         delete.setHeader("Content-Type", "application/json");
         delete.setEntity(new StringEntity(body));
-        client.execute(delete);
+        try (CloseableHttpResponse resp = client.execute(delete)) { }
     }
 
     private String success(User user) {
@@ -140,10 +158,8 @@ public class LoginController {
         return String.format("{ errorMessage: \"%s\" }", message);
     }
 
-    private String error() {
-        return error(DEFAULT_ERROR);
-    }
-    
+    private String error() { return error(DEFAULT_ERROR); }
+
     /** Must. Send. DELETE. With. Body. */
     private static class HttpDeleteWithBody extends HttpPost {
         @SuppressWarnings("unused")
