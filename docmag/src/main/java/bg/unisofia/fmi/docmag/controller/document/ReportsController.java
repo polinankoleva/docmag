@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +27,8 @@ public class ReportsController {
 
 	@RequestMapping(value = "/graduated", method = RequestMethod.GET)
 	public @ResponseBody List<Student> getStudentsReport(@RequestHeader("User-Id") ObjectId userId,
-			@RequestParam(required = true) Date startDate, 
-			@RequestParam(required = false) Date endDate, 
+			@RequestParam(required = true) @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate, 
+			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate, 
 			@RequestParam(required = false) ObjectId leaderId, 
 			@RequestParam(required = false) ObjectId reviewerId) {
 		Date firstDate = (startDate == null) ? new Date() : startDate;
@@ -35,7 +37,7 @@ public class ReportsController {
 	
 	@RequestMapping(value = "/thesisdefences", method = RequestMethod.GET)
 	public @ResponseBody List<ThesisDefence> getThesisDefences(@RequestHeader("User-Id") ObjectId userId,
-			@RequestParam Date startDate, @RequestParam(required = false) Date endDate, 
+			@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate, @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate, 
 			@RequestParam ObjectId commissionParticipantId) {
 		return reportsService.reportForThesisDefences(userId, startDate, endDate, commissionParticipantId);
 	}

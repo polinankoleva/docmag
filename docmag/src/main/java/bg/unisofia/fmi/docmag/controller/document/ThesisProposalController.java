@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +36,7 @@ public class ThesisProposalController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void setThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam String subject, @RequestParam String annotation, @RequestParam String purpose,
-			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam Date executionDeadline, @RequestParam List<ObjectId> scientificLeaderIds,
+			@RequestParam String tasks, @RequestParam String restrictions, @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) Date executionDeadline, @RequestParam List<ObjectId> scientificLeaderIds,
 			@RequestParam List<ObjectId> consultantIds, @RequestParam(required = false) ThesisProposalStatus status) {
 		documentService.insertThesisProposalForUser(userId, subject, annotation, purpose, tasks, restrictions,
 			executionDeadline, scientificLeaderIds, consultantIds, status);
@@ -44,10 +46,10 @@ public class ThesisProposalController {
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam(required = false) String subject, @RequestParam(required = false) String annotation, @RequestParam(required = false) String purpose,
-			@RequestParam(required = false) String tasks, @RequestParam(required = false) String restrictions, @RequestParam(required = false) Date executionDeadline, @RequestParam(required = false) List<ObjectId> scientificLeaderIds,
+			@RequestParam(required = false) String tasks, @RequestParam(required = false) String restrictions, @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) Date executionDeadline, @RequestParam(required = false) List<ObjectId> scientificLeaderIds,
 			@RequestParam(required = false) List<ObjectId> consultantIds,@RequestParam(required = false) ThesisProposalStatus status) {
 		documentService.updateThesisProposalForUser(userId, subject, annotation, purpose, tasks, restrictions,
-				executionDeadline, scientificLeaderIds, consultantIds, status);
+			executionDeadline, scientificLeaderIds, consultantIds, status);
 
 	}
 
