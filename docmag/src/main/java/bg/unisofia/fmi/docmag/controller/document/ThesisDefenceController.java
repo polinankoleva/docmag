@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,13 +30,13 @@ public class ThesisDefenceController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void addThesisDefence(@RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) Date date, @RequestParam List<ObjectId> commissionParticipantIds) {
-		thesisDefenceService.insertThesisDefence(date, commissionParticipantIds);
+	public void addThesisDefence(@RequestParam Long date, @RequestParam List<ObjectId> commissionParticipantIds) {
+		thesisDefenceService.insertThesisDefence(new Date(date), commissionParticipantIds);
 	}
 	
 	@RequestMapping(value = "/{thesisDefenceId}", method = RequestMethod.PUT)
-	public @ResponseBody Map<String, String> updateThesisDefence(@PathVariable ObjectId thesisDefenceId, @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) Date date, @RequestParam(required = false) List<ObjectId> commissionParticipantIds) {
-		return thesisDefenceService.updateThesisDefence(thesisDefenceId, date, commissionParticipantIds);
+	public @ResponseBody Map<String, String> updateThesisDefence(@PathVariable ObjectId thesisDefenceId, @RequestParam(required = false) Long date, @RequestParam(required = false) List<ObjectId> commissionParticipantIds) {
+		return thesisDefenceService.updateThesisDefence(thesisDefenceId, new Date(date) , commissionParticipantIds);
 	}
 	
 	@RequestMapping(value = "/{thesisDefenceId}", method = RequestMethod.DELETE)
