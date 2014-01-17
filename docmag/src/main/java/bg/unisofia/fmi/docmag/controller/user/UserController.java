@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import bg.unisofia.fmi.docmag.domain.impl.user.User;
 import bg.unisofia.fmi.docmag.service.UserService;
 
 @Controller
@@ -26,6 +27,11 @@ public class UserController {
 	@RequestMapping(value="/allTeachers", method = RequestMethod.GET)
 	public @ResponseBody List<Object> getAllTeachers() {
 		return userService.getAllTeacher();
+	}
+	
+	@RequestMapping(value="/{userId}", method = RequestMethod.GET)
+	public @ResponseBody User getUserInformation(@PathVariable ObjectId userId) {
+		return userService.getUserById(userId);
 	}
 	
 	@RequestMapping(value="/{userId}/thesisdefence", method = RequestMethod.GET)
