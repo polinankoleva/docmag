@@ -16,6 +16,7 @@ import bg.unisofia.fmi.docmag.domain.impl.document.Document;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
@@ -63,6 +64,16 @@ public class DocumentService {
 		return document;
 	}
 
+	public ThesisRecension getThesisRecensionForUser(ObjectId userId) {
+		ThesisRecension document = null;
+		List<?> thesisRecensions = documentDao.getAllDocumentsForUserOfSpecificType(userId, 
+				DocumentType.ThesisRecension);
+		if (thesisRecensions != null && thesisRecensions.size() > 0) {
+			document = (ThesisRecension) thesisRecensions.get(0);
+		}
+		return document;
+	}
+	
 	public Map<String, Object> getThesisProposalInfo(ObjectId userId) {
 		ThesisProposal thesisProposal = getThesisProposalForUser(userId); 
 		Map<String, Object> allInformationForThesisProposal = new HashMap<String, Object>();
@@ -304,6 +315,13 @@ public class DocumentService {
 	
 	private void deleteDocument(ObjectId id){
 		documentDao.deleteDocumentWithId(id);
+	}
+	
+	public void deteleThesisRecensionForUser(ObjectId userId){
+		ThesisRecension thesisRecension = getThesisRecensionForUser(userId);
+		if(thesisRecension != null){
+			deleteDocument(thesisRecension.getId());
+		}
 	}
 	
 
