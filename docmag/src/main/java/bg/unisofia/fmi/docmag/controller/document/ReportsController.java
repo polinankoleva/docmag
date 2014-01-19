@@ -37,7 +37,6 @@ public class ReportsController {
 			@RequestParam(required = true) Long startDate, 
 			@RequestParam(required = false) Long endDate, 
 			@RequestParam ObjectId commissionParticipantId) {
-		System.out.println("Start date: " + new Date(startDate));
 		return reportsService.reportForThesisDefences(userId, new Date(startDate), 
 				endDate == null ? null : new Date(endDate), commissionParticipantId);
 	}
