@@ -103,7 +103,7 @@ public class ThesisDefenceService {
 		return isAssignedThesisDefence;
 	}
 
-	private List<Object> getAllThesisDefenceForJsonSerialize(List<ThesisDefence> thesisDefences){
+	public List<Object> getAllThesisDefenceForJsonSerialize(List<ThesisDefence> thesisDefences){
 		List<Object> thesisDefencesList = new ArrayList<Object>();
 		for(int i = 0 ; i < thesisDefences.size(); i++){
 			thesisDefencesList.add(getThesisDefenceInMap(thesisDefences.get(i)));

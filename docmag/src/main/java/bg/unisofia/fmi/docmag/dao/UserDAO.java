@@ -39,7 +39,7 @@ public interface UserDAO {
 	public List<Student> studentsForThesisDefenceWithId(ObjectId thesisDefenceId);
 
 	// reports
-	public List<Student> getGraduatedStudents(ObjectId userId, Date startDate,
-			Date endDate, ObjectId leaderId, ObjectId reviewerId);
+	public List<Student> getGraduatedStudentsBetweenDates(Date startDate,
+			Date endDate);
 
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bg.unisofia.fmi.docmag.domain.impl.ThesisDefence;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.service.ReportsService;
 
@@ -29,15 +28,18 @@ public class ReportsController {
 			@RequestParam(required = false) Long endDate, 
 			@RequestParam(required = false) ObjectId leaderId, 
 			@RequestParam(required = false) ObjectId reviewerId) {
-		Date firstDate = (startDate == null) ? new Date() : new Date(startDate);
-		return reportsService.reportForStudents(userId, firstDate, new Date(endDate), leaderId, reviewerId);
+		return reportsService.reportForStudents(userId, new Date(startDate), 
+				endDate == null ? null : new Date(endDate), leaderId, reviewerId);
 	}
 	
 	@RequestMapping(value = "/thesisdefences", method = RequestMethod.GET)
-	public @ResponseBody List<ThesisDefence> getThesisDefences(@RequestHeader("User-Id") ObjectId userId,
-			@RequestParam Long startDate, @RequestParam(required = false) Long endDate, 
+	public @ResponseBody List<Object> getThesisDefences(@RequestHeader("User-Id") ObjectId userId,
+			@RequestParam(required = true) Long startDate, 
+			@RequestParam(required = false) Long endDate, 
 			@RequestParam ObjectId commissionParticipantId) {
-		return reportsService.reportForThesisDefences(userId, new Date(startDate), new Date(endDate), commissionParticipantId);
+		System.out.println("Start date: " + new Date(startDate));
+		return reportsService.reportForThesisDefences(userId, new Date(startDate), 
+				endDate == null ? null : new Date(endDate), commissionParticipantId);
 	}
 	
 	

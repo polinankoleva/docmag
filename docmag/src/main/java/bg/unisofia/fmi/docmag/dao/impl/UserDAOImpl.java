@@ -1,7 +1,6 @@
 package bg.unisofia.fmi.docmag.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +14,7 @@ import org.springframework.stereotype.Repository;
 import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.document.Document;
-import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
-import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
-import bg.unisofia.fmi.docmag.domain.impl.profile.TeacherProfile.Department;
 import bg.unisofia.fmi.docmag.domain.impl.user.PHDStudent;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
@@ -29,196 +25,142 @@ import bg.unisofia.fmi.docmag.domain.impl.user.User.UserType;
 public class UserDAOImpl implements UserDAO {
 
 	@Autowired
-    private MongoTemplate mongoTemplate;
-    
-    @Autowired
-    private DocumentDAO documentDao;
+	private MongoTemplate mongoTemplate;
 
-    private User getUser(Query query) {
-            User user = mongoTemplate.findOne(query, User.class);
+	@Autowired
+	private DocumentDAO documentDao;
 
-            return user;
-    }
+	private User getUser(Query query) {
+		User user = mongoTemplate.findOne(query, User.class);
 
-    @Override
-    public void createUser(User user) {
-            mongoTemplate.insert(user);
-    }
+		return user;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends User> T getUserById(ObjectId userId) {
-            Query searchUserQuery = new Query(Criteria.where("_id").is(userId));
-            User user = getUser(searchUserQuery);
+	@Override
+	public void createUser(User user) {
+		mongoTemplate.insert(user);
+	}
 
-            if (user != null) {
-                    switch (user.getType()) {
-                    case Student:
-                            return (T) mongoTemplate
-                                            .findOne(searchUserQuery, Student.class);
-                    case PHD:
-                            return (T) mongoTemplate.findOne(searchUserQuery,
-                                            PHDStudent.class);
-                    case Teacher:
-                            return (T) mongoTemplate
-                                            .findOne(searchUserQuery, Teacher.class);
-                    }
-            }
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends User> T getUserById(ObjectId userId) {
+		Query searchUserQuery = new Query(Criteria.where("_id").is(userId));
+		User user = getUser(searchUserQuery);
 
-            return null;
-    }
+		if (user != null) {
+			switch (user.getType()) {
+			case Student:
+				return (T) mongoTemplate
+						.findOne(searchUserQuery, Student.class);
+			case PHD:
+				return (T) mongoTemplate.findOne(searchUserQuery,
+						PHDStudent.class);
+			case Teacher:
+				return (T) mongoTemplate
+						.findOne(searchUserQuery, Teacher.class);
+			}
+		}
 
-    @Override
-    public User getUserByUsername(String username) {
-            Query searchUserQuery = new Query(Criteria.where("username").is(
-                            username));
-            return getUser(searchUserQuery);
-    }
-    
-    @Override
-    public <T extends User> T getUserByThesisProposalId(
-                    ObjectId thesisProposalId) {
-            Document document = documentDao.getDocumentById(thesisProposalId);
-            
-            if (document != null) {
-                    return getUserById(document.getUserId());
-                }
-            else {
-                    return null;
-            }
-    }
+		return null;
+	}
 
-    @Override
-    public void saveUser(User user) {
-            mongoTemplate.save(user);
-    }
+	@Override
+	public User getUserByUsername(String username) {
+		Query searchUserQuery = new Query(Criteria.where("username").is(
+				username));
+		return getUser(searchUserQuery);
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends User> List<T> getAllUsersOfType(UserType type) {
-            Query searchUserQuery = new Query(Criteria.where("type").is(
-                            type.toString()));
-            List<T> users = (List<T>) mongoTemplate.find(searchUserQuery,
-                            User.getClassForUserType(type));
-            return users;
-    }
+	@Override
+	public <T extends User> T getUserByThesisProposalId(
+			ObjectId thesisProposalId) {
+		Document document = documentDao.getDocumentById(thesisProposalId);
 
-    @Override
-    public List<Teacher> getScientificLeadersForPHDStudent(PHDStudent phdStudent) {
-            List<ObjectId> leaderIds = phdStudent.getScientificLeaderIds();
-            if (leaderIds != null && leaderIds.size() > 0) {
-                    Query leadersQuery = new Query(Criteria.where("_id").in(
-                                    phdStudent.getScientificLeaderIds()));
-                    List<Teacher> leaders = mongoTemplate.find(leadersQuery,
-                                    Teacher.class);
-                    return leaders;
-            } else {
-                    return (new ArrayList<Teacher>());
-            }
-    }
+		if (document != null) {
+			return getUserById(document.getUserId());
+		} else {
+			return null;
+		}
+	}
 
-    @Override
-    public List<Teacher> getScientificLeadersForThesis(ThesisProposal thesis) {
-            Query leadersQuery = new Query(Criteria.where("_id").in(
-                            thesis.getScientificLeaderIds()));
-            List<Teacher> leaders = mongoTemplate.find(leadersQuery, Teacher.class);
+	@Override
+	public void saveUser(User user) {
+		mongoTemplate.save(user);
+	}
 
-            return leaders;
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends User> List<T> getAllUsersOfType(UserType type) {
+		Query searchUserQuery = new Query(Criteria.where("type").is(
+				type.toString()));
+		List<T> users = (List<T>) mongoTemplate.find(searchUserQuery,
+				User.getClassForUserType(type));
+		return users;
+	}
 
-    @Override
-    public List<Teacher> getConsultantsForThesis(ThesisProposal thesis) {
-            Query consultantsQuery = new Query(Criteria.where("_id").in(
-                            thesis.getConsultantIds()));
-            List<Teacher> consultants = mongoTemplate.find(consultantsQuery,
-                            Teacher.class);
+	@Override
+	public List<Teacher> getScientificLeadersForPHDStudent(PHDStudent phdStudent) {
+		List<ObjectId> leaderIds = phdStudent.getScientificLeaderIds();
+		if (leaderIds != null && leaderIds.size() > 0) {
+			Query leadersQuery = new Query(Criteria.where("_id").in(
+					phdStudent.getScientificLeaderIds()));
+			List<Teacher> leaders = mongoTemplate.find(leadersQuery,
+					Teacher.class);
+			return leaders;
+		} else {
+			return (new ArrayList<Teacher>());
+		}
+	}
 
-            return consultants;
-    }
+	@Override
+	public List<Teacher> getScientificLeadersForThesis(ThesisProposal thesis) {
+		Query leadersQuery = new Query(Criteria.where("_id").in(
+				thesis.getScientificLeaderIds()));
+		List<Teacher> leaders = mongoTemplate.find(leadersQuery, Teacher.class);
 
-    @Override
-    public boolean assignScientificLeaderForPHDStudent(Teacher teacher,
-                    PHDStudent student) {
-            List<ObjectId> leaderIds = student.getScientificLeaderIds();
-            if (leaderIds == null) {
-                    leaderIds = new ArrayList<ObjectId>();
-            }
-            if (!leaderIds.contains(teacher.getId())) {
-                    leaderIds.add(teacher.getId());
-                    mongoTemplate.save(student);
-                    return true;
-            } else {
-                    return false;
-            }
-    }
+		return leaders;
+	}
 
-    @Override
-    public List<Student> studentsForThesisDefenceWithId(ObjectId thesisDefenceId) {
-            Query query = new Query(Criteria.where("thesisDefenceId").is(
-                            thesisDefenceId));
-            return mongoTemplate.find(query, Student.class);
-    }
+	@Override
+	public List<Teacher> getConsultantsForThesis(ThesisProposal thesis) {
+		Query consultantsQuery = new Query(Criteria.where("_id").in(
+				thesis.getConsultantIds()));
+		List<Teacher> consultants = mongoTemplate.find(consultantsQuery,
+				Teacher.class);
 
-        @Override
-        public List<Student> getGraduatedStudents(ObjectId userId, Date startDate,
-                        Date endDate, ObjectId leaderId, ObjectId reviewerId) {
-                
-                Teacher teacher = getUserById(userId);
-                if (teacher != null) {
-                        Boolean teacherHaveRights = teacher.getProfile().getDepartment() == Department.SoftwareTechnologies;
-                        
-                        Date secondDate = (endDate == null) ? startDate : endDate;
-                        
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(startDate);
-                        calendar.set(Calendar.HOUR_OF_DAY, 0);
-                        calendar.set(Calendar.MINUTE, 0);
-                        calendar.set(Calendar.SECOND, 0);
-                        calendar.set(Calendar.MILLISECOND, 0);
-                        Date startDateOnDayStart = calendar.getTime();
-                        
-                        calendar.setTime(secondDate);
-                        calendar.set(Calendar.HOUR_OF_DAY, 0);
-                        calendar.set(Calendar.MINUTE, 0);
-                        calendar.set(Calendar.SECOND, 0);
-                        calendar.set(Calendar.MILLISECOND, 0);
-                        calendar.add(Calendar.DAY_OF_MONTH, 1);
-                        Date endDateOnDayEnd = calendar.getTime();
-                        
-                        
-                        System.out.println("Start date: " + startDateOnDayStart + " End date: " + endDateOnDayEnd);
-                        Query searchStudentQuery = new Query(Criteria.where("graduationDate").gte(startDateOnDayStart).lte(endDateOnDayEnd));
-                        List<Student> students = mongoTemplate.find(searchStudentQuery, Student.class);
-                        
-                        if (students != null && !students.isEmpty()) {
-                                System.out.println("Students: " + students);
-                                List<Student> filteredStudents = new ArrayList<Student>(students);
-                                for (Student student : students) {
-                                        ThesisProposal thesis = documentDao.getFirstDocumentForUserOfSpecificType(
-                                                        student.getId(), DocumentType.ThesisProposal);
-                                        if (!teacherHaveRights && !thesis.getScientificLeaderIds().contains(userId)) {
-                                                filteredStudents.remove(student);
-                                                continue;
-                                        }
-                                        if (thesis != null && leaderId != null &&
-                                                        !thesis.getScientificLeaderIds().contains(leaderId)) {
-                                                filteredStudents.remove(student);
-                                                continue;
-                                        }
-                                        ThesisRecension recension = documentDao.getDocumentById(student.getThesisRecensionId());
-                                        if (recension != null && reviewerId != null &&
-                                                        recension.getReviewerId() != reviewerId) {
-                                                filteredStudents.remove(student);
-                                        }
-                                }
-                                return filteredStudents;
-                        }
-                        
-                }
-                
-                return null;
-        }
+		return consultants;
+	}
 
+	@Override
+	public boolean assignScientificLeaderForPHDStudent(Teacher teacher,
+			PHDStudent student) {
+		List<ObjectId> leaderIds = student.getScientificLeaderIds();
+		if (leaderIds == null) {
+			leaderIds = new ArrayList<ObjectId>();
+		}
+		if (!leaderIds.contains(teacher.getId())) {
+			leaderIds.add(teacher.getId());
+			mongoTemplate.save(student);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
+	@Override
+	public List<Student> studentsForThesisDefenceWithId(ObjectId thesisDefenceId) {
+		Query query = new Query(Criteria.where("thesisDefenceId").is(
+				thesisDefenceId));
+		return mongoTemplate.find(query, Student.class);
+	}
+
+	@Override
+	public List<Student> getGraduatedStudentsBetweenDates(Date startDate,
+			Date endDate) {
+
+		Query searchStudentQuery = new Query(Criteria.where("graduationDate")
+				.gte(startDate).lte(endDate));
+		return mongoTemplate.find(searchStudentQuery, Student.class);
+	}
 
 }

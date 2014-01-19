@@ -30,6 +30,6 @@ public interface ThesisDefenceDAO {
 	public void delete(ObjectId thesisDefenceId);
 	
 	//reports
-	public List<ThesisDefence> selectThesisDefences(ObjectId userId, Date startDate,
-			Date endDate, ObjectId commissionParticipantId);
+	public List<ThesisDefence> thesisDefencesBetweenDatesIncludingCommissionParticipants(
+			Date startDate, Date endDate, ObjectId commissionParticipantId);
 }
