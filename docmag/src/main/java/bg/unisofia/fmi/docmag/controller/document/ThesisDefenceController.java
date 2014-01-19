@@ -36,7 +36,7 @@ public class ThesisDefenceController {
 	
 	@RequestMapping(value = "/{thesisDefenceId}", method = RequestMethod.PUT)
 	public @ResponseBody Map<String, String> updateThesisDefence(@PathVariable ObjectId thesisDefenceId, @RequestParam(required = false) Long date, @RequestParam(required = false) List<ObjectId> commissionParticipantIds) {
-		return thesisDefenceService.updateThesisDefence(thesisDefenceId, new Date(date) , commissionParticipantIds);
+		return thesisDefenceService.updateThesisDefence(thesisDefenceId, date == null ? null : new Date(date) , commissionParticipantIds);
 	}
 	
 	@RequestMapping(value = "/{thesisDefenceId}", method = RequestMethod.DELETE)
