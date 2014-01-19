@@ -73,7 +73,7 @@ public class DocumentService {
 		}
 		return document;
 	}
-	
+
 	public Map<String, Object> getThesisProposalInfo(ObjectId userId) {
 		ThesisProposal thesisProposal = getThesisProposalForUser(userId); 
 		Map<String, Object> allInformationForThesisProposal = new HashMap<String, Object>();

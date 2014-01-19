@@ -90,4 +90,18 @@ public class ThesisRecension extends Document {
 		}
 		return allPoints;
 	}
+	
+	public void setPointForField(String fieldName, Float point){
+		if(fieldName.equals("theoreticalMotivation") || fieldName.equals("ownIdeas") || 
+				fieldName.equals("execution") || fieldName.equals("styleAndLayout")){
+			this.points.get("General").put(fieldName, point);
+		}
+		if(fieldName.equals("architecture") || fieldName.equals("functionality") || 
+				fieldName.equals("reliability") || fieldName.equals("documentation")){
+			this.points.get("Realization").put(fieldName, point);
+		}
+		if(fieldName.equals("description") || fieldName.equals("presentation") || fieldName.equals("interpretation")){
+			this.points.get("Experiment").put(fieldName, point);
+		}
+	}
 }

@@ -8,10 +8,12 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.dao.ThesisDefenceDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.ThesisDefence;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
 import bg.unisofia.fmi.docmag.domain.impl.user.PHDStudent;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
@@ -32,6 +34,9 @@ public final class UserService {
      
      @Autowired
      DocumentService documentService;
+     
+     @Autowired
+     DocumentDAO documentDao;
 
      public void createUser(User user) {
              userDao.createUser(user);
@@ -163,4 +168,119 @@ public final class UserService {
              return userDao.getConsultantsForThesis(thesis);
      }
      
+     public Map<String, Object> getThesisRecensionForUser(ObjectId userId){
+    	 Map<String, Object> thesisRecensionInformation = new HashMap<String, Object>();
+    	 User user = getUserById(userId);
+    	 if(user != null && user instanceof Student){
+             Student student = (Student) user;
+             if(student.getThesisRecensionId() != null ){
+                     ThesisRecension recension = documentService.getThesisRecensionForUser(userId);
+                     thesisRecensionInformation.put("recension", recension);
+                     thesisRecensionInformation.put("student", getUserById(userId));
+                     thesisRecensionInformation.put("reviewer", getUserById(recension.getReviewerId()));
+                     thesisRecensionInformation.put("subject", documentService.getThesisProposalForUser(userId).getSubject());
+             }
+     }
+     return null;
+     }
+     
+     public void setThesisRecensionForUser(ObjectId userId, ObjectId reviewerId, String summary, String questions, 
+    		 String conclusion, Float theoreticalMotivation, Float ownIdeas, Float execution, Float styleAndLayout, 
+    		 Float architecture, Float functionality, Float reliability, Float documentation, Float description,
+    		 Float presentation, Float interpretation){
+    	 if(getUserById(userId) != null && getUserById(userId) instanceof Student && documentService.getThesisRecensionForUser(userId) == null){
+ 			ThesisRecension thesisRecension = new ThesisRecension();
+ 			thesisRecension.setConclusion(conclusion);
+ 			thesisRecension.setQuestions(questions);
+ 			thesisRecension.setSummary(summary);
+ 			thesisRecension.setUserId(userId);
+ 			if(getUserById(reviewerId) != null){
+ 				thesisRecension.setReviewerId(reviewerId);
+ 			}
+ 			thesisRecension.setPointForField("theoreticalMotivation", theoreticalMotivation);
+ 			thesisRecension.setPointForField("ownIdeas", ownIdeas);
+ 			thesisRecension.setPointForField("execution", execution);
+ 			thesisRecension.setPointForField("styleAndLayout", styleAndLayout);
+ 			thesisRecension.setPointForField("architecture", architecture);
+ 			thesisRecension.setPointForField("functionality", functionality);
+ 			thesisRecension.setPointForField("reliability", reliability);
+ 			thesisRecension.setPointForField("documentation", documentation);
+ 			thesisRecension.setPointForField("description", description);
+ 			thesisRecension.setPointForField("presentation", presentation);
+ 			thesisRecension.setPointForField("interpretation", interpretation);
+ 			insertThesisRecension(thesisRecension);
+    	 }
+     }
+     
+     private void insertThesisRecension(ThesisRecension recension){
+    	 documentDao.saveDocument(recension);
+     }
+     
+     private void updateThesisRecension(ThesisRecension recension){
+    	 documentDao.saveDocument(recension);
+     }
+     
+     public void updateThesisRecensionForUser(ObjectId userId, ObjectId reviewerId, String summary, String questions, 
+    		 String conclusion, Float theoreticalMotivation, Float ownIdeas, Float execution, Float styleAndLayout, 
+    		 Float architecture, Float functionality, Float reliability, Float documentation, Float description,
+    		 Float presentation, Float interpretation){
+    	 ThesisRecension thesisRecension = documentService.getThesisRecensionForUser(userId);
+    	 if(thesisRecension != null){
+    		 checkPropertiesForThesisRcension(reviewerId, summary, questions, conclusion, theoreticalMotivation, ownIdeas,
+    				 execution, styleAndLayout, architecture, functionality, reliability, documentation, description,
+    				 presentation, interpretation, thesisRecension);
+    		 updateThesisRecension(thesisRecension);
+    	 }
+     }
+     
+     private void checkPropertiesForThesisRcension(ObjectId reviewerId, String summary, String questions, 
+    		 String conclusion, Float theoreticalMotivation, Float ownIdeas, Float execution, Float styleAndLayout, 
+    		 Float architecture, Float functionality, Float reliability, Float documentation, Float description,
+    		 Float presentation, Float interpretation, ThesisRecension thesisRecension) {
+ 		if(reviewerId != null && getUserById(reviewerId) != null){
+ 			thesisRecension.setReviewerId(reviewerId);
+ 		}
+ 		if(summary != null){
+ 			thesisRecension.setSummary(summary);
+ 		}
+ 		if(conclusion != null){
+ 			thesisRecension.setConclusion(conclusion);
+ 		}
+ 		if(questions != null){
+ 			thesisRecension.setQuestions(questions);
+ 		}
+ 		if(theoreticalMotivation != null){
+ 			thesisRecension.setPointForField("theoreticalMotivation", theoreticalMotivation);
+ 		}
+ 		if(ownIdeas != null){
+ 			thesisRecension.setPointForField("ownIdeas", ownIdeas);
+ 		}
+ 		if(execution != null){
+ 			thesisRecension.setPointForField("execution", execution);
+ 		}
+ 		if(styleAndLayout != null){
+ 			thesisRecension.setPointForField("styleAndLayout", styleAndLayout);
+ 		}
+ 		if(architecture != null){
+ 			thesisRecension.setPointForField("architecture", architecture);
+ 		}
+ 		if(functionality != null){
+ 			thesisRecension.setPointForField("functionality", functionality);
+ 		}
+ 		if(reliability != null){
+ 			thesisRecension.setPointForField("reliability", reliability);
+ 		}
+ 		if(documentation != null){
+ 			thesisRecension.setPointForField("documentation", documentation);
+ 		}
+ 		if(description != null){
+ 			thesisRecension.setPointForField("description", description);
+ 		}
+ 		if(presentation != null){
+ 			thesisRecension.setPointForField("presentation", presentation);
+ 		}
+ 		if(interpretation != null){
+ 			thesisRecension.setPointForField("interpretation", interpretation);
+ 		}
+ 	}
 }
