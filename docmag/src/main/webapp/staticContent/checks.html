@@ -121,7 +121,9 @@
 	          <tr>
 	            <th>Имена</th>
 	            <th>Факултетен номер</th>
-	            <th>Дата на защита</th>
+	            <th>Специалност</th>
+	            <th>Оценка от дипломна защита</th>
+	            <th>Дата на дипломна защита</th>
 	          </tr>
 	        </thead>
 	        <tbody id="tableBody">
@@ -139,7 +141,7 @@
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="js/scripts.js"></script>
 	<script type="text/javascript">
 
 	
@@ -166,6 +168,23 @@ function displayFormForTeachers(){
 		$("#labelChecks").hide();
 	}
 	
+	
+	function outputDate(date,separator,formatChar){
+		var dateArr=date.toString().split(separator);
+		
+		for(var i=0;i<monthsArray.length;i++){
+			if(dateArr[1]==monthsArray[i]){
+				var month=i+1;
+				break;
+			}	
+		}
+		
+		if(month.length==1){
+			month='0'+month;
+		}
+		
+		return dateArr[2]+formatChar+month+formatChar+dateArr[3]+' г.'
+	}
 	
 	$(function(){
 		
@@ -233,11 +252,16 @@ function displayFormForTeachers(){
     		    			$('#noRightsMess').css('display','block');
     		    		}
     		    		else{
-    		    			if(typeof data.graduates !='undefined'){
-	    		    			var students=data.graduates;
-	    		    			for(var i=0;i<graduates.length;i++){
+    		    			console.log(data);
+    		    			$('#searchResults').css('display','block');
+    		    			if(typeof data !='undefined'){
+	    		    			for(var i=0;i<data.length;i++){
 	    		    				$('#tableBody').append(
-	    		    				'<tr><td>'+graduates[i].name+'></td><td>'+graduates[i].facultyNumber+'</td><td>'+graduates[i].defenceDate+'</td></tr>');
+	    		    				'<tr><td>'+data[i].profile.name+
+	    		    				'</td><td>'+data[i].profile.studentIdentifier+
+	    		    				'</td><td>'+data[i].profile.educationSubject+
+	    		    				'</td><td>'+data[i].thesisDefenceMark+
+	    		    				'</td><td>'+outputDate(new Date(data[i].graduationDate),' ','.')+'</td></tr>');
 	    		    			}
     		    			} 
     		    		}
@@ -277,6 +301,8 @@ function displayFormForTeachers(){
     		    			$('#noRightsMess').css('display','block');
     		    		}
 			    		else{
+			    			console.log(data);
+			    			$('#searchResults').css('display','block');
 				    		if(typeof data.graduates !='undefined'){
 				    			var students=data.graduates;
 				    			for(var i=0;i<graduates.length;i++){

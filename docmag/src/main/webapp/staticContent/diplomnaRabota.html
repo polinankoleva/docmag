@@ -107,24 +107,22 @@
 		            var restrictions = iframe0document.getElementById("restrictions").value;
 		            var dueDate=iframe0document.getElementById("endDate").value;
 		            
-		         	console.log(new Date(dueDate).getTime());
+		         	console.log(JSON.stringify(supervisorsIds));
 
 		            if(queryType==='POST'){
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
 			        		headers:{'User-Id':sessionStorage.userId},
 			        		type:'POST',
-			        		
-			        		contentType: "application/json; charset=utf-8",
-			        		dataType: "json",
 			        		data:{subject:theme,
 			        			  annotation:annotation,
 			        			  purpose:purpose,
 			        			  tasks:tasks,
 			        			  restrictions:restrictions,
 			        			  executionDeadline:new Date(dueDate).getTime(),
-			        			  scientificLeaderIds:JSON.stringify(supervisorsIds),
-			        			  consultantIds:JSON.stringify(consultantIds)},
+			        			  scientificLeaderIds:'52dd612845242baa98e4fb1a',
+			        			  consultantIds:'52dd612845242baa98e4fb1a',
+			        		},
 			        	}).done(function(){
 			        		console.log('success');
 			        	}).fail(function( jqXHR, textStatus, errorThrown ) {

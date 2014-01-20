@@ -306,16 +306,15 @@ div.WordSection1
     			
     			var parseDate=proposal.executionDeadline.split(" ");
 
-    			var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     			var dd,mm,yyyy;
     			
     			dd=parseDate[2];
     			yyyy=parseDate[5];
-    			for(var i=0;i<months.length;i++){
+    		/*	for(var i=0;i<months.length;i++){
     				if(months[i]==parseDate[1]){
     					mm=i+1;
     				}
-    			}
+    			} */
     			
     			if(mm.length==1){
     				mm='0'+mm
