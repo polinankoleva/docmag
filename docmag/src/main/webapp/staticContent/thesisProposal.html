@@ -56,7 +56,7 @@
     		<h2 class='borderLabel'>Предложение за дипломна работа</h2>
  		   	<h3>Вашето предложение е със статус <span id='proposalStatus'></span>.</h3>
     		<p><a href='diplomnaRabota.html'>Редактирай предложение за дипломна работа</a></p>
-    		<p><a href='diplomnaRabota.html'>Преглед</a></p>
+    		<p><a id='seePdf' href=''>Преглед</a></p>
     	</div>	
 	</div>
 	
@@ -74,6 +74,8 @@
     	if(sessionStorage.username){
     		$('#username').text(sessionStorage.username);
     	}
+    	
+    	$('#seePdf').attr('href','../rest/pdf/thesisproposal/'+sessionStorage.userId);
     	
     	$.ajax({
     		url:" ../rest/thesisproposal",
