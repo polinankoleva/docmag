@@ -3,6 +3,7 @@ package bg.unisofia.fmi.docmag.domain.impl.user;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -26,6 +27,8 @@ public class Student extends User {
 	@JsonSerialize(using = JsonObjectIdSerializer.class)
 	@Indexed
 	private ObjectId thesisRecensionId;
+	
+	private byte[] graduationThesis;
 
 	public StudentProfile getProfile() {
 		return profile;
@@ -62,6 +65,15 @@ public class Student extends User {
 
 	public Date getGraduationDate() {
 		return graduationDate;
+	}
+
+	@JsonIgnore
+	public byte[] getGraduationThesis() {
+		return graduationThesis;
+	}
+
+	public void setGraduationThesis(byte[] graduationThesis) {
+		this.graduationThesis = graduationThesis;
 	}
 
 }

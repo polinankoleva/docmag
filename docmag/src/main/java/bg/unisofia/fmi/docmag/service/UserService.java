@@ -1,5 +1,6 @@
 package bg.unisofia.fmi.docmag.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import bg.unisofia.fmi.docmag.dao.DocumentDAO;
 import bg.unisofia.fmi.docmag.dao.ThesisDefenceDAO;
@@ -283,4 +285,21 @@ public final class UserService {
  			thesisRecension.setPointForField("interpretation", interpretation);
  		}
  	}
+     
+    
+ 	public void uploadGraduationThesisForUser(ObjectId userId, MultipartFile file){
+		User user = getUserById(userId);
+		if(user != null && user instanceof Student){
+			Student student = (Student) user;
+			try{
+				if(file != null && file.getBytes().length != 0){
+					byte[] graduationThesisInBytes = file.getBytes();
+					student.setGraduationThesis(graduationThesisInBytes);
+					userDao.saveUser(user);
+				}
+			}catch(IOException e){
+				System.out.println("Exception when uploading file. Message:" + e.getMessage());
+			}
+		}
+	}
 }
