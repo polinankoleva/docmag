@@ -64,9 +64,6 @@
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/moment.min.js"></script>
-    <script type="text/javascript" src="js/moment-timezone.min.js"></script>	
-     <script type="text/javascript" src="js/moment-timezone-data.min.js"></script>	
 	<script type="text/javascript">
 	if(sessionStorage.username){
 		$('#username').text(sessionStorage.username);
@@ -83,17 +80,23 @@
                 	$('.error').css('display','none');
                 	var queryType=iframe0document.getElementById("requestType").value;
                 	var supervisors=iframe0document.getElementById("supervisorName");
-                	var supervisorsIds=[];
+                	var supervisorsIds='';
                 	var selectedSuperv=$(supervisors).find('option:selected');
                 	for(i=0;i<selectedSuperv.length;i++){
-                		supervisorsIds.push(selectedSuperv[i].id);
+                		if(supervisorsIds!==''){
+                			supervisorsIds+=','
+                		}
+                		supervisorsIds+=selectedSuperv[i].id;
                 	}
                 	
                 	var consultants=iframe0document.getElementById("consultant");
-                	var consultantIds=[];
+                	var consultantIds="";
                 	var selectedCons=$(consultants).find('option:selected');
                 	for(i=0;i<selectedCons.length;i++){
-                		consultantIds.push(selectedCons[i].id);
+                		if(consultantIds!==''){
+                			consultantIds+=',';
+                		}
+                		consultantIds+=selectedCons[i].id;
                 	}
                 	
 		            var studentName = iframe0document.getElementById("hiddenName").value;
@@ -107,8 +110,6 @@
 		            var restrictions = iframe0document.getElementById("restrictions").value;
 		            var dueDate=iframe0document.getElementById("endDate").value;
 		            
-		         	console.log(JSON.stringify(supervisorsIds));
-
 		            if(queryType==='POST'){
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
@@ -120,8 +121,8 @@
 			        			  tasks:tasks,
 			        			  restrictions:restrictions,
 			        			  executionDeadline:new Date(dueDate).getTime(),
-			        			  scientificLeaderIds:'52dd612845242baa98e4fb1a',
-			        			  consultantIds:'52dd612845242baa98e4fb1a',
+			        			  scientificLeaderIds:supervisorsIds,
+			        			  consultantIds:consultantIds,
 			        		},
 			        	}).done(function(){
 			        		console.log('success');
@@ -132,7 +133,7 @@
 		            
 		            if(queryType=='PUT'){
 		            
-		            	var data="subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate).getTime()+'&scientificLeaderIds='+JSON.stringify(supervisorsIds)+'&consultantIds='+JSON.stringify(consultantIds);
+		            	var data="subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate).getTime()+'&scientificLeaderIds='+supervisorsIds+'&consultantIds='+consultantIds;
 		            	
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
