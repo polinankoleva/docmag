@@ -2,6 +2,7 @@ package bg.unisofia.fmi.docmag.controller.document;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,5 +30,10 @@ public class GraduationThesisController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@RequestMapping(value = "/{userId}/download", method = RequestMethod.GET)
+	public HttpEntity<byte[]> downloadGraduationThesis(@PathVariable ObjectId userId){
+		return userService.downloadGraduationThesisForUser(userId);
 	}
 }
