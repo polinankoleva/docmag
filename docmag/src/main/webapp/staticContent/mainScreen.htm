@@ -73,12 +73,12 @@
     	
     	//NavigationItem and SystemUser objects are defined in js/scripts.js
     	
-    	var masterUserNav=[new NavigationItem('Предложение за Дипломна Работа', 'diplomnaRabota.html'),
+    	var masterUserNav=[new NavigationItem('Предложение за Дипломна Работа', 'thesisProposal.html'),
     	                   new NavigationItem('Предложение за Преддипломен Стаж', 'preddiplomenStaj.html'),
     	                   new NavigationItem('Документи', 'documents.html'),
     					   new NavigationItem('Оценки и Рецензии', 'recenzii.html'),
     					   new NavigationItem('Профил', 'studentProfile.html'),
-    					   new NavigationItem('Справки', 'checks.html')];			
+    					   new NavigationItem('Справки', '#')];			
     	
     	var master=new SystemUser('Student',masterUserNav);
     	
@@ -97,7 +97,7 @@
  					   new NavigationItem('Документи', '#'),
  					   new NavigationItem('Атестации', '#'),
  					   new NavigationItem('Профил', '#'),
- 					   new NavigationItem('Справки', '#')];
+ 					   new NavigationItem('Справки', 'checks.html')];
     	var doctor=new SystemUser('Phdstudent',doctorNav);
     	
     	var users=[];

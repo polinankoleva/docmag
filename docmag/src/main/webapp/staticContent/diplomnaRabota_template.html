@@ -208,7 +208,7 @@ div.WordSection1
 		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
 			<b><span lang=BG class="col-sm-2 control-label">Срок за изпълнение:</span></b>
 			<div class="col-sm-8">
-				 <input type="date" id="endDate" class="form-control"/>
+				 <input type="date" id="endDate" class="form-control" min='2014-01-14'/>
 			</div>
 		</div>
 </p>
@@ -258,8 +258,10 @@ div.WordSection1
 			mm='0'+mm;
 		} 
 		today = dd+'.'+mm+'.'+yyyy;
+		minDate= dd+'-'+mm+'-'+yyyy;
 		
 		$('#currentDate').text(today);
+		$('#endDate').attr('min',minDate);
 		
     	$.ajax({
     		url:" ../rest/thesisproposal",
@@ -281,13 +283,13 @@ div.WordSection1
     			for(var i=0;i<teachers.length;i++){
     				$('#supervisorName').append(
     				'<option id="'+teachers[i].id+'">'+
-    				teachers[i].name+', катедра '+teachers[i].department+
+    				teachers[i].name+' ,катедра '+teachers[i].department+
     				'</option>'		
     				);
     				
     				$('#consultant').append(
     	    				'<option id="'+teachers[i].id+'">'+
-    	    				teachers[i].name+', катедра '+teachers[i].department+
+    	    				teachers[i].name+' ,катедра '+teachers[i].department+
     	    				'</option>'		
     	    				);
     			}

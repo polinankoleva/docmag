@@ -132,9 +132,6 @@ color: #028E9B;
 	padding: 55px;
 	font-size: 1.2em;
 	color: black;
-	border: 2px solid #028E9B;
-	border-radius: 15px;
-	color: black;
 	
 }
 
@@ -184,7 +181,7 @@ color: #028E9B;
 position: absolute;	
 padding:10px;
 margin-top: 50px;
-margin-left: 250px;
+margin-left:0;
 background-color: #e8ecee;
 font-size: 26px;
 text-align:center;
@@ -215,7 +212,7 @@ iframe{
 #checkboxes{
 	
 	margin-top: 50px;
-	margin-left: 200px;
+	margin-left: 100px;
 	color: black;
 	font-size:1.2em;
 }
@@ -225,4 +222,25 @@ iframe{
 	width: 84%;
 	margin-left: 13%;
 	
+}
+
+.holder{
+	margin-top:5em;
+	padding:1em;
+}
+
+.border{
+	border: 2px solid #028E9B;
+	border-radius: 15px;
+}
+.borderLabel{
+	position: absolute;	
+	background-color: #e8ecee;
+	font-size: 26px;
+	text-align:center;
+	color: #028E9B;
+	display:inline-block;
+	margin-top: -1.5em;
+	margin-left:2em;
+	padding:0.3em;
 }

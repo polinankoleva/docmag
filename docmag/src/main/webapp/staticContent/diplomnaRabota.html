@@ -63,7 +63,10 @@
       </footer>
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>	
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript" src="js/moment-timezone.min.js"></script>	
+     <script type="text/javascript" src="js/moment-timezone-data.min.js"></script>	
 	<script type="text/javascript">
 	if(sessionStorage.username){
 		$('#username').text(sessionStorage.username);
@@ -104,24 +107,24 @@
 		            var restrictions = iframe0document.getElementById("restrictions").value;
 		            var dueDate=iframe0document.getElementById("endDate").value;
 		            
-		            console.log(dueDate);
-		         	console.log(new Date(dueDate).toISOString())
-		            
+		         	console.log(new Date(dueDate).getTime());
+
 		            if(queryType==='POST'){
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
 			        		headers:{'User-Id':sessionStorage.userId},
 			        		type:'POST',
-			        		data:{
-			        			'subject':theme,
-			        			'annotation':annotation,
-			        			'purpose':purpose,
-			        			'tasks':tasks,
-			        			'restrictions':restrictions,
-			        			'executionDeadline':new Date(dueDate),
-			        			'scientificLeaderIds':JSON.stringify(supervisorsIds),
-			        			'consultantIds':JSON.stringify(consultantIds)
-			        		}
+			        		
+			        		contentType: "application/json; charset=utf-8",
+			        		dataType: "json",
+			        		data:{subject:theme,
+			        			  annotation:annotation,
+			        			  purpose:purpose,
+			        			  tasks:tasks,
+			        			  restrictions:restrictions,
+			        			  executionDeadline:new Date(dueDate).getTime(),
+			        			  scientificLeaderIds:JSON.stringify(supervisorsIds),
+			        			  consultantIds:JSON.stringify(consultantIds)},
 			        	}).done(function(){
 			        		console.log('success');
 			        	}).fail(function( jqXHR, textStatus, errorThrown ) {
@@ -130,8 +133,8 @@
 		            }
 		            
 		            if(queryType=='PUT'){
-		            	
-		            	var data="subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate)+'&scientificLeaderIds='+JSON.stringify(supervisorsIds)+'&consultantIds='+JSON.stringify(consultantIds);
+		            
+		            	var data="subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate).getTime()+'&scientificLeaderIds='+JSON.stringify(supervisorsIds)+'&consultantIds='+JSON.stringify(consultantIds);
 		            	
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
