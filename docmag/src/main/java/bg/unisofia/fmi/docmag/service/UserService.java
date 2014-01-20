@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -302,4 +305,21 @@ public final class UserService {
 			}
 		}
 	}
+ 	
+ 	public HttpEntity<byte[]> downloadGraduationThesisForUser(ObjectId userId){
+ 		User user = getUserById(userId);
+		if(user != null && user instanceof Student){
+			Student student = (Student) user;
+			if(student.getGraduationThesis().length != 0){
+				byte[] documentBody = student.getGraduationThesis();
+			    HttpHeaders header = new HttpHeaders();
+			    header.setContentType(new MediaType("application", "zip"));
+			    header.set("Content-Disposition",
+			                   "attachment; filename=" + "graduationThesis.zip");
+			    header.setContentLength(documentBody.length);
+			    return new HttpEntity<byte[]>(documentBody, header);
+			}
+		}
+		return null;
+ 	}
 }
