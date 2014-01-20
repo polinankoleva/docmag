@@ -1,5 +1,6 @@
 package bg.unisofia.fmi.docmag.dao.impl;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,14 +21,14 @@ public class ProfileDAOImpl implements ProfileDAO {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends Profile> T getUserProfile(String username) {
-		User user = userDao.getUserByUsername(username);
+	public <T extends Profile> T getUserProfile(ObjectId userId) {
+		User user = userDao.getUserById(userId);
 		return (T) user.getProfile();
 	}
 
 	@Override
-	public void updateUserProfile(Profile profile, String username) {
-		User user = userDao.getUserByUsername(username);
+	public void updateUserProfile(Profile profile, ObjectId userId) {
+		User user = userDao.getUserById(userId);
 		user.setProfile(profile);
 		mongoTemplate.save(user);
 	}
