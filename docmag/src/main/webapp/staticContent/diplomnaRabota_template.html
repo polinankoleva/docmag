@@ -12,6 +12,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <meta name=Originator content="Microsoft Word 14">
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="jquery-ui-1.10.4.custom\css\custom-theme\jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 
 <style>
 <!--
@@ -208,7 +209,7 @@ div.WordSection1
 		<div class="form-group" style='margin-left:3.5em;font-family:"Times New Roman","serif";font-size:12.0pt;'>
 			<b><span lang=BG class="col-sm-2 control-label">Срок за изпълнение:</span></b>
 			<div class="col-sm-8">
-				 <input type="date" id="endDate" class="form-control"/>
+				 <input type="text" id="endDate" class="form-control"/>
 			</div>
 		</div>
 </p>
@@ -242,9 +243,12 @@ div.WordSection1
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="jquery-ui-1.10.4.custom\js\jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript">
 	$(function(){
+		
+
 		
 		var today = new Date();
 		var dd = today.getDate();
@@ -258,6 +262,12 @@ div.WordSection1
 			mm='0'+mm;
 		} 
 		today = dd+'.'+mm+'.'+yyyy;
+		minDate= dd+'-'+mm+'-'+yyyy;
+		
+		$('#endDate').datepicker({
+			dateFormat: "dd-mm-yy",
+			minDate:minDate
+		});
 		
 		$('#currentDate').text(today);
 		
@@ -281,13 +291,13 @@ div.WordSection1
     			for(var i=0;i<teachers.length;i++){
     				$('#supervisorName').append(
     				'<option id="'+teachers[i].id+'">'+
-    				teachers[i].name+', катедра '+teachers[i].department+
+    				teachers[i].name+' ,катедра '+teachers[i].department+
     				'</option>'		
     				);
     				
     				$('#consultant').append(
     	    				'<option id="'+teachers[i].id+'">'+
-    	    				teachers[i].name+', катедра '+teachers[i].department+
+    	    				teachers[i].name+' ,катедра '+teachers[i].department+
     	    				'</option>'		
     	    				);
     			}
@@ -304,22 +314,21 @@ div.WordSection1
     			
     			var parseDate=proposal.executionDeadline.split(" ");
 
-    			var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     			var dd,mm,yyyy;
     			
     			dd=parseDate[2];
     			yyyy=parseDate[5];
-    			for(var i=0;i<months.length;i++){
-    				if(months[i]==parseDate[1]){
+    			for(var i=0;i<monthsArray.length;i++){
+    				if(monthsArray[i]==parseDate[1]){
     					mm=i+1;
     				}
-    			}
+    			} 
     			
-    			if(mm.length==1){
+    			if(mm.toString().length==1){
     				mm='0'+mm
     			}
     			
-    			$('#endDate').val(yyyy+'-'+mm+'-'+dd);
+    			$('#endDate').val(dd+'-'+mm+'-'+yyyy);
     		}
     		else{
     			$('#requestType').val('POST');

@@ -123,12 +123,15 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<Teacher> getConsultantsForThesis(ThesisProposal thesis) {
-		Query consultantsQuery = new Query(Criteria.where("_id").in(
-				thesis.getConsultantIds()));
-		List<Teacher> consultants = mongoTemplate.find(consultantsQuery,
-				Teacher.class);
+		List<ObjectId> consultantIds = thesis.getConsultantIds();
+		if (consultantIds != null) {
+			Query consultantsQuery = new Query(Criteria.where("_id").in(consultantIds));
+			List<Teacher> consultants = mongoTemplate.find(consultantsQuery,
+					Teacher.class);
 
-		return consultants;
+			return consultants;
+		}
+		return null;
 	}
 
 	@Override

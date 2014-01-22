@@ -45,10 +45,10 @@ public class ThesisProposalController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam(required = false) String subject, @RequestParam(required = false) String annotation, @RequestParam(required = false) String purpose,
 			@RequestParam(required = false) String tasks, @RequestParam(required = false) String restrictions, @RequestParam(required = false) Long executionDeadline, @RequestParam(required = false) List<ObjectId> scientificLeaderIds,
-			@RequestParam(required = false) List<ObjectId> consultantIds,@RequestParam(required = false) ThesisProposalStatus status) {
+			@RequestParam(required = false) List<ObjectId> consultantIds, @RequestParam(required = false) ThesisProposalStatus status) {
 		documentService.updateThesisProposalForUser(userId, subject, annotation, purpose, tasks, restrictions,
 			executionDeadline == null? null : new Date(executionDeadline), scientificLeaderIds, 
-					consultantIds, status);
+			consultantIds, status);
 
 	}
 

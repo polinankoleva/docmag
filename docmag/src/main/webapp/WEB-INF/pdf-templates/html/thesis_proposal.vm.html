@@ -3,76 +3,77 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
 <head>
-  <title>Предложение за възлагане на дипломна работа</title>
-  <link rel="stylesheet" type="text/css" href="thesis_proposal.css"/>
+<title>Предложение за възлагане на дипломна работа</title>
+<link rel="stylesheet" type="text/css" href="thesis_proposal.css" />
 </head>
 <body>
-  <div id="pageHeader">Софийски Университет "Св. Климент Охридски"</div>
-  <div class="header">
-    <img class="logo" src="logo.png"/>
-    <h1>Предложение за възлагане на дипломна работа</h1>
-    <h3>
-      към катедра "${student.profile.department}",<br/>
-      ${student.profile.faculty}, СУ "Св. Климент Охридски"
-    </h3>
-  </div>
-  <div class="clear"></div>
-  <div id="student">
-    <h4>От дипломант: ${student.profile.name},
-      специалност ${student.profile.educationSubject},
-      факултетен № ${student.profile.studentIdentifier}
-    </h4>
-  </div>
-  <div id="scientificLeaders">
-    <h4>Научни ръководители:</h4>
-    <p>
-      #foreach($leader in $scientificLeaders)
-          ${leader.profile.name}, катедра ${leader.profile.department},
-          ${leader.profile.faculty}, СУ "Св. Климент Охридски"<br/>
-      #end
-    </p>
-  </div>
-  <div id="consultants">
-    <h4>Консултанти:</h4>
-    <p>
-      #foreach ($consult in $consultants)
-          ${consult.profile.name}, катедра ${consult.profile.department},
-          ${consult.profile.faculty}, СУ "Св. Климент Охридски"<br/>
-      #end
-    </p>
-  </div>
-  <div id="subject">
-    <h4>Тема на дипломната работа:</h4>
-    #if ($markdown) $!{markdown.process($document.subject)}
-    #else <h4>$!{document.subject}</h4> #end
-  </div>
-  <div id="annotation">
-    <h4>Анотация:</h4>
-    #if ($markdown) $!{markdown.process($document.annotation)}
-    #else <p>$!{document.annotation}</p> #end
-  </div>
-  <div id="purpose">
-    <h4>Цел на дипломната работа:</h4>
-    #if ($markdown) $!{markdown.process($document.purpose)}
-    #else <p>$!{document.purpose}</p> #end
-  </div>
-  <div id="tasks">
-    <h4>Задачи, произтичащи от целта:</h4>
-    #if ($markdown) $!{markdown.process($document.tasks)}
-    #else <p>$!{document.tasks}</p> #end
-  </div>
-  <div id="restrictions">
-    <h4>Ограничаващи/облекчаващи условия:</h4>
-    #if ($markdown) $!{markdown.process($document.restrictions)}
-    #else <p>$!{document.restrictions}</p> #end
-  </div>
-  <div id="executionDeadline">
-    <h4>
-      Срок за изпълнение: $!{dateFormat.format($document.executionDeadline)}
-    </h4>
-  </div>
-  <div id="pageFooter">
-    стр. <span id="page"></span> от <span id="pages"></span>
-  </div>
+	<div id="pageHeader">Софийски Университет "Св. Климент Охридски"</div>
+	<div class="header">
+		<img class="logo" src="logo.png" />
+		<h1>Предложение за възлагане на дипломна работа</h1>
+		<h3>
+			към катедра "Софтуерни Технологии",<br /> ФМИ, СУ "Св. Климент
+			Охридски"
+		</h3>
+	</div>
+	<div class="clear"></div>
+	<div id="student">
+		<h4>От дипломант: ${student.profile.name}, специалност
+			${student.profile.educationSubject}, факултетен №
+			${student.profile.studentIdentifier}</h4>
+	</div>
+	<div id="scientificLeaders">
+		<h4>Научни ръководители:</h4>
+		<p>
+			#foreach($leader in $scientificLeaders) $!{leader.profile.degree}
+			${leader.profile.name}, катедра ${leader.profile.department},
+			${leader.profile.faculty}, СУ "Св. Климент Охридски"<br /> #end
+		</p>
+	</div>
+	<div id="consultants">
+		<h4>Консултанти:</h4>
+		<p>
+			#foreach ($consult in $consultants) $!{consult.profile.degree}
+			${consult.profile.name}, катедра ${consult.profile.department},
+			${consult.profile.faculty}, СУ "Св. Климент Охридски"<br /> #end
+		</p>
+	</div>
+	<div id="subject">
+		<h4>Тема на дипломната работа:</h4>
+		#if ($markdown) $!{markdown.process($document.subject)} #else
+		<h4>$!{document.subject}</h4>
+		#end
+	</div>
+	<div id="annotation">
+		<h4>Анотация:</h4>
+		#if ($markdown) $!{markdown.process($document.annotation)} #else
+		<p>$!{document.annotation}</p>
+		#end
+	</div>
+	<div id="purpose">
+		<h4>Цел на дипломната работа:</h4>
+		#if ($markdown) $!{markdown.process($document.purpose)} #else
+		<p>$!{document.purpose}</p>
+		#end
+	</div>
+	<div id="tasks">
+		<h4>Задачи, произтичащи от целта:</h4>
+		#if ($markdown) $!{markdown.process($document.tasks)} #else
+		<p>$!{document.tasks}</p>
+		#end
+	</div>
+	<div id="restrictions">
+		<h4>Ограничаващи/облекчаващи условия:</h4>
+		#if ($markdown) $!{markdown.process($document.restrictions)} #else
+		<p>$!{document.restrictions}</p>
+		#end
+	</div>
+	<div id="executionDeadline">
+		<h4>Срок за изпълнение:
+			$!{dateFormat.format($document.executionDeadline)}</h4>
+	</div>
+	<div id="pageFooter">
+		стр. <span id="page"></span> от <span id="pages"></span>
+	</div>
 </body>
 </html>

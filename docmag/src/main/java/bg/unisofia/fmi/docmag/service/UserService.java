@@ -314,8 +314,8 @@ public final class UserService {
 				byte[] documentBody = student.getGraduationThesis();
 			    HttpHeaders header = new HttpHeaders();
 			    header.setContentType(new MediaType("application", "zip"));
-			    header.set("Content-Disposition",
-			                   "attachment; filename=" + "graduationThesis.zip");
+			    header.set("Content-Disposition", 
+			                   "attachment; filename=" + "graduationThesis_" + student.getProfile().getFaculty() +".zip");
 			    header.setContentLength(documentBody.length);
 			    return new HttpEntity<byte[]>(documentBody, header);
 			}

@@ -39,7 +39,7 @@
     <div class="greeting-line">
         <div class="container">
             <p>
-                Добре дошъл, <a href="#" class="navbar-link">землянино</a>!
+                Добре дошъл, <a href="#" class="navbar-link" id='username'></a>!
                 <a href="#" class="navbar-link navbar-right">Изход</a>
             </p>
         </div>
@@ -49,81 +49,86 @@
     
     <div id="checkboxes">
     
-    <label><input type="checkbox" name="checkStudents" onclick="displayFormForStudents()" class="checkB" />  Справки за студенти   </label>
-    <label style="margin-left:300px;"><input type="checkbox" name="checkTeachers" onclick="displayFormForTeachers()" class="checkB" />  Справки за преподаватели</label>
+    <label><input type="checkbox" name="checkStudents" onclick="displayFormForStudents()" class="checkB" />  Справки за дипломирани студенти   </label>
+    <label style="margin-left:60px;"><input type="checkbox" name="checkTeachers" onclick="displayFormForTeachers()" class="checkB" />  Справки за участие на преподаватели в комисии за дипломна защита</label>
     
     </div>
     
-    <div id="isStudent" style="display:none;">
+    <div id="isStudent" style="display:none;" class='border'>
     
 	<p>Изберете начална дата: 
 	    <input type="date" id="studentDate1" class="form-control"/>
 	    <div style="margin-left:350px; margin-top: -70px;">Изберете крайна дата: 
 	    <input type="date" id="studentDate2" style="margin-left: 30px;" class="form-control"/>
-	    </div>
+    </div>
 	</p>
+	 <span class='error' style='display:none;' id='studentError'>Крайната дата трябва да е по-голяма от началната!</span>
 	<br/>
 	
 	<p>Изберете преподавател: 
 	
 		<select class="form-control" id="leaderName">
-            <option value="default" selected>Избери преподавател</option>
+            <option value="default" disabled>Избери преподавател</option>
 		</select>
 	
 	<div style="margin-left:350px; margin-top: -70px;">Изберете рецензент: 
 		<select class="form-control" id="reviewerName">
-            <option value="default" selected>Избери рецензент</option>
+            <option value="default" disabled>Избери рецензент</option>
 		</select>
 	</div>
 	</p>
 	
-	<button class="btn btn-primary">Търси...</button>
+	<button class="btn btn-primary" id='studentCheck'>Търси...</button>
 	
 	</div>
     
-    <div id="labelChecks" style="display:none;">Справки за студенти</div>
+    <div id="labelChecks" style="display:none;">Справки за дипломирани студенти</div>
     
      
     
-    <div id="isTeacher" style="display:none;">
+    <div id="isTeacher" style="display:none;" class='border'>
     
          <p>Изберете начална дата: 
-	    <input type="date" id="studentDate1" class="form-control"/>
+	    <input type="date" id="teacherDate1" class="form-control"/>
 	    <div style="margin-left:304px; margin-top: -70px;">Изберете крайна дата: 
-	    <input type="date" id="studentDate2" style="margin-left: 30px;" class="form-control"/>
-	    </div>
+	    <input type="date" id="teacherDate2" style="margin-left: 30px;" class="form-control"/>
+    </div>
 	
 	<div style="margin-left:600px; margin-top: -62px;">Изберете преподавател: 
-		<select class="form-control" id="leaderNamet">
+		<select class="form-control" id="participantName">
             <option value="default" selected>Избери преподавател</option>
 		</select>
 	</div>
 	</p>
-	
-	<button class="btn btn-primary">Търси...</button>
+	<span class='error' style='display:none;' id='teacherError'>Крайната дата трябва да е по-голяма от началната!</span>
+	<button class="btn btn-primary" id='teacherCheck'>Търси...</button>
 	
 	</div>
     
-    <div id="labelChecks2" style="display:none;">Справки за преподаватели</div>
+    <div id="labelChecks2" style="display:none;">Справки за участие на преподаватели в комисии за дипломна защита</div>
     </div>
     
-    <div id="searchResultsLabel">Резултати</div>
-    
-    <br/><br/><br/><br/><br/><br/><br/>
+    <div>
+    </div>
 
+	<div class='error' style='display:none' id='noRightsMess'>Нямате права за извършване на такъв тип справки! За повече информация се свържете със системен администратор.</div>
 	<div id="searchResults">
-	
-	<table class="table">
-        <thead>
-          <tr>
-            <th>Имена</th>
-            <th>Факултетен номер</th>
-            <th>Дата на защита</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-        </tbody>
-      </table>
+		<div id="searchResultsLabel">Резултати</div>
+    
+    	<br/><br/><br/><br/><br/>
+		<table class="table">
+	        <thead>
+	          <tr>
+	            <th>Имена</th>
+	            <th>Факултетен номер</th>
+	            <th>Специалност</th>
+	            <th>Оценка от дипломна защита</th>
+	            <th>Дата на дипломна защита</th>
+	          </tr>
+	        </thead>
+	        <tbody id="tableBody">
+	        </tbody>
+	      </table>
 	
 	</div>
 	
@@ -135,8 +140,8 @@
       </footer>
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>	
-	
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/scripts.js"></script>
 	<script type="text/javascript">
 
 	
@@ -165,13 +170,17 @@ function displayFormForTeachers(){
 	
 	
 	$(function(){
+		
+    	if(sessionStorage.username){
+    		$('#username').text(sessionStorage.username);
+    	}
+		
+    	$('#searchResults').css('display','none');
+    	
     	$.ajax({
     		url:" ../rest/users/allTeachers",
     		type:'GET',
-     		//contentType: "application/json; charset=utf-8",
-            //dataType: "json",
     	}).done(function(teachers){
-    		console.log(teachers);
     		if(typeof teachers !='undefined'){
     			
     			for(var i=0;i<teachers.length;i++){
@@ -181,7 +190,7 @@ function displayFormForTeachers(){
     				'</option>'		
     				);
     				
-    				$('#leaderNamet').append(
+    				$('#participantName').append(
     	    				'<option id="'+teachers[i].id+'">'+
     	    				teachers[i].name+
     	    				'</option>'		
@@ -198,44 +207,109 @@ function displayFormForTeachers(){
     	
     	});
     	
+    	$('#studentCheck').click(function(){
+    		var startDateStudent=$('#studentDate1').val();
+    		var endDateStudent=$('#studentDate2').val();
+    		
+    		if(new Date(startDateStudent)<new Date(endDateStudent)){
+    			$('#studentError').css('display','none');
+    			
+    			var selectedLeader=$('#leaderName').find('option:selected');
+    			var leaderIdentifier=$(selectedLeader).attr('id');
+    			
+    			var selectedReviewer=$('#reviewerName').find('option:selected');
+    			var reviewerIdentifier=$(selectedReviewer).attr('id');
+    		
+    				$.ajax({
+    		   			url:" ../rest/reports/graduated",
+    		    		type:'GET',
+    		    		headers:{'User-Id':sessionStorage.userId},
+    		    		data:{
+    		    			startDate:new Date(startDateStudent).getTime(),
+    		    			endDate:new Date(endDateStudent).getTime(),
+    		    			leaderId:leaderIdentifier,
+    		    			reviewerId:reviewerIdentifier,
+    		    			},
+    		    	}).done(function(data){
+    		    		if($.isEmptyObject(data)){
+    		    			$('#noRightsMess').css('display','block');
+    		    		}
+    		    		else{
+    		    			console.log(data);
+    		    			$('#searchResults').css('display','block');
+    		    			if(typeof data !='undefined'){
+	    		    			for(var i=0;i<data.length;i++){
+	    		    				$('#tableBody').append(
+	    		    				'<tr><td>'+data[i].profile.name+
+	    		    				'</td><td>'+data[i].profile.studentIdentifier+
+	    		    				'</td><td>'+data[i].profile.educationSubject+
+	    		    				'</td><td>'+data[i].thesisDefenceMark+
+	    		    				'</td><td>'+outputDate(new Date(data[i].graduationDate),' ','.')+'</td></tr>');
+	    		    			}
+    		    			} 
+    		    		}
+    		    	
+    		    	}).fail(function( jqXHR, textStatus, errorThrown ) {
+    		    		console.log("Error Message: "+errorThrown);
+    		    	
+    		    	}); 
+    			
+    		}
+    		else{
+    			$('#studentError').css('display','block');	
+    		}
+    	});
+    	
+    	$('#teacherCheck').click(function(){
+    		var startDate=$('#teacherDate1').val();
+    		var endDate=$('#teacherDate2').val();
+    		
+    		if(new Date(startDate)<new Date(endDate)){
+    			$('#teacherError').css('display','none');	
+    			
+    			var selectedParticipant=$('#participantName').find('option:selected');
+    			var participantIdentifier=$(selectedParticipant).attr('id');
+    			
+    			$.ajax({
+		   			url:" ../rest/reports/thesisdefences",
+		    		type:'GET',
+		    		headers:{'User-Id':sessionStorage.userId},
+		    		data:{
+		    			startDate:new Date(startDate).getTime(),
+		    			endDate:new Date(endDate).getTime(),
+		    			commissionParticipantId:participantIdentifier,
+		    			},
+			    	}).done(function(data){
+			    		if($.isEmptyObject(data)){
+    		    			$('#noRightsMess').css('display','block');
+    		    		}
+			    		else{
+			    			console.log(data);
+			    			$('#searchResults').css('display','block');
+				    		if(typeof data.graduates !='undefined'){
+				    			var students=data.graduates;
+				    			for(var i=0;i<graduates.length;i++){
+				    				$('#tableBody').append(
+				    				'<tr><td>'+graduates[i].name+'></td><td>'+graduates[i].facultyNumber+'</td><td>'+graduates[i].defenceDate+'</td></tr>');
+				    			}
+				    		} 
+			    		}
+			    	}).fail(function( jqXHR, textStatus, errorThrown ) {
+			    		console.log("Error Message: "+errorThrown);
+			    	
+			    	}); 
+    		}
+    		
+    		else{
+    			 $('#teacherError').css('display','block');	
+    		}
+    	});
+    	
     });
 	
-//	$(function submitSearchFormStudents(){
-		
-	//	var startDateStudent = $("#studentDate1").val();
-		//var endDateStudent = $("#studentDate2").val();
-		//var leaderIdentifier = //TODO check how to get the id of the selected option;
-		//var reviewerIdentifier = //TODO check how to get the id of the selected option;
 
-	//	$.ajax({
-   //		url:" ../rest/reports/graduated",
-   // 		type:'GET',
-   // 		headers:{'User-Id':'52d2e72efba3086eace878d9'},
-   // 		data:{
-   // 			'startDate':startDateStudent,
-   // 			'endDate':endDateStudent,
-   // 			'leaderId':leaderIdentifier,
-   // 			'reviewerId':reviewerIdentifier,
-   // 	  //dataType:"text",
-   // 	}).done(function(data){
-   // 		console.log(data);
-   // 		if(typeof data.graduates !='undefined'){
-   // 			var students=data.graduates;
-   // 			for(var i=0;i<graduates.length;i++){
-   // 				$('#tableBody').append(
-   // 				'<tr><td>'+graduates[i].name+'></td><td>'+graduates[i].facultyNumber+'</td><td>'+graduates[i].defenceDate+'</td></tr>
-    					
-   // 				);
-   // 			}
-   // 		}
-    	
-   // 	});
-    	
- //   });
+
 	
 	</script>
-	
-	
-	</div> 
   </body>
 </html>
