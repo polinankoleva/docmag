@@ -49,3 +49,21 @@ function NavigationItem(title,url){
 	self.title=title;
 	self.url=url;
 }
+
+function outputDate(date,separator,formatChar){
+	var dateArr=date.toString().split(separator);
+	var month='';
+	
+	for(var i=0;i<monthsArray.length;i++){
+		if(dateArr[1]==monthsArray[i]){
+			month=i+1;
+			break;
+		}	
+	}
+	
+	if(month.length==1){
+		month='0'+month;
+	}
+	
+	return dateArr[2]+formatChar+month+formatChar+dateArr[3]+' г.'
+}
