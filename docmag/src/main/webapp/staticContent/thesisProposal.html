@@ -54,8 +54,8 @@
     	</div>
     	<div id='editProposal' class='border holder'>
     		<h2 class='borderLabel'>Предложение за дипломна работа</h2>
- 		   	<h3>Вашето предложение е със статус <span id='proposalStatus'></span>.</h3>
-    		<p><a href='diplomnaRabota.html'>Редактирай предложение за дипломна работа</a></p>
+ 		   	<h3>Вашето предложение е със статус <span style='font-weight:bold' id='proposalStatus'></span>.</h3>
+    		<p id='editThesisProposal'><a href='diplomnaRabota.html'>Редактирай предложение за дипломна работа</a></p>
     		<p><a id='seePdf' href=''>Преглед</a></p>
     	</div>	
 	</div>
@@ -85,6 +85,23 @@
     		if(typeof data.thesisProposal!='undefined'){
     			$('#noProposalYet').css('display','none');
     			$('#editProposal').css('display','block');
+    			
+    			var thesisPropId=data.thesisProposal.id;
+    			
+    			$.ajax({
+    	    		url:" ../rest/thesisproposal/"+thesisPropId+"/status",
+    	    		type:'GET',
+    	    		headers:{'User-Id':sessionStorage.userId},
+    			}).done(function(data){
+    				switch(data.status){
+    					case 'Unapproved':{$('#proposalStatus').text('неодобрено');}break;
+    					case 'Approved':{$('#proposalStatus').text('одобрено');$('#editThesisProposal').css('display','none');}break;
+    				}
+
+    			}).fail(function( jqXHR, textStatus, errorThrown ) {
+    	    		console.log("Error Message: "+errorThrown);
+    	    	});
+    			
     		}
     		else{
     			$('#noProposalYet').css('display','block');

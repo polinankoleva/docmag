@@ -169,23 +169,6 @@ function displayFormForTeachers(){
 	}
 	
 	
-	function outputDate(date,separator,formatChar){
-		var dateArr=date.toString().split(separator);
-		
-		for(var i=0;i<monthsArray.length;i++){
-			if(dateArr[1]==monthsArray[i]){
-				var month=i+1;
-				break;
-			}	
-		}
-		
-		if(month.length==1){
-			month='0'+month;
-		}
-		
-		return dateArr[2]+formatChar+month+formatChar+dateArr[3]+' г.'
-	}
-	
 	$(function(){
 		
     	if(sessionStorage.username){
