@@ -253,24 +253,24 @@ public class DocumentService {
 		return thesisProposalParams;
 	}
 
-	private Map<String, Object> getAllConsultantsForThesisProposalInMap(List<Teacher> consultants){
-		Map<String, Object> consultantsInfo = new HashMap<String, Object>();
+	private List<Object> getAllConsultantsForThesisProposalInMap(List<Teacher> consultants){
+		List<Object> consultantsInfo = new ArrayList<Object>();
 		for(int i = 0; i < consultants.size(); i++){
 			Map<String, String> consultant  = new HashMap<String, String>();
 			consultant.put("name", consultants.get(i).getProfile().getName());
 			consultant.put("id", consultants.get(i).getId().toString());
-			consultantsInfo.put("consultant", consultant);
+			consultantsInfo.add(consultant);
 		}
 		return consultantsInfo;
 	}
 
-	private Map<String, Object> getAllScientificLeaderForThesisProposalInMap(List<Teacher> scientificLeaders){
-		Map<String, Object> scientificLeadersInfo = new HashMap<String, Object>();
+	private List<Object> getAllScientificLeaderForThesisProposalInMap(List<Teacher> scientificLeaders){
+		List<Object> scientificLeadersInfo = new ArrayList<Object>();
 		for(int i = 0; i < scientificLeaders.size(); i++){
 			Map<String, String> scientificLeader  = new HashMap<String, String>();
 			scientificLeader.put("name", scientificLeaders.get(i).getProfile().getName());
 			scientificLeader.put("id", scientificLeaders.get(i).getId().toString());
-			scientificLeadersInfo.put("scientificLeader", scientificLeader);
+			scientificLeadersInfo.add(scientificLeader);
 		}
 		return scientificLeadersInfo;
 	}
