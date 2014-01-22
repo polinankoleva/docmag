@@ -22,47 +22,58 @@ import com.lowagie.text.DocumentException;
 
 public class PdfConversionFilter implements Filter {
 
-    private PdfRenderer renderer;
-    private String fontsDir, cssDir;
-    @Autowired ServletContext context;
-    // getters
-    public String getFontsDir() { return fontsDir; }
-    public String getCssDir()   { return cssDir;   }
+	private PdfRenderer renderer;
+	private String fontsDir, cssDir;
+	@Autowired
+	ServletContext context;
 
-    public void setFontsDir(String path) {
-        fontsDir = context.getRealPath(path);
-    }
+	public String getFontsDir() {
+		return fontsDir;
+	}
 
-    public void setCssDir(  String path) {
-        cssDir   = context.getRealPath(path);
-    }
+	public String getCssDir() {
+		return cssDir;
+	}
 
-    @Override
-    public void init(FilterConfig config) throws ServletException {
-        try { renderer = PdfRenderer.newInstance(fontsDir, cssDir); }
-        catch (Exception ex) {
-            throw new ServletException(ex.getMessage(), ex);
-        }
-    }
+	public void setFontsDir(String path) {
+		fontsDir = context.getRealPath(path);
+	}
 
-    @Override
-    public void doFilter(ServletRequest  request,
-                         ServletResponse response,
-                         FilterChain     chain)
-                                 throws IOException, ServletException {
-        if (request instanceof HttpServletRequest
-                && response instanceof HttpServletResponse) {
-            HttpServletResponse httpResp = (HttpServletResponse) response;
-            CharResponseWrapper wrapper  = new CharResponseWrapper(httpResp);
-            try (OutputStream output     = httpResp.getOutputStream()) {
-                chain.doFilter(request, wrapper);
-                renderer.renderString(wrapper.toString(), output);
-                wrapper.setContentType("application/pdf");
-            } catch (DocumentException | SAXException ex) {
-                throw new ServletException(ex.getMessage(), ex);
-            }
-        } else chain.doFilter(request, response);
-    }
+	public void setCssDir(String path) {
+		cssDir = context.getRealPath(path);
+	}
 
-    @Override public void destroy() { }
+	@Override
+	public void init(FilterConfig config) throws ServletException {
+		try {
+			renderer = PdfRenderer.newInstance(fontsDir, cssDir);
+		} catch (Exception ex) {
+			throw new ServletException(ex.getMessage(), ex);
+		}
+	}
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		if (request instanceof HttpServletRequest
+				&& response instanceof HttpServletResponse) {
+			HttpServletResponse httpResp = (HttpServletResponse) response;
+			CharResponseWrapper wrapper = new CharResponseWrapper(httpResp);
+			try (OutputStream output = httpResp.getOutputStream()) {
+				chain.doFilter(request, wrapper);
+				if (wrapper.getStatus() == 200) {
+					renderer.renderString(wrapper.toString(), output);
+					wrapper.setContentType("application/pdf");
+				}
+			} catch (DocumentException | SAXException ex) {
+				throw new ServletException(ex.getMessage(), ex);
+			}
+		} else {
+			chain.doFilter(request, response);
+		}
+	}
+
+	@Override
+	public void destroy() {
+	}
 }
