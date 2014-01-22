@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,12 +45,12 @@ public class ThesisProposalController {
 
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestParam(required = false) String subject, @RequestParam(required = false) String annotation, @RequestParam(required = false) String purpose,
-			@RequestParam(required = false) String tasks, @RequestParam(required = false) String restrictions, @RequestParam(required = false) Long executionDeadline, @RequestParam(required = false) List<ObjectId> scientificLeaderIds,
-			@RequestParam(required = false) List<ObjectId> consultantIds,@RequestParam(required = false) ThesisProposalStatus status) {
+	public void updateThesisProposal(@RequestHeader("User-Id") ObjectId userId, @RequestBody(required = false) String subject, @RequestBody(required = false) String annotation, @RequestBody(required = false) String purpose,
+			@RequestBody(required = false) String tasks, @RequestBody(required = false) String restrictions, @RequestBody(required = false) Long executionDeadline, @RequestBody(required = false) List<ObjectId> scientificLeaderIds,
+			@RequestBody(required = false) List<ObjectId> consultantIds, @RequestBody(required = false) ThesisProposalStatus status) {
 		documentService.updateThesisProposalForUser(userId, subject, annotation, purpose, tasks, restrictions,
 			executionDeadline == null? null : new Date(executionDeadline), scientificLeaderIds, 
-					consultantIds, status);
+				consultantIds, status);
 
 	}
 
