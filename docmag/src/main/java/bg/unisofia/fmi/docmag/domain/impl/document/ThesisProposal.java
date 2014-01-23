@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 public class ThesisProposal extends Document {
 	
 	public enum ThesisProposalStatus {
+		Submitted,
 		NotSubmitted,
 	    Unapproved, 
 	    ApprovedWithNotes,
@@ -25,6 +26,8 @@ public class ThesisProposal extends Document {
     
     private List<ObjectId> scientificLeaderIds;
 	private List<ObjectId> consultantIds;
+	
+	private String notes;
 	
 	public ThesisProposal() {
 		super(DocumentType.ThesisProposal);
@@ -84,6 +87,14 @@ public class ThesisProposal extends Document {
 	public void setConsultantIds(List<ObjectId> consultantIds) {
 		this.consultantIds = consultantIds;
 	}
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + "\n" + "ThesisProposal(" + status + "): [subject=" 

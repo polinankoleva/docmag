@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ФМИ - Информационна система</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/normalize.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	
+    <link href="styles.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header class="well span6 offset2 header">
+	    <img id="logo-image" src="images/pop_su.png" alt="sofia university logo"></img>
+		<div class="container">
+	    <h1>Софийски Университет "Св. Климент Охридски"</br>
+	       Факултет по Математика и Информатика</br>
+	         <small>Информационна система</small>
+	    </h1>
+		</div>
+	</header>
+	
+    <div class="greeting-line">
+        <div class="container">
+            <p>
+                Добре дошъл, <a href="#" class="navbar-link" id='username'></a>!
+                <a href="#" onclick='sessionStorage.clear();window.location.replace("index.html");' class="navbar-link navbar-right">Изход</a>
+                <a href="mainScreen.htm" id='mainScreenNav' class="navbar-link navbar-right">Към Началния Екран</a>
+            </p>
+        </div>
+    </div>
+    
+   
+    <div class="container">
+    
+    	<div id='associationForm' class='border holder'>
+    		<h2 class='borderLabel'>Асоцииране на комисия с дата за дипломна защита</h2>
+ 		   	<h3 style="padding-left: 3%;">Моля използвайте формата, за да асоциирате комисия към дата за дипломна защита.</h3>
+            <br/><br/>
+            
+            <div class="col-sm-8" style="font-weight: bold; padding-left: 3%;">
+				 Моля, въведете дата: <input type="text" id="defenceDate" class="form-control" style="width:35%;"/>
+			</div>	
+			
+			
+           		<ul id="teachersSelector" class="inputs-list" style="list-style:none; margin-top: 100px;">
+           		
+
+
+				</ul> 
+				
+				<button id="submitButton" class="btn btn-primary submit center-block" style="margin-bottom: 4em;">Запиши</button>
+			
+    	</div>
+	
+
+
+	</div>
+  <footer class="navbar-fixed-bottom">
+    <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
+  </footer>
+   
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+   <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+
+$(function(){
+
+  	if(sessionStorage.username){
+  		$('#username').text(sessionStorage.username);
+  	}
+  	
+});
+  
+  
+
+$(function(){
+	
+    var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if(dd<10){
+		dd='0'+dd;
+		} 
+	if(mm<10){
+		mm='0'+mm;
+	} 
+	today = dd+'.'+mm+'.'+yyyy;
+	minDate= dd+'-'+mm+'-'+yyyy;
+	
+	$("#defenceDate").datepicker({
+		dateFormat: "dd-mm-yy",
+		minDate:minDate
+});
+	
+	
+
+$.ajax({
+		url:" ../rest/users/allTeachers",
+		type:'GET',
+	}).done(function(teachers){
+		if(typeof teachers !='undefined'){
+			
+			for(var i=0;i<teachers.length;i++){
+				$('#teachersSelector').append(
+				'<li><label><input type="checkbox" id="'+teachers[i].id+'"/>' +teachers[i].name+ '</label></li>'
+				);
+			}
+		}
+});
+
+
+  
+$(document).on("click",".submit",function submitForm(){
+	  
+	  var defenceDate = $("#defenceDate").val();
+	  var teachersCommIds='';
+	  var selectedTeachersIds='';
+	  
+	  
+	  $("input:checkbox").each(function(){
+		    var $this = $(this);
+
+		    if($this.is(":checked")){
+		    	selectedTeachersIds=$this.attr("id");
+		}
+		    
+	  });
+	   
+	  
+	  for( i = 0; i < selectedTeachersIds.length; i++ ){
+	  		if(teachersCommIds!==''){
+	  			teachersCommIds+=','
+	  		}
+	  		teachersCommIds+=selectedTeachersIds[i].id;
+	  }
+	  
+	  
+	  $.ajax({
+  		url:" ../rest/thesisdefence",
+  		type:'POST',
+  		data:{commissionParticipantIds:teachersCommIds,
+  			  date:new Date(defenceDate).getTime(),
+  		},
+  	}).done(function(){
+  		console.log('success');
+  		
+  		
+  	}).fail(function( jqXHR, textStatus, errorThrown ) {
+  		console.log("Error Message: "+errorThrown);
+  	});
+	  
+	   
+ });
+ 
+</script>	
+</body>
+</html>

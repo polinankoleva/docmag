@@ -69,14 +69,14 @@ public class ThesisProposalController {
 		return documentService.getThesisProposalStatus(thesisProposalId);
 	}
 	
-	@RequestMapping(value = "/{thesisProposalId}/status", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{thesisProposalId}/status", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void updateStatusOfThesisProposalById(@PathVariable ObjectId thesisProposalId, @RequestParam ThesisProposalStatus status) {
-		documentService.updateThesisProposalStatus(thesisProposalId, status);
+	public void updateStatusOfThesisProposalById(@PathVariable ObjectId thesisProposalId, @RequestParam ThesisProposalStatus status, @RequestParam(required = false) String notes) {
+		documentService.updateThesisProposalStatus(thesisProposalId, status, notes);
 	}
 	
-	@RequestMapping(value = "/unapproved", method = RequestMethod.GET)
-	public @ResponseBody List<ThesisProposal> getUnapprovedThesisProposals(@RequestHeader("User-Id") ObjectId userId) {
-		return documentService.getUnapprovedThesisProposalsForTeacher(userId);
+	@RequestMapping(value = "/submitted", method = RequestMethod.GET)
+	public @ResponseBody List<ThesisProposal> getSubmittedThesisProposals(@RequestHeader("User-Id") ObjectId userId) {
+		return documentService.getSubmittedThesisProposalsForTeacher(userId);
 	}
 }
