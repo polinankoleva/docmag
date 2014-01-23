@@ -262,11 +262,14 @@ div.WordSection1
 			mm='0'+mm;
 		} 
 		today = dd+'.'+mm+'.'+yyyy;
-		minDate= dd+'-'+mm+'-'+yyyy;
+		minDate= yyyy+'-'+mm+'-'+dd;
 		
 		$('#endDate').datepicker({
-			dateFormat: "dd-mm-yy",
-			minDate:minDate
+			dateFormat: "yy-mm-dd",
+			minDate:minDate,
+			onSelect:function(){
+				return $(this).datepicker('getDate');
+			}
 		});
 		
 		$('#currentDate').text(today);
@@ -328,7 +331,19 @@ div.WordSection1
     				mm='0'+mm
     			}
     			
-    			$('#endDate').val(dd+'-'+mm+'-'+yyyy);
+    			$('#endDate').val(yyyy+'-'+mm+'-'+dd);
+    			
+    			for(i=0;i<proposal.consultants.length;i++){
+    				var id=proposal.consultants[i].id;
+    				
+    				$('#supervisorName #'+id).attr('selected','selected');
+    			}
+    			
+    			for(i=0;i<proposal.scientificLeaders.length;i++){
+    				var id=proposal.scientificLeaders[i].id;
+    				
+    				$('#consultant #'+id).attr('selected','selected');	
+    			}
     		}
     		else{
     			$('#requestType').val('POST');

@@ -8,7 +8,7 @@ function validate(inputClass,validationFieldId){
 	//input fields validation
 	$('.'+inputClass).focusout(function(){
 		var controlSum=0;
-		
+
 		if($(this).val() === ''){
 			$(this).parent().parent().addClass('has-error');
 		}

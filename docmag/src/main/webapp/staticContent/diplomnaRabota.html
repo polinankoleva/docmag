@@ -64,6 +64,10 @@
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
       </footer>
     
+    <div id="dialog-message" title="Съобщение">
+		<p id='dialogText'></p>
+	</div>
+    
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="jquery-ui-1.10.4.custom\js\jquery-ui-1.10.4.custom.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -112,8 +116,7 @@
 		            var tasks = iframe0document.getElementById("tasks").value;
 		            var restrictions = iframe0document.getElementById("restrictions").value;
 		            var dueDate=iframe0document.getElementById("endDate").value;
-		            
-		            if(queryType==='POST'){
+		            console.log(new Date(dueDate).getTime());
 			            $.ajax({
 			        		url:" ../rest/thesisproposal",
 			        		headers:{'User-Id':sessionStorage.userId},
@@ -129,45 +132,32 @@
 			        		},
 			        	}).done(function(){
 			        		console.log('success');
-			        		
+			        		$('#dialogText').text('Вашето предложение беше предадено успешно!');
+			        		 $( "#dialog-message" ).dialog({
+			        			 modal: true,
+			        			 buttons: {
+			        			 Ok: function() {
+			        			 	$( this ).dialog( "close" );
+			        			 	window.location.replace("thesisProposal.html");
+			        			 }
+		        			 	}
+		        			 });
 			        		
 			        	}).fail(function( jqXHR, textStatus, errorThrown ) {
 			        		console.log("Error Message: "+errorThrown);
+			        		$('#dialogText').text('Възникна грешка! Предложението за дипломна работа не беше предадено.');
+			        		 $( "#dialog-message" ).dialog({
+			        			 modal: true,
+			        			 buttons: {
+			        			 Ok: function() {
+			        			 	$( this ).dialog( "close" );
+			        			 }
+		        			 	}
+		        			 });
 			        	});
-		            }
 		            
-		            if(queryType=='PUT'){
-		            
-		          var data=encodeURIComponent("subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate).getTime()+'&scientificLeaderIds='+supervisorsIds+'&consultantIds='+consultantIds);
-		         /*   	var data={
-		            		subject=theme,
-		            		annotation=annotation,
-		            		purpose=purpose,
-		            		tasks=tasks,
-		            		restrictions=restrictions,
-		            		executionDeadline=new Date(dueDate).getTime(),
-		            		scientificLeaderIds=supervisorsIds,
-		            		consultantIds=consultantIds
-		            	}; */
-		            	
-			            $.ajax({
-			        		url:" ../rest/thesisproposal?"+data,
-			        		type:'PUT',
-			        		headers:{'User-Id':sessionStorage.userId},
-			        		data:{},
-			        	}).done(function(){
-			        		console.log('success');
-			        	}).fail(function( jqXHR, textStatus, errorThrown ) {
-			        		console.log("Error Message: "+errorThrown);
-			        	});
-		            }
-                }
-                else{
-                	$('.error').css('display','block');
-                } 
-	            
-	        });
-    
+	        }
+	  });
     
     </script>
 
