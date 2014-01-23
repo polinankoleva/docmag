@@ -46,7 +46,19 @@
         </div>
     </div>
     <div class="container">
-   
+	
+	<div class="border holder">
+		<h2 class='borderLabel'>Предложения за дипломна работа</h2>
+		<table id='thesisProposals' class="table">
+			<tr>
+				<th>Тема</th>
+				<th></th>
+				<th>Избери статус</th>
+				<th>Забележка</th>
+				<th>Запази</th>
+			</tr>
+		</table>
+	</div>   
     
 
       <footer class="navbar-fixed-bottom">
@@ -56,11 +68,54 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>		
 	<script type="text/javascript">
-    $(function(){
+	function test(e){
+		var id=$(e).attr('id');
+		var note=$('#txt'+id).val();
+		var status=$('#select'+id).val();
+		
+    	$.ajax({
+    		url:" ../rest/thesisproposal/"+id+"/status",
+    		type:'POST',
+    		headers:{'User-Id':sessionStorage.userId},
+    		data:{
+        		status:status,
+        		notes:note
+    		},
+    	}).done(function(data){
+    		console.log('success');
+
+    	}).fail(function( jqXHR, textStatus, errorThrown ) {
+    		console.log("Error Message: "+errorThrown);
+    	});
+		
+	}
+	$(function(){
 
     	if(sessionStorage.username){
     		$('#username').text(sessionStorage.username);
     	}
+    	
+    	$.ajax({
+    		url:" ../rest/thesisproposal/unapproved",
+    		type:'GET',
+    		headers:{'User-Id':sessionStorage.userId},
+    	}).done(function(data){
+    		console.log(data);
+    		for(i=0;i<data.length;i++){
+	    		$('#thesisProposals').append('<tr class="proposal">'+
+	    		'<td>'+data[i].subject+'</td>'+
+	    		'<td><a href="../rest/pdf/thesisproposal/'+data[i].userId+'">Преглед</a></td>'+
+	    		'<td>'+
+	    		'<select id="select'+data[i].id+'"><option value="Unapproved">Неодобрено</option><option value="Approved">Одобрено</option></select></td>'+
+	    		'<td><textarea class="form-control" id="txt'+data[i].id+'"></textarea></td>'+
+	    		'<td><input onclick="test(this);" class="btn btn-primary" type="submit" value="Запази" id="'+data[i].id+'" /></td>'+
+	    		'</tr>');
+    		}
+    	}).fail(function( jqXHR, textStatus, errorThrown ) {
+    		console.log("Error Message: "+errorThrown);
+    	});
+    	
+
     });
     </script>
 	</div> 
