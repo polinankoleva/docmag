@@ -39,8 +39,9 @@
     <div class="greeting-line">
         <div class="container">
             <p>
-                Добре дошъл, <a href="#" class="navbar-link">землянино</a>!
-                <a href="#" class="navbar-link navbar-right">Изход</a>
+                Добре дошъл, <a href="#" class="navbar-link" id='username'></a>!
+                <a href="#" onclick='sessionStorage.clear();window.location.replace("index.html");' class="navbar-link navbar-right">Изход</a>
+                <a href="mainScreen.htm" id='mainScreenNav' class="navbar-link navbar-right">Към Началния Екран</a>
             </p>
         </div>
     </div>
@@ -61,7 +62,15 @@
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>		
+	<script type="text/javascript">
+	  $(function(){
 	
+	  	if(sessionStorage.username){
+	  		$('#username').text(sessionStorage.username);
+	  	}
+	  	
+	  });
+	</script>	
 	</div> 
   </body>
 </html>
