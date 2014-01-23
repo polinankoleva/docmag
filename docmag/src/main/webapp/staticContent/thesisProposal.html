@@ -95,7 +95,7 @@
     	    		headers:{'User-Id':sessionStorage.userId},
     			}).done(function(data){
     				switch(data.status){
-    					case 'NotSubmitted':{$('#proposalStatus').text('предадено за одобряване');}break;
+    					case 'Submitted':{$('#proposalStatus').text('предадено за одобряване');}break;
     					case 'Unapproved':{$('#proposalStatus').text('неодобрено');}break;
     					case 'Approved':{$('#proposalStatus').text('одобрено');$('#editThesisProposal').css('display','none');}break;
     				}
