@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 public class ThesisProposal extends Document {
 	
 	public enum ThesisProposalStatus {
+		Submitted,
 		NotSubmitted,
 	    Unapproved, 
 	    ApprovedWithNotes,
