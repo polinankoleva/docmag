@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -105,7 +106,6 @@ public class DocumentService {
 		if(userService.getUserById(userId) != null && userService.getUserById(userId) instanceof Student){
 			ThesisProposal thesisProposal = getThesisProposalForUser(userId);
 			if (thesisProposal == null) thesisProposal = new ThesisProposal();
-			 
 			thesisProposal.setUserId(userId);
 			thesisProposal.setAnnotation(annotation);
 			thesisProposal.setSubject(subject);
@@ -186,15 +186,11 @@ public class DocumentService {
 			//emailSender.sendEmail(student.getProfile().getEmail(), APPROVED_WITH_NOTES_SUBJECT, emailSender.generateTextForThesisProposal(status, student.getProfile().getName()));
 		}
 	}
-	
-	private ThesisProposalStatus getThesisProposalStatusForUser(ObjectId userId) {
-		return documentDao.getThesisProposalStatusForUser(userId);
-	}
 
 	public Map<String, String> checkStatusForThesisProposal(ObjectId userId) {
-		ThesisProposalStatus status = getThesisProposalStatusForUser(userId);
-		if(status != null){
-			return makeThesisProposalStatusInMap(status);
+		ThesisProposal thesisProposal = getThesisProposalForUser(userId);
+		if(thesisProposal != null){
+			return makeThesisProposalStatusInMap(thesisProposal.getStatus(), thesisProposal.getNotes());
 		} 
 		return null;
 	}
@@ -202,15 +198,20 @@ public class DocumentService {
 	public Map<String, String> getThesisProposalStatus(ObjectId thesisProposalId){
 		ThesisProposal thesisProposal = documentDao.getDocumentById(thesisProposalId);
 		if(thesisProposal != null && thesisProposal.getStatus() != null){
-			return makeThesisProposalStatusInMap(thesisProposal.getStatus());
+			return makeThesisProposalStatusInMap(thesisProposal.getStatus(), thesisProposal.getNotes());
 		}
 		return null;
 	}
 	
-	public void updateThesisProposalStatus(ObjectId thesisProposalId, ThesisProposalStatus thesisStatus){
+	public void updateThesisProposalStatus(ObjectId thesisProposalId, ThesisProposalStatus thesisStatus, String notes){
 		ThesisProposal thesisProposal = documentDao.getDocumentById(thesisProposalId);
 		if(thesisStatus != null && thesisProposal != null ){
 			thesisProposal.setStatus(thesisStatus);
+			if(notes != null && (thesisStatus == ThesisProposalStatus.ApprovedWithNotes || thesisStatus == ThesisProposalStatus.Unapproved)){
+				thesisProposal.setNotes(notes);
+			} else{
+				thesisProposal.setNotes(null);
+			}
 			updateThesisProposal(thesisProposal);
 			User user = userDao.getUserByThesisProposalId(thesisProposalId);
 			if(user != null && user instanceof Student){
@@ -220,9 +221,12 @@ public class DocumentService {
 		}
 	}
 
-	private Map<String, String>  makeThesisProposalStatusInMap(ThesisProposalStatus status){
+	private Map<String, String>  makeThesisProposalStatusInMap(ThesisProposalStatus status, String notes){
 		Map<String,String> statusParam = new HashMap<String, String>();
 		statusParam.put("status", status.toString());
+		if(notes != null){
+			statusParam.put("notes", notes);
+		}
 		return statusParam;
 	}
 	
