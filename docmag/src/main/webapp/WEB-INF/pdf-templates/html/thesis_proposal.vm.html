@@ -26,7 +26,7 @@
 		<h4>Научни ръководители:</h4>
 		<p>
 			#foreach($leader in $scientificLeaders) $!{leader.profile.degree}
-			${leader.profile.name}, катедра ${leader.profile.department},
+			${leader.profile.name}, катедра ${leader.profile.department.name},
 			${leader.profile.faculty}, СУ "Св. Климент Охридски"<br /> #end
 		</p>
 	</div>
@@ -34,7 +34,7 @@
 		<h4>Консултанти:</h4>
 		<p>
 			#foreach ($consult in $consultants) $!{consult.profile.degree}
-			${consult.profile.name}, катедра ${consult.profile.department},
+			${consult.profile.name}, катедра ${consult.profile.department.name},
 			${consult.profile.faculty}, СУ "Св. Климент Охридски"<br /> #end
 		</p>
 	</div>
