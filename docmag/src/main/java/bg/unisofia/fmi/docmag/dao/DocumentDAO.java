@@ -19,6 +19,8 @@ public interface DocumentDAO {
 
 	public List<?> getAllDocumentsForUserOfSpecificType(ObjectId userId,
 			DocumentType type);
+	
+	public List<ThesisProposal> getAllThesisProposalWithStatus(ThesisProposalStatus status);
 
 	public <T extends Document> T getFirstDocumentForUserOfSpecificType(
 			ObjectId userId, DocumentType type);

@@ -90,6 +90,14 @@ public class DocumentDAOImpl implements DocumentDAO {
 		return documentsForQueryOfClass(searchDocumentsQuery,
 				Document.getClassForDocumentType(type));
 	}
+	
+	@Override
+	public List<ThesisProposal> getAllThesisProposalWithStatus(
+			ThesisProposalStatus status) {
+		Query searchDocumentsQuery = new Query(Criteria.where("status").is(
+				status.toString()));
+		return documentsForQueryOfClass(searchDocumentsQuery, ThesisProposal.class);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

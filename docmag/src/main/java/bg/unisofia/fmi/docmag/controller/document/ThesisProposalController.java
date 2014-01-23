@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.service.DocumentService;
 
@@ -72,5 +73,10 @@ public class ThesisProposalController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateStatusOfThesisProposalById(@PathVariable ObjectId thesisProposalId, @RequestParam ThesisProposalStatus status) {
 		documentService.updateThesisProposalStatus(thesisProposalId, status);
+	}
+	
+	@RequestMapping(value = "/unapproved", method = RequestMethod.GET)
+	public @ResponseBody List<ThesisProposal> getUnapprovedThesisProposals(@RequestHeader("User-Id") ObjectId userId) {
+		return documentService.getUnapprovedThesisProposalsForTeacher(userId);
 	}
 }

@@ -17,6 +17,8 @@ import bg.unisofia.fmi.docmag.domain.impl.document.Document.DocumentType;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
+import bg.unisofia.fmi.docmag.domain.impl.profile.TeacherProfile;
+import bg.unisofia.fmi.docmag.domain.impl.profile.TeacherProfile.Department;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.Teacher;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
@@ -322,6 +324,15 @@ public class DocumentService {
 		if(thesisRecension != null){
 			deleteDocument(thesisRecension.getId());
 		}
+	}
+	
+	public List<ThesisProposal> getUnapprovedThesisProposalsForTeacher(ObjectId teacherId) {
+		User user = userDao.getUserById(teacherId);
+		if (user != null && user.getType() == UserType.Teacher && 
+				((TeacherProfile)user.getProfile()).getDepartment() == Department.SoftwareTechnologies) {
+			return documentDao.getAllThesisProposalWithStatus(ThesisProposalStatus.Unapproved);
+		}
+		return null;
 	}
 	
 }
