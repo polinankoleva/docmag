@@ -102,8 +102,10 @@ public class DocumentService {
 
 	public void insertThesisProposalForUser(ObjectId userId, String subject, String annotation, String purpose,
 			String tasks, String restrictions, Date executionDeadline, List<ObjectId> scientificLeaderIds, List<ObjectId> consultantIds, ThesisProposalStatus status){
-		if(userService.getUserById(userId) != null && userService.getUserById(userId) instanceof Student && getThesisProposalForUser(userId) == null){
-			ThesisProposal thesisProposal = new ThesisProposal();
+		if(userService.getUserById(userId) != null && userService.getUserById(userId) instanceof Student){
+			ThesisProposal thesisProposal = getThesisProposalForUser(userId);
+			if (thesisProposal == null) thesisProposal = new ThesisProposal();
+			 
 			thesisProposal.setUserId(userId);
 			thesisProposal.setAnnotation(annotation);
 			thesisProposal.setSubject(subject);
@@ -116,9 +118,14 @@ public class DocumentService {
 			if(status != null && !status.equals("")){
 				thesisProposal.setStatus(status);
 			} else{
-				thesisProposal.setStatus(ThesisProposalStatus.Unapproved);
+				thesisProposal.setStatus(ThesisProposalStatus.NotSubmitted);
 			}
-			insertThesisProposal(thesisProposal);
+			if (thesisProposal.getId() == null) {
+			    insertThesisProposal(thesisProposal);
+			}
+			else {
+				updateThesisProposal(thesisProposal);
+			}
 		}
 	}
 
