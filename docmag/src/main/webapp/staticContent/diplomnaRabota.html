@@ -41,7 +41,8 @@
         <div class="container">
             <p>
                 Добре дошъл, <a href="#" class="navbar-link" id="username"></a>!
-                <a href="#" class="navbar-link navbar-right">Изход</a>
+                <a href="#" onclick='sessionStorage.clear();window.location.replace("index.html");' class="navbar-link navbar-right">Изход</a>
+                <a href="mainScreen.htm" id='mainScreenNav' class="navbar-link navbar-right">Към Началния Екран</a>
             </p>
         </div>
     </div>
@@ -137,13 +138,22 @@
 		            
 		            if(queryType=='PUT'){
 		            
-		            	var data="subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate).getTime()+'&scientificLeaderIds='+supervisorsIds+'&consultantIds='+consultantIds;
+		          var data=encodeURIComponent("subject="+theme+"&annotation="+annotation+"&purpose="+purpose+"&tasks="+tasks+"&restrictions="+restrictions+"&executionDeadline="+new Date(dueDate).getTime()+'&scientificLeaderIds='+supervisorsIds+'&consultantIds='+consultantIds);
+		         /*   	var data={
+		            		subject=theme,
+		            		annotation=annotation,
+		            		purpose=purpose,
+		            		tasks=tasks,
+		            		restrictions=restrictions,
+		            		executionDeadline=new Date(dueDate).getTime(),
+		            		scientificLeaderIds=supervisorsIds,
+		            		consultantIds=consultantIds
+		            	}; */
 		            	
 			            $.ajax({
 			        		url:" ../rest/thesisproposal?"+data,
 			        		type:'PUT',
 			        		headers:{'User-Id':sessionStorage.userId},
-			        		 contentType: "application/x-www-form-urlencoded; charset=iso-8859-1",
 			        		data:{},
 			        	}).done(function(){
 			        		console.log('success');
