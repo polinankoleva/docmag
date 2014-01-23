@@ -115,11 +115,7 @@ public class DocumentService {
 			thesisProposal.setExecutionDeadline(executionDeadline);
 			thesisProposal.setScientificLeaderIds(checkTeacherObjectIds(scientificLeaderIds));
 			thesisProposal.setConsultantIds(checkTeacherObjectIds(consultantIds));
-			if(status != null && !status.equals("")){
-				thesisProposal.setStatus(status);
-			} else{
-				thesisProposal.setStatus(ThesisProposalStatus.NotSubmitted);
-			}
+			thesisProposal.setStatus(ThesisProposalStatus.NotSubmitted);
 			if (thesisProposal.getId() == null) {
 			    insertThesisProposal(thesisProposal);
 			}
@@ -337,11 +333,11 @@ public class DocumentService {
 		}
 	}
 	
-	public List<ThesisProposal> getUnapprovedThesisProposalsForTeacher(ObjectId teacherId) {
+	public List<ThesisProposal> getNotSubmittedThesisProposalsForTeacher(ObjectId teacherId) {
 		User user = userDao.getUserById(teacherId);
 		if (user != null && user.getType() == UserType.Teacher && 
 				((TeacherProfile)user.getProfile()).getDepartment() == Department.SoftwareTechnologies) {
-			return documentDao.getAllThesisProposalWithStatus(ThesisProposalStatus.Unapproved);
+			return documentDao.getAllThesisProposalWithStatus(ThesisProposalStatus.NotSubmitted);
 		}
 		return null;
 	}

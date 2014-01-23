@@ -75,8 +75,8 @@ public class ThesisProposalController {
 		documentService.updateThesisProposalStatus(thesisProposalId, status, notes);
 	}
 	
-	@RequestMapping(value = "/unapproved", method = RequestMethod.GET)
-	public @ResponseBody List<ThesisProposal> getUnapprovedThesisProposals(@RequestHeader("User-Id") ObjectId userId) {
-		return documentService.getUnapprovedThesisProposalsForTeacher(userId);
+	@RequestMapping(value = "/notsubmitted", method = RequestMethod.GET)
+	public @ResponseBody List<ThesisProposal> getNotSubmitedThesisProposals(@RequestHeader("User-Id") ObjectId userId) {
+		return documentService.getNotSubmittedThesisProposalsForTeacher(userId);
 	}
 }
