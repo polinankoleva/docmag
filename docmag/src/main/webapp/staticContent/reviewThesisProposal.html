@@ -12,7 +12,7 @@
     <!-- Bootstrap core CSS -->
     <link href="css/normalize.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	
+	    <link href="jquery-ui-1.10.4.custom\css\custom-theme\jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -60,15 +60,18 @@
 		</table>
 	</div>   
     
-
+    <div id="dialog-message" title="Съобщение">
+		<p id='dialogText'></p>
+	</div>
       <footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
       </footer>
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>		
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>	
+    	<script type="text/javascript" src="jquery-ui-1.10.4.custom\js\jquery-ui-1.10.4.custom.min.js"></script>	
 	<script type="text/javascript">
-	function test(e){
+	function changeStatus(e){
 		var id=$(e).attr('id');
 		var note=$('#txt'+id).val();
 		var status=$('#select'+id).val();
@@ -82,9 +85,28 @@
         		notes:note
     		},
     	}).done(function(data){
-    		console.log('success');
+    	 $('#dialogText').text('Промените бяха запазени успешно!');
+   		 $( "#dialog-message" ).dialog({
+   			 modal: true,
+   			 buttons: {
+   			 Ok: function() {
+   			 	$( this ).dialog( "close" );
+   			 	window.location.replace("thesisProposal.html");
+   			 }
+			 	}
+			 });
 
     	}).fail(function( jqXHR, textStatus, errorThrown ) {
+    		$('#dialogText').text('Възникна грешка! Промените не бяха запазени.');
+   		 	$( "#dialog-message" ).dialog({
+   			 modal: true,
+   			 buttons: {
+   			 Ok: function() {
+   			 	$( this ).dialog( "close" );
+   			 	window.location.replace("thesisProposal.html");
+   			 }
+			 	}
+			 });
     		console.log("Error Message: "+errorThrown);
     	});
 		
@@ -96,7 +118,7 @@
     	}
     	
     	$.ajax({
-    		url:" ../rest/thesisproposal/unapproved",
+    		url:" ../rest/thesisproposal/notsubmitted",
     		type:'GET',
     		headers:{'User-Id':sessionStorage.userId},
     	}).done(function(data){
@@ -108,7 +130,7 @@
 	    		'<td>'+
 	    		'<select id="select'+data[i].id+'"><option value="Unapproved">Неодобрено</option><option value="Approved">Одобрено</option></select></td>'+
 	    		'<td><textarea class="form-control" id="txt'+data[i].id+'"></textarea></td>'+
-	    		'<td><input onclick="test(this);" class="btn btn-primary" type="submit" value="Запази" id="'+data[i].id+'" /></td>'+
+	    		'<td><input onclick="changeStatus(this);" class="btn btn-primary" type="submit" value="Запази" id="'+data[i].id+'" /></td>'+
 	    		'</tr>');
     		}
     	}).fail(function( jqXHR, textStatus, errorThrown ) {
