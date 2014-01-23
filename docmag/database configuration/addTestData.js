@@ -1,7 +1,7 @@
+db.getSiblingDB("docmag").dropDatabase();
 var database = db.getSiblingDB("docmag");
-database.dropDatabase();
-addTestUsers(db.getSiblingDB("docmag"));
-addTeachers(db.getSiblingDB("docmag"));
+addTeachers(database);
+addThesisDefences(database);
 
 function addTeachers(database) {
 
@@ -265,103 +265,32 @@ function addTeachers(database) {
   }
 }
 
-function addTestUsers(database) {
-
-// reset data base
-  
+function addThesisDefences(database) {
   var userCollection = database.getCollection("users");
-  
-  var teacherProfile = {
-    firstName: "Polina", 
-    surname: "Nikolaeva",
-    lastName: "Koleva", 
-    email: "pkoleva@abv.bg", 
-    faculty: "ФМИ",
-    department: "SoftwareTechnologies",
-    degree: "доц. д-р"
-  }
-  var teacherId = ObjectId();
-  userCollection.insert({_id: teacherId, username: "pkoleva", password: "pissme", type : "Teacher", profile: teacherProfile});
-
-  var phdProfile = {
-    firstName: "Teodora", 
-    surname: "Lubomirova",
-    lastName: "Toncheva", 
-    email: "ttoncheva@abv.bg", 
-    faculty: "ФМИ",
-    studentIdentifier: "61387",
-    educationForm: "Regular",
-    educationDegree: "PHD",
-    educationSubject: "artificial intelligence",
-    educationYear: 1,
-    gpa: 6.00,
-    recordIdentifier: "phd007"
-  }
-  userCollection.insert({username: "ttoncheva", password: "pissme", type : "PHD", profile: phdProfile, scientificLeaderIds: [teacherId]});
-
-  var masterProfile = {
-    firstName: "Adriyana", 
-    surname: "Dyankova",
-    lastName: "Dyankova", 
-    email: "adyankova@abv.bg", 
-    faculty: "ФМИ",
-    studentIdentifier: "61388",
-    educationForm: "Regular",
-    educationDegree: "Master",
-    educationSubject: "software technologies",
-    educationYear: 1,
-    gpa: 6.00
-  }
-
   var thesisDefenceCollection = database.getCollection("thesisdefences");
+
+  var teachers = database.users.find({"profile.department": "SoftwareTechnologies"}, {_id: 1}).toArray();
 
   var thesisDefenceId = ObjectId();
   var thesisDefence = {
     _id: thesisDefenceId,
     date: new Date(),
-    commissionParticipantIds: [teacherId]
+    commissionParticipantIds: userIds(teachers).slice(0, 3)
+  }
+
+  var thesisDefence2 = {
+    date: new Date("February 09, 2014"),
+    commissionParticipantIds: userIds(teachers).slice(3, 7)
   }
 
   thesisDefenceCollection.insert(thesisDefence);
-
-  var thesisDefence2 = {
-    date: new Date(),
-    commissionParticipantIds: [teacherId]
-  }
-
   thesisDefenceCollection.insert(thesisDefence2);
+}
 
-
-  var userId = ObjectId();
-  userCollection.insert({
-    _id: userId, 
-    thesisDefenceId: thesisDefenceId, 
-    username: "adyankova", 
-    password: "pissme", 
-    type : "Student", 
-    profile: masterProfile,
-    thesisDefenceMark: "6+",
-    graduationDate: new Date()
-  });
-
-  
-  var documentCollection = database.getCollection("documents");
-
-  var thesisProposal = {
-    type: "ThesisProposal",
-    status: "Unapproved",
-    userId: userId,
-    scientificLeaderIds: [],
-    consultantIds: [],
-    subject: "My thesis subject",
-    annotation: "WTF",
-    purpose: "No purpose",
-    tasks: "No tasks yet",
-    restrictions: "oh dear..",
-    executionDeadline: new Date("October 15, 2015"),
-    lastModified: new Date()
+function userIds(users) {
+  var userIds = [];
+  for (var userIndex in users) {
+    userIds.push(users[userIndex]._id);
   }
-
-  documentCollection.insert(thesisProposal);
-
+  return userIds;
 }
