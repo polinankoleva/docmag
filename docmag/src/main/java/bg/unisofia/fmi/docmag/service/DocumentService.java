@@ -174,12 +174,12 @@ public class DocumentService {
 
 	private void sendEmailForUpdateInThesisStatus(ThesisProposalStatus status, Student student){
 		if(status.toString().equalsIgnoreCase(ThesisProposalStatus.Approved.toString())){
-			System.out.println("Sending email to:" + student.getProfile().getEmail());
-			emailSender.sendEmail(student.getProfile().getEmail(), APPROVED_SUBJECT, emailSender.generateTextForThesisProposal(status, student.getProfile().getName()));
+			System.out.println("Sending email to:" + student.getUsername() + "@fmi.uni-sofia.bg");
+			emailSender.sendEmail(student.getUsername() + "@fmi.uni-sofia.bg", APPROVED_SUBJECT, emailSender.generateTextForThesisProposal(status, student.getProfile().getName()));
 		}
 		if(status.toString().equalsIgnoreCase(ThesisProposalStatus.ApprovedWithNotes.toString())){
 			System.out.println("Sending email to:" + student.getProfile().getEmail());
-			emailSender.sendEmail(student.getProfile().getEmail(), APPROVED_WITH_NOTES_SUBJECT, emailSender.generateTextForThesisProposal(status, student.getProfile().getName()));
+			emailSender.sendEmail(student.getUsername() + "@fmi.uni-sofia.bg", APPROVED_WITH_NOTES_SUBJECT, emailSender.generateTextForThesisProposal(status, student.getProfile().getName()));
 		}
 	}
 

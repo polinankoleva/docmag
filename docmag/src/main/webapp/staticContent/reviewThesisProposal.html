@@ -58,11 +58,14 @@
 				<th>Запази</th>
 			</tr>
 		</table>
+		
+		<img src="images/loadingimage.gif" style="display: none;" class="loading" id="loading_image">
 	</div>   
     
     <div id="dialog-message" title="Съобщение">
 		<p id='dialogText'></p>
 	</div>
+
       <footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
       </footer>
@@ -75,7 +78,7 @@
 		var id=$(e).attr('id');
 		var note=$('#txt'+id).val();
 		var status=$('#select'+id).val();
-		
+		$('#loading_image').show();
     	$.ajax({
     		url:" ../rest/thesisproposal/"+id+"/status",
     		type:'POST',
@@ -85,8 +88,9 @@
         		notes:note
     		},
     	}).done(function(data){
-    	 $('#dialogText').text('Промените бяха запазени успешно!');
-   		 $( "#dialog-message" ).dialog({
+    		$('#loading_image').hide();
+    	    $('#dialogText').text('Промените бяха запазени успешно!');
+   		    $( "#dialog-message" ).dialog({
    			 modal: true,
    			 buttons: {
    			 Ok: function() {
@@ -97,6 +101,7 @@
 			 });
 
     	}).fail(function( jqXHR, textStatus, errorThrown ) {
+    		$('#loading_image').hide();
     		$('#dialogText').text('Възникна грешка! Промените не бяха запазени.');
    		 	$( "#dialog-message" ).dialog({
    			 modal: true,
