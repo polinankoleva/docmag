@@ -29,8 +29,8 @@
 	<header class="well span6 offset2 header">
 	    <img id="logo-image" src="images/pop_su.png" alt="sofia university logo"></img>
 		<div class="container">
-	    <h1>Софийски Университет "Св. Климент Охридски"</br>
-	       Факултет по Математика и Информатика</br>
+	    <h1>Софийски Университет "Св. Климент Охридски"<br>
+	       Факултет по Математика и Информатика<br>
 	         <small>Информационна система</small>
 	    </h1>
 		</div>
@@ -40,17 +40,16 @@
 	
 	<div id="loginForm">
 	    <div class="form-group">
-				<label class="control-label" for="username">Потребителско име:</label></br>
-				<input id="username" type="text" class="span3 form-control">
-			</div>
-			<div class="form-group">
-				<label class="control-label" for="password">Парола:</label></br>
-				<input id="password" type="password" class="span3 form-control">
-			</div>
-			<p id='badInput' class="error center-block" style="display:none">Всички полета са задължителни!</p>
-			<p id='noSuchUser' class="error center-block" style="display:none">Грешка при въвеждане на потребителско име/парола.</p>
-			<button class="btn btn-primary submit" id="logIn">Вход</button>
+			<label class="control-label" for="username">Потребителско име:</label><br>
+			<input id="username" type="text" class="span3 form-control">
 		</div>
+		<div class="form-group">
+			<label class="control-label" for="password">Парола:</label><br>
+			<input id="password" type="password" class="span3 form-control">
+		</div>
+		<p id='badInput' class="error center-block" style="display:none">Всички полета са задължителни!</p>
+		<p id='noSuchUser' class="error center-block" style="display:none">Грешка при въвеждане на потребителско име/парола.</p>
+		<button class="btn btn-primary submit" id="logIn">Вход</button>
 	</div>
 	
 	<footer class="navbar-fixed-bottom">
@@ -66,6 +65,11 @@
     <script type="text/javascript">
     $(function(){
     	//url:" ../rest/pdf/thesisproposal/52d26b75f71d7eb7a2ce06fa",
+    	$('input').keydown(function(e) {
+            if (e.keyCode == 13) {
+            	$('#logIn').click();
+            }
+        });
     	$('#logIn').click(function(){
     		
     		if(($('#username').val()=='')||($('#password').val()=='')){
