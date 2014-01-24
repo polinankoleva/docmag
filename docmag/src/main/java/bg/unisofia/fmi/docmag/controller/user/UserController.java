@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import bg.unisofia.fmi.docmag.domain.impl.user.Student;
 import bg.unisofia.fmi.docmag.domain.impl.user.User;
 import bg.unisofia.fmi.docmag.service.DocumentService;
 import bg.unisofia.fmi.docmag.service.UserService;
@@ -29,7 +30,12 @@ public class UserController {
 	@Autowired
 	DocumentService documentService;
 
-	@RequestMapping(value="/allTeachers", method = RequestMethod.GET)
+	@RequestMapping(value="/students/approvedThesisProposals", method = RequestMethod.GET)
+	public @ResponseBody List<Student> getAllStudentsWithApprovedThesisProposals() {
+		return userService.getAllStudentsWithApprovedThesisProposals();
+	}
+	
+	@RequestMapping(value="/allStudents", method = RequestMethod.GET)
 	public @ResponseBody List<Object> getAllTeachers() {
 		return userService.getAllTeacher();
 	}

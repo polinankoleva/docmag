@@ -1,6 +1,7 @@
 package bg.unisofia.fmi.docmag.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import bg.unisofia.fmi.docmag.dao.ThesisDefenceDAO;
 import bg.unisofia.fmi.docmag.dao.UserDAO;
 import bg.unisofia.fmi.docmag.domain.impl.ThesisDefence;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal;
+import bg.unisofia.fmi.docmag.domain.impl.document.ThesisProposal.ThesisProposalStatus;
 import bg.unisofia.fmi.docmag.domain.impl.document.ThesisRecension;
 import bg.unisofia.fmi.docmag.domain.impl.user.PHDStudent;
 import bg.unisofia.fmi.docmag.domain.impl.user.Student;
@@ -62,6 +64,19 @@ public final class UserService {
      public List<Object> getAllTeacher(){
     	 List<Teacher> allTeacher = documentService.getAllTeachers();
     	 return documentService.createAllTeacherMap(allTeacher);
+     }
+     
+     public List<Student> getAllStudentsWithApprovedThesisProposals() {
+    	 List<Student> students = new ArrayList<>();
+    	 
+    	 List<ThesisProposal> approvedProposals = documentDao.getAllThesisProposalWithStatus
+    			 (ThesisProposalStatus.Approved);
+    	 approvedProposals.addAll(documentDao.getAllThesisProposalWithStatus
+    			 (ThesisProposalStatus.ApprovedWithNotes)) ;
+    	 for (ThesisProposal thesisProposal : approvedProposals) {
+			students.add((Student) getUserById(thesisProposal.getUserId()));
+		}
+    	 return null;
      }
      
      public Map<String, String> setThesisDefenceIdForStudentWithId(ObjectId thesisDefenceId, ObjectId studentId) {
