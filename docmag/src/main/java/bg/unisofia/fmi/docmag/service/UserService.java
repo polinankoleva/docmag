@@ -76,7 +76,7 @@ public final class UserService {
     	 for (ThesisProposal thesisProposal : approvedProposals) {
 			students.add((Student) getUserById(thesisProposal.getUserId()));
 		}
-    	 return null;
+    	 return students;
      }
      
      public Map<String, String> setThesisDefenceIdForStudentWithId(ObjectId thesisDefenceId, ObjectId studentId) {

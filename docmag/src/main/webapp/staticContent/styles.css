@@ -250,6 +250,8 @@ iframe{
 }
 #associationForm{margin-bottom:50px;}
 
-
+#thesisDefences,#thesisProposals{
+	margin-top:1.5em;
+}
 
 

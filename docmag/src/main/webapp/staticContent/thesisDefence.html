@@ -40,8 +40,14 @@
     </div>
     
     <div class="container">
-
-	<div id='noThesisDefence'>Все още не е определена дата и комисия за дипломна защита.</div>
+		<div class="border holder">
+			<h2 class='borderLabel'>Асоцииране на студент с дата и комисия за дипломна защита</h2>
+			<br/>
+			<h3 id='noThesisDefence'>Все още не е определена дата и комисия за дипломна защита.</h3>
+			<h3 id='thesisDefenceInfo'></h3>
+		</div>
+	</div>   
+	
 
 	</div>
   <footer class="navbar-fixed-bottom">
@@ -50,13 +56,47 @@
    
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="js/scripts.js"></script>
 <script type="text/javascript">
   $(function(){
 
   	if(sessionStorage.username){
   		$('#username').text(sessionStorage.username);
   	}
+  	
+  	$.ajax({
+		url:" ../rest/users/"+sessionStorage.userId+"/thesisdefence",
+		type:'GET',
+		headers:{'User-Id':sessionStorage.userId},
+	}).done(function(data){
+		console.log(data);
+		if($.isEmptyObject(data)){
+			$('#noThesisDefence').css('display','block');
+			$('#thesisDefenceInfo').css('display','none');
+		}
+		else{
+			$('#noThesisDefence').css('display','none');
+			$('#thesisDefenceInfo').css('display','block');
+			
+			
+			var date=outputDate(new Date(data.date),' ','.');
+			participants='';
+			
+			for(i=0;i<data.commissionParticipants.length;i++){
+				
+				if(participants.length>0){
+					participants+=',';
+				}
+				
+				participants+=data.commissionParticipants[i].name;
+			}
+			
+			$('#thesisDefenceInfo').append("<p>Защитата на дипломна работа ще се проведе на "+date+
+					" пред комисия в състав: "+participants+"</p>");
+		}
+	}).fail(function( jqXHR, textStatus, errorThrown ) {
+		console.log("Error Message: "+errorThrown);
+	});
   	
   });
 </script>	
