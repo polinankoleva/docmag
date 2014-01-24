@@ -91,7 +91,7 @@
    			 buttons: {
    			 Ok: function() {
    			 	$( this ).dialog( "close" );
-   			 	window.location.replace("thesisProposal.html");
+   			 	window.location.replace("reviewThesisProposal.html");
    			 }
 			 	}
 			 });
@@ -118,7 +118,7 @@
     	}
     	
     	$.ajax({
-    		url:" ../rest/thesisproposal/notsubmitted",
+    		url:" ../rest/thesisproposal/submitted",
     		type:'GET',
     		headers:{'User-Id':sessionStorage.userId},
     	}).done(function(data){

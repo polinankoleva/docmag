@@ -40,6 +40,11 @@ public class UserController {
 		return userService.getAllTeacher();
 	}
 	
+	@RequestMapping(value="/thesisdefence", method = RequestMethod.GET)
+	public @ResponseBody List<Object> getAllUserWithoutThesisDefence() {
+		return userService.getUsersWithoutThesisDefence();
+	}
+	
 	@RequestMapping(value="/{userId}", method = RequestMethod.GET)
 	public @ResponseBody User getUserInformation(@PathVariable ObjectId userId) {
 		return userService.getUserById(userId);

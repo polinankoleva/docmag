@@ -337,4 +337,19 @@ public final class UserService {
 		}
 		return null;
  	}
+ 	
+ 	public List<Object> getUsersWithoutThesisDefence(){
+ 		List<Object> studentWithoutThesisDefence = new ArrayList<Object>();
+ 		List<Student> allStudent = userDao.getAllUsersOfType(UserType.Student);
+ 		for(int i = 0; i < allStudent.size(); i++){
+ 			if(allStudent.get(i).getThesisDefenceId() == null){
+ 				Map<String, String> informationForUser = new HashMap<>();
+ 				informationForUser.put("id", allStudent.get(i).getId().toString());
+ 				informationForUser.put("name", allStudent.get(i).getProfile().getName());
+ 				informationForUser.put("studentIdentifier", allStudent.get(i).getProfile().getStudentIdentifier());
+ 				studentWithoutThesisDefence.add(informationForUser);
+ 			}
+ 		}
+ 		return studentWithoutThesisDefence;
+ 	}
 }
