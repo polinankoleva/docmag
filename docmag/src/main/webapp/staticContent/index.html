@@ -50,7 +50,9 @@
 		<p id='badInput' class="error center-block" style="display:none">Всички полета са задължителни!</p>
 		<p id='noSuchUser' class="error center-block" style="display:none">Грешка при въвеждане на потребителско име/парола.</p>
 		<button class="btn btn-primary submit" id="logIn">Вход</button>
+		<img src="images/loadingimage.gif" style="display: none;" class="loading" id="loading_image">
 	</div>
+	
 	
 	<footer class="navbar-fixed-bottom">
         <p>&copy; 2013-2014 ФМИ - Софийски университет "Св. Климент Охридски"</p>
@@ -94,12 +96,14 @@
     			//var password=$('#password').val();
     			
     		//TODO: send user credential to server	
+    		$('#loading_image').show();
         	$.ajax({
 	        		url:" ../rest/login",
 	        		type:'POST',
 	        		data:{'username':username,'password':password},
 	        		dataType:"text",
 	        	}).done(function(data){
+	        		$('#loading_image').hide();
 	        		var str = JSON.stringify(eval('('+data+')'));
 	        		var user=JSON.parse(str);
 	        		
@@ -123,7 +127,8 @@
 	        		}
 	        		
 	        	}).fail(function( jqXHR, textStatus, errorThrown ) {
-	        		console.log("Error Message: "+errorThrown)
+	        		$('#loading_image').hide();
+	        		console.log("Error Message: " + errorThrown)
 	        	});	
 
    			}	

@@ -1,18 +1,46 @@
 var database = db.getSiblingDB("docmag");
+
 var student = database.users.findOne({type: "Student"});
 student.thesisDefenceMark = "Отличен 6";
+student.graduationDate = new Date();
 database.users.update({_id: student._id}, student);
 
-addTestDataForStudent(student, database);
-addThesisDefences(database);
+addThesisProposalForStudentId(student._id, database);
 
-function addTestDataForStudent(student, database) {
+var masterProfile = {
+     firstName: "Теодора", 
+     surname: "Любомирова",
+     lastName: "Тончева", 
+     email: "tton4ewa@abv.bg", 
+     faculty: "ФМИ",
+     studentIdentifier: "61388",
+     educationForm: "Regular",
+     educationDegree: "Master",
+     educationSubject: "Софтуерно инженерство",
+     educationYear: 1,
+     gpa: 6.00
+}
+
+var userId = ObjectId();
+database.getCollection("users").insert({
+    _id: userId, 
+     username: "testuUser", 
+     password: "test", 
+     type : "Student", 
+     profile: masterProfile,
+     thesisDefenceMark: "Отличен 6++",
+     graduationDate: new Date("January 02, 2014")
+  });
+
+addThesisProposalForStudentId(userId, database);
+
+function addThesisProposalForStudentId(studentId, database) {
 
   var teachers = database.users.find({"profile.department": "SoftwareTechnologies"}, {_id: 1}).toArray();
   var thesisProposal = {
     type: "ThesisProposal",
     status: "Submitted",
-    userId: student._id,
+    userId: studentId,
     scientificLeaderIds: userIds(teachers).slice(1, 3),
     consultantIds: userIds(teachers).slice(0, 1),
     subject: "Система за магистри и докторанти - DocMag",

@@ -50,8 +50,8 @@
     
     <div id="studentInfo">
 	
-	<p>Имена: <span id="name" class="infoCont">Адриана Георгиева Дянкова</span><br/></p>
-	<p>Факултетен номер: <span id="fNumber" class="infoCont">61387</span><br/></p>
+	<p>Имена: <span id="name" class="infoCont"></span><br/></p>
+	<p>Факултетен номер: <span id="fNumber" class="infoCont"></span><br/></p>
 	<p>Специалност: <span id="spec" class="infoCont">Софуерно инженерство</spanp><br/></p>
 	<p>Научна степен: <span id="degree" class="infoCont">Бакалавър</span><br/></p>
 	<p>Форма на обучение: <span id="eForm" class="infoCont">Редовна</span><br/></p>
@@ -68,6 +68,29 @@
     
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>	
+   	<script type="text/javascript">
+    $(function(){
+
+    	if(sessionStorage.username){
+    		$('#username').text(sessionStorage.username);
+    	}
+    	
+    	if(sessionStorage.username == "npacovska"){
+    		$('#name').text("Наталия Николаева Пацовска");
+        	$('#fNumber').text("61347");
+    	}
+    	else if(sessionStorage.username == "tltoncheva") {
+    		$('#name').text("Теодора Любомирова Тончева");
+        	$('#fNumber').text("61368");
+    	}
+    	else {
+    		$('#name').text("Адриана Георгиева Дянкова");
+        	$('#fNumber').text("61387");
+    	}
+    	
+    });
+    </script>
+    
 	
 	</div> 
   </body>
