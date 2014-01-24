@@ -12,6 +12,8 @@
     <!-- Bootstrap core CSS -->
     <link href="css/normalize.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+     <link href="jquery-ui-1.10.4.custom\css\custom-theme\jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+    
 	
     <link href="styles.css" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -58,9 +60,9 @@
     <div id="isStudent" style="display:none;" class='border'>
     
 	<p>Изберете начална дата: 
-	    <input type="date" id="studentDate1" class="form-control"/>
+	    <input type="text" id="studentDate1" class="form-control"/>
 	    <div style="margin-left:350px; margin-top: -70px;">Изберете крайна дата: 
-	    <input type="date" id="studentDate2" style="margin-left: 30px;" class="form-control"/>
+	    <input type="text" id="studentDate2" style="margin-left: 30px;" class="form-control"/>
     </div>
 	</p>
 	 <span class='error' style='display:none;' id='studentError'>Крайната дата трябва да е по-голяма от началната!</span>
@@ -90,9 +92,9 @@
     <div id="isTeacher" style="display:none;" class='border'>
     
          <p>Изберете начална дата: 
-	    <input type="date" id="teacherDate1" class="form-control"/>
+	    <input type="text" id="teacherDate1" class="form-control"/>
 	    <div style="margin-left:304px; margin-top: -70px;">Изберете крайна дата: 
-	    <input type="date" id="teacherDate2" style="margin-left: 30px;" class="form-control"/>
+	    <input type="text" id="teacherDate2" style="margin-left: 30px;" class="form-control"/>
     </div>
 	
 	<div style="margin-left:600px; margin-top: -62px;">Изберете преподавател: 
@@ -112,7 +114,7 @@
     <div>
     </div>
 
-	<div class='error' style='display:none' id='noRightsMess'>Нямате права за извършване на такъв тип справки! За повече информация се свържете със системен администратор.</div>
+	<div class='error' style='display:none' id='noRightsMess'>Няма резултати от търсенето.</div>
 	<div id="searchResults">
 		<div id="searchResultsLabel">Резултати</div>
     
@@ -143,6 +145,7 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
+	<script type="text/javascript" src="jquery-ui-1.10.4.custom\js\jquery-ui-1.10.4.custom.min.js"></script>
 	<script type="text/javascript">
 
 	
@@ -178,6 +181,40 @@ function displayFormForTeachers(){
 		
     	$('#searchResults').css('display','none');
     	
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd;
+			} 
+		if(mm<10){
+			mm='0'+mm;
+		} 
+
+		var minDate= yyyy+'-'+mm+'-'+dd;
+    	
+		$('#studentDate1').datepicker({
+			dateFormat: "yy-mm-dd",
+			minDate:minDate,
+		});
+    	
+		$('#studentDate2').datepicker({
+			dateFormat: "yy-mm-dd",
+			minDate:minDate,
+		});
+		
+		$('#teacherDate1').datepicker({
+			dateFormat: "yy-mm-dd",
+			minDate:minDate,
+		});
+    	
+		$('#teacherDate2').datepicker({
+			dateFormat: "yy-mm-dd",
+			minDate:minDate,
+		});
+		
     	$.ajax({
     		url:" ../rest/users/allTeachers",
     		type:'GET',
@@ -212,7 +249,6 @@ function displayFormForTeachers(){
     		var startDateStudent=$('#studentDate1').val();
     		var endDateStudent=$('#studentDate2').val();
     		
-    		if(new Date(startDateStudent)<new Date(endDateStudent)){
     			$('#studentError').css('display','none');
     			
     			var selectedLeader=$('#leaderName').find('option:selected');
@@ -220,14 +256,21 @@ function displayFormForTeachers(){
     			
     			var selectedReviewer=$('#reviewerName').find('option:selected');
     			var reviewerIdentifier=$(selectedReviewer).attr('id');
-    		
+    			
+    			var startDate=new Date(startDateStudent).getTime();
+    			var endDate=new Date(endDateStudent).getTime();
+    			
+    			if(!isNaN(startDate)){
+    				
+    				if(isNaN(endDate)) endDate='';
+    				
     				$.ajax({
     		   			url:" ../rest/reports/graduated",
     		    		type:'GET',
     		    		headers:{'User-Id':sessionStorage.userId},
     		    		data:{
-    		    			startDate:new Date(startDateStudent).getTime(),
-    		    			endDate:new Date(endDateStudent).getTime(),
+    		    			startDate:startDate,
+    		    			endDate:endDate,
     		    			leaderId:leaderIdentifier,
     		    			reviewerId:reviewerIdentifier,
     		    			},
@@ -254,30 +297,28 @@ function displayFormForTeachers(){
     		    		console.log("Error Message: "+errorThrown);
     		    	
     		    	}); 
-    			
-    		}
-    		else{
-    			$('#studentError').css('display','block');	
-    		}
+    			}
     	});
     	
     	$('#teacherCheck').click(function(){
     		var startDate=$('#teacherDate1').val();
     		var endDate=$('#teacherDate2').val();
-    		
-    		if(new Date(startDate)<new Date(endDate)){
-    			$('#teacherError').css('display','none');	
     			
     			var selectedParticipant=$('#participantName').find('option:selected');
     			var participantIdentifier=$(selectedParticipant).attr('id');
     			
+    			var sDate=new Date(startDate).getTime();
+    			var eDate=new Date(endDate).getTime()
+    			
+    			if(!isNaN(sDate)){
+    				if(isNaN(eDate)) eDate='';
     			$.ajax({
 		   			url:" ../rest/reports/thesisdefences",
 		    		type:'GET',
 		    		headers:{'User-Id':sessionStorage.userId},
 		    		data:{
-		    			startDate:new Date(startDate).getTime(),
-		    			endDate:new Date(endDate).getTime(),
+		    			startDate:sDate,
+		    			endDate:eDate,
 		    			commissionParticipantId:participantIdentifier,
 		    			},
 			    	}).done(function(data){
@@ -301,9 +342,6 @@ function displayFormForTeachers(){
 			    	}); 
     		}
     		
-    		else{
-    			 $('#teacherError').css('display','block');	
-    		}
     	});
     	
     });
