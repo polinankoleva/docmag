@@ -65,6 +65,9 @@
 	 <script type="text/javascript">
     	$(function(){
     		
+    		if(sessionStorage.username){
+        		$('#username').text(sessionStorage.username);
+        	}
     		$(document).on("click",".submit",function getIframeText() {
        		 
                 var iframe1 = document.getElementById("iframe1");
