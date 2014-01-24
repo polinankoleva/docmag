@@ -257,5 +257,8 @@ iframe{
   height: 44px;
   width: 44px;
 }
+#thesisDefences,#thesisProposals{
+	margin-top:1.5em;
+}
 
 

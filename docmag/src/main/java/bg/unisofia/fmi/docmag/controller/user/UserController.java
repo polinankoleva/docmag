@@ -35,7 +35,7 @@ public class UserController {
 		return userService.getAllStudentsWithApprovedThesisProposals();
 	}
 	
-	@RequestMapping(value="/allStudents", method = RequestMethod.GET)
+	@RequestMapping(value="/allTeachers", method = RequestMethod.GET)
 	public @ResponseBody List<Object> getAllTeachers() {
 		return userService.getAllTeacher();
 	}
